@@ -3,3 +3,8 @@ type DatabaseConstraintError = {
   columnName?: string;
   message?: string;
 };
+
+type AuthRequest = {
+  email: string;
+  password: string;
+};
