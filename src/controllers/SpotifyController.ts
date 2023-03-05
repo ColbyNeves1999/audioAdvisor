@@ -1,14 +1,12 @@
+//import express from 'express';
 import { Request, Response } from 'express';
-
-/*var express = require('express'); // Express web server framework
-var request = require('request'); // "Request" library
-var cors = require('cors');
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
+//import cors from 'express';
+import querystring from 'querystring';
+//import cookieParser from 'express';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;*/
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
 /**
  * Generates a random string containing numbers and letters
@@ -16,7 +14,7 @@ const REDIRECT_URI = process.env.REDIRECT_URI;*/
  * @return {string} The generated string
  */
 
-/*function generateRandomString(length: number) {
+function generateRandomString(length: number) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -28,33 +26,41 @@ const REDIRECT_URI = process.env.REDIRECT_URI;*/
 
 var stateKey = 'spotify_auth_state';
 
-var app = express();
+//var app = express();
 
-app.use(express.static(__dirname + '/public'))
+/*app.use(express.static(__dirname + '/public'))
    .use(cors())
-   .use(cookieParser());*/
+   .use(cookieParser());
+*/
 
 //Spotify login
-//Should I do async? Is it even necessary???   
-/*
-async function spotifyLogin(req: Request, res: Response): Promise<void> {
+function spotifyLogin(req: Request, res: Response): void {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
   var scope = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
+
+  //This could also be done by appending an querystring.stringify 
+  //of an object to the end of the link
+  //response_type=code&client_id=${CLIENT_ID}&scope=${scope}&redirect_uri=${REDIRECT_URI}&state=${state}`);
+  var myObj = {
       response_type: 'code',
       client_id: CLIENT_ID,
       scope: scope,
       redirect_uri: REDIRECT_URI,
       state: state
-    }));
+  }
+
+  var myJSON = querystring.stringify(myObj);
+
+  res.redirect(`https://accounts.spotify.com/authorize?` + myJSON);
+                
+
 };
 
-app.get('/callback', function(req: Request, res: Response) {
+function callBack(req:Request, res:Response) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
@@ -114,30 +120,6 @@ app.get('/callback', function(req: Request, res: Response) {
       }
     });
   }
-});
+};
 
-app.get('/refresh_token', function(req: Request, res: Response) {
-
-  // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
-  };
-
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
-    }
-  });
-});
-
-export { spotifyLogin };*/
+export { spotifyLogin, callBack };
