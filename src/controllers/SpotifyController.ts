@@ -54,7 +54,7 @@ async function callBack(req:Request, res:Response): Promise<void> {
   var code = req.query.code || null;
   var state = req.query.state || null;
   //var storedState = req.cookies ? req.cookies[stateKey] : null;
-  //var access_token = null;
+  var thisToken = null;
 
   if (state === null) {
     res.redirect('/#' +
@@ -110,8 +110,11 @@ async function callBack(req:Request, res:Response): Promise<void> {
       }
     }).then(r => r.json())
       .then(r => {
-        console.log(r.access_token)
+        //console.log(r.access_token)
+        thisToken = r.access_token;
       })
+
+      console.log(thisToken);
 
 };
 
