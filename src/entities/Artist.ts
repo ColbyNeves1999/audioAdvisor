@@ -1,10 +1,13 @@
-// import { Entity, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-// @Entity()
-// export class Artist {
-//   @Column()
-//   songID: string;
+@Entity()
+export class Artist {
+  @PrimaryGeneratedColumn('uuid')
+  artistID: string;
 
-//   @Column()
-//   userID: string;
-// }
+  @Column()
+  songID: string;
+
+  @Column()
+  userID: string;
+}
