@@ -32,26 +32,27 @@ function spotifyLogin(req: Request, res: Response): void {
   var scope = 'user-read-private user-read-email';
 
   var myObj = {
-      response_type: 'code',
-      client_id: CLIENT_ID,
-      scope: scope,
-      redirect_uri: REDIRECT_URI,
-      state: state
+    response_type: 'code',
+    client_id: CLIENT_ID,
+    scope: scope,
+    redirect_uri: REDIRECT_URI,
+    state: state
   }
 
   var myJSON = querystring.stringify(myObj);
 
   res.redirect(`https://accounts.spotify.com/authorize?` + myJSON);
-                
+
 
 };
 
-async function callBack(req:Request, res:Response): Promise<void> {
+async function callBack(req: Request, res: Response): Promise<void> {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
 
   var code = req.query.code || null;
+  console.log(code);
   var state = req.query.state || null;
   //var storedState = req.cookies ? req.cookies[stateKey] : null;
   var thisToken = null;
@@ -66,12 +67,12 @@ async function callBack(req:Request, res:Response): Promise<void> {
 
     var myObj = {
       grant_type: 'authorization_code',
-      //code: code,
+      code: code,
       redirect_uri: REDIRECT_URI,
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET
     }
-  
+
     var myJSON = querystring.stringify(myObj);
     myJSON = myJSON + code;
 
@@ -100,21 +101,20 @@ async function callBack(req:Request, res:Response): Promise<void> {
           console.log(r.access_token)
         })*/
 
-    }
-    
-    fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }).then(r => r.json())
-      .then(r => {
-        //console.log(r.access_token)
-        thisToken = r.access_token;
-      })
+  }
 
-      console.log(thisToken);
+  const fetchResponse = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+  const resJson = await fetchResponse.json();
+  thisToken = resJson.access_token;
+
+
+  console.log(thisToken);
 
 };
 
