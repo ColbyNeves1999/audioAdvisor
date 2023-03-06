@@ -51,11 +51,8 @@ async function callBack(req: Request, res: Response): Promise<void> {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
-  var code = req.query.code || null;
-  console.log(code);
-  var state = req.query.state || null;
-  //var storedState = req.cookies ? req.cookies[stateKey] : null;
-  var thisToken = null;
+  var code = req.query.code as string || null;
+  var state = req.query.state as string|| null;
 
   if (state === null) {
     res.redirect('/#' +
@@ -72,49 +69,24 @@ async function callBack(req: Request, res: Response): Promise<void> {
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET
     }
-
+ 
     var myJSON = querystring.stringify(myObj);
-    myJSON = myJSON + code;
-
-    /*var authorizationInformation = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: REDIRECT_URI,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'))
-      },
-      json: true
-    };*/
-
-    /*fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      body: myJSON,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded'
-      }
-      }).then(r => r.json())
-        .then(r => {
-          console.log(r.access_token)
-        })*/
-
-  }
-
-  const fetchResponse = await fetch('https://accounts.spotify.com/api/token', {
+ 
+    const fetchResponse = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
-    body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
+    body: myJSON,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-  });
-  const resJson = await fetchResponse.json();
-  thisToken = resJson.access_token;
+    });
+    const resJson = await fetchResponse.json();
+    //thisToken = resJson.access_token;
 
+    console.log(resJson);
 
-  console.log(thisToken);
+  }
+
+  
 
 };
 
