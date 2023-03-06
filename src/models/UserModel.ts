@@ -18,7 +18,7 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 }
 
 async function getUserByEmail(email: string): Promise<User | null> {
-  return await userRepository.findOne({ where: { email } });
+  return userRepository.findOne({ where: { email } });
 }
 
 async function getUserById(userId: string): Promise<User | null> {
