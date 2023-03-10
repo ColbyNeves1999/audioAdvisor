@@ -11,7 +11,7 @@ const { PORT } = process.env;
 
 app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
-app.get('/api/spotifyLogin', spotifyLogin); //Logs in to and authorizes spotify access
+app.get('/api/spotifyLogin', spotifyLogin); // Logs in to and authorizes spotify access
 app.get('/api/callBack', spotifyLogin);
 
 app.listen(PORT, () => {

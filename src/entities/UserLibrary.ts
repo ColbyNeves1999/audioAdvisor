@@ -6,8 +6,8 @@ export class UserLibrary {
   likedSongs: string;
 
   @Column()
-  songID: string;
+  songID: string; // Foreign key that references back to class Song
 
   @Column()
-  userID: string;
+  userID: string; // Foreign key that references back to class User
 }
