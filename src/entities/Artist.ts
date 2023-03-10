@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, Relation, JoinTable } from 'typeorm';
-import { Group } from './Group';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+// ManyToMany, Relation, JoinTable } from 'typeorm';
+// import { Group } from './Group';
 
 @Entity()
 export class Artist {
@@ -15,7 +16,7 @@ export class Artist {
   @Column()
   userID: string; // References back to class User
 
-  @ManyToMany(() => Group, (group) => group.members, { cascade: true })
-  @JoinTable()
-  groups: Relation<Group>[];
+  // @ManyToMany(() => Group, (group) => group.members, { cascade: true })
+  // @JoinTable()
+  // groups: Relation<Group>[];
 }
