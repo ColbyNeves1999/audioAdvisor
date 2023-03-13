@@ -20,4 +20,7 @@ export class User {
   @Column({ unique: true })
   spotifyAuth: string;
 
+  @Column()
+  spotifyRefresh: string;
+
 }

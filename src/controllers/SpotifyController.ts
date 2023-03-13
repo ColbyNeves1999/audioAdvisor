@@ -46,13 +46,14 @@ function spotifyLogin(req: Request, res: Response): void {
 
 };
 
+//Getting a token from Spotify
 async function callBack(req: Request, res: Response): Promise<void> {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
 
   var code = req.query.code as string || null;
-  var state = req.query.state as string|| null;
+  var state = req.query.state as string || null;
 
   if (state === null) {
     res.redirect('/#' +
@@ -69,25 +70,53 @@ async function callBack(req: Request, res: Response): Promise<void> {
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET
     }
- 
+
     var myJSON = querystring.stringify(myObj);
- 
+
     const fetchResponse = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    body: myJSON,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
+      method: 'POST',
+      body: myJSON,
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     });
     const resJson = await fetchResponse.json();
-    //thisToken = resJson.access_token;
 
     console.log(resJson);
 
   }
 
-  
+
 
 };
 
-export { spotifyLogin, callBack };
+//Refreshing a token from spotify
+async function refreshToken(req: Request, res: Response): Promise<void> {
+  var refresh_token = req.query.refresh_token as string || null;
+
+  var myObj = {
+    grant_type: 'refresh_token',
+    refresh_token: refresh_token,
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET
+  }
+
+  var myJSON = querystring.stringify(myObj);
+
+  const fetchResponse = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    body: myJSON,
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')),
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+
+  const resJson = await fetchResponse.json();
+
+  console.log(resJson);
+
+}
+
+export { spotifyLogin, callBack, refreshToken };
