@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import querystring from 'querystring';
+//import { storeAuth } from '../models/UserModel';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -81,9 +82,12 @@ async function callBack(req: Request, res: Response): Promise<void> {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
+
     const resJson = await fetchResponse.json();
 
     console.log(resJson);
+    //COMMENT OUT. JUST FOR TESTING PURPOSES
+    res.redirect('https://open.spotify.com/');
 
   }
 

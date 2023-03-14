@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Relation } from 'typeorm';
+
+import { AvatarPhoto } from './AvatarPhoto';
 
 @Entity()
 export class User {
@@ -20,7 +22,10 @@ export class User {
   @Column({ unique: true })
   spotifyAuth: string;
 
-  @Column()
-  spotifyRefresh: string;
+  @Column({ unique: true })
+  refreshAuth: string;
 
+  @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
+  @JoinColumn()
+  avatarPhoto: Relation<AvatarPhoto>;
 }

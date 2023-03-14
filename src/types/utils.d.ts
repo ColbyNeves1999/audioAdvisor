@@ -8,3 +8,11 @@ type AuthRequest = {
   email: string;
   password: string;
 };
+
+type spotAuth = {
+  access_token: string;
+  token_type: string;
+  scope: string;
+  expires: number;
+  refresh_token: string;
+};

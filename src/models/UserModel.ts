@@ -18,7 +18,7 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 }
 
 async function getUserByEmail(email: string): Promise<User | null> {
-  return await userRepository.findOne({ where: { email } });
+  return userRepository.findOne({ where: { email } });
 }
 
 async function getUserById(userId: string): Promise<User | null> {
@@ -36,4 +36,12 @@ async function getUsersByViews(minViews: number): Promise<User[]> {
   return users;
 }
 
-export { addUser, getUserByEmail, getUserById, getUsersByViews };
+async function storeAuth(authCode: string, refreshCode: string, userId: string): Promise<void> {
+  let thisUser = await userRepository.findOne({ where: { userId } }) as User;
+  thisUser.spotifyAuth = authCode;
+  thisUser.refreshAuth = refreshCode;
+
+  thisUser = await userRepository.save(thisUser);
+}
+
+export { addUser, getUserByEmail, getUserById, getUsersByViews, storeAuth };
