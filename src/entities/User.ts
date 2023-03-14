@@ -25,6 +25,9 @@ export class User {
   @Column({ unique: true, default: null })
   refreshAuth: string;
 
+  @Column({ default: false })
+  accountAuthorized: boolean;
+
   @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
   @JoinColumn()
   avatarPhoto: Relation<AvatarPhoto>;

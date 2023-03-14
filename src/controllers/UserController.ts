@@ -44,7 +44,9 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
   // The user has successfully logged in
   // NOTES: We will update this once we implement session management
-  res.sendStatus(200); // 200 OK
+
+  res.sendStatus(200);
+  
 }
 
 export { registerUser, logIn };

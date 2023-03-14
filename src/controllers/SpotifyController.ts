@@ -92,6 +92,8 @@ async function callBack(req: Request, res: Response): Promise<void> {
     storeAuth(access_token, refresh_token, "colby.neves@jonesboroschools.net")
 
     //COMMENT OUT. JUST FOR TESTING PURPOSES
+    //Temporarily using so user just ends up at spotify
+    //Will rplace later
     res.redirect('https://open.spotify.com/');
 
   }
@@ -133,6 +135,8 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   
   //COMMENT OUT. JUST FOR TESTING PURPOSES
+  //Temporarily using so user just ends up at spotify
+  //Will rplace later
   res.redirect('https://open.spotify.com/');
 
 }
