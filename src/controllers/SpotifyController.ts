@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import querystring from 'querystring';
-//import { storeAuth } from '../models/UserModel';
+import { storeAuth, refreshAuth } from '../models/UserModel';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -86,6 +86,11 @@ async function callBack(req: Request, res: Response): Promise<void> {
     const resJson = await fetchResponse.json();
 
     console.log(resJson);
+
+    const {access_token, refresh_token} = resJson as SpotifyTokenResponse;
+
+    storeAuth(access_token, refresh_token, "colby.neves@jonesboroschools.net")
+
     //COMMENT OUT. JUST FOR TESTING PURPOSES
     res.redirect('https://open.spotify.com/');
 
@@ -120,6 +125,15 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   const resJson = await fetchResponse.json();
 
   console.log(resJson);
+
+  const {access_token} = resJson as SpotifyTokenResponse;
+
+  refreshAuth(access_token, "colby.neves@jonesboroschools.net")
+
+
+  
+  //COMMENT OUT. JUST FOR TESTING PURPOSES
+  res.redirect('https://open.spotify.com/');
 
 }
 

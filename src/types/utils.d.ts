@@ -9,10 +9,7 @@ type AuthRequest = {
   password: string;
 };
 
-type spotAuth = {
+type SpotifyTokenResponse = {
   access_token: string;
-  token_type: string;
-  scope: string;
-  expires: number;
   refresh_token: string;
 };

@@ -19,10 +19,10 @@ export class User {
   @Column({ default: 0 })
   profileViews: number;
 
-  @Column({ unique: true })
+  @Column({ unique: true, default: null })
   spotifyAuth: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, default: null })
   refreshAuth: string;
 
   @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
