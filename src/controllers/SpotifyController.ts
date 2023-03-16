@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import querystring from 'querystring';
 import { storeAuth, refreshAuth } from '../models/UserModel';
+import { generateRandomString } from '../models/SpotifyModel';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -12,16 +13,6 @@ var stateKey = 'spotify_auth_state';
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-
-function generateRandomString(length: number) {
-  var text = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
 
 //Spotify login
 function spotifyLogin(req: Request, res: Response): void {
@@ -87,7 +78,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
     console.log(resJson);
 
-    const {access_token, refresh_token} = resJson as SpotifyTokenResponse;
+    const { access_token, refresh_token } = resJson as SpotifyTokenResponse;
 
     storeAuth(access_token, refresh_token, "colby.neves@jonesboroschools.net")
 
@@ -128,12 +119,12 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   console.log(resJson);
 
-  const {access_token} = resJson as SpotifyTokenResponse;
+  const { access_token } = resJson as SpotifyTokenResponse;
 
   refreshAuth(access_token, "colby.neves@jonesboroschools.net")
 
 
-  
+
   //COMMENT OUT. JUST FOR TESTING PURPOSES
   //Temporarily using so user just ends up at spotify
   //Will rplace later

@@ -45,8 +45,13 @@ async function logIn(req: Request, res: Response): Promise<void> {
   // The user has successfully logged in
   // NOTES: We will update this once we implement session management
 
+  if (user.accountAuthorized === false) {
+    res.redirect("http://localhost:7444/api/spotifyLogin");
+    return;
+  }
+
   res.sendStatus(200);
-  
+
 }
 
 export { registerUser, logIn };
