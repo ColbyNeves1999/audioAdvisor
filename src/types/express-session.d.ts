@@ -4,12 +4,14 @@ declare module 'express-session' {
     export interface Session {
         clearSession(): Promise<void>; // DO NOT MODIFY THIS!
 
-        // NOTES: Add your app's custom session properties here:
+        // NOTES: Our example app's custom session properties:
         authenticatedUser: {
             email: string;
             accountAuthorized: boolean;
         };
         isLoggedIn: boolean;
+        logInAttempts: number;
+        logInTimeout: string;
 
     }
 }

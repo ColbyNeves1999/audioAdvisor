@@ -53,7 +53,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   // The user has successfully logged in
   // NOTES: We will update this once we implement session management
 
-  await req.session.clearSession();
+  //await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
     accountAuthorized: user.accountAuthorized
