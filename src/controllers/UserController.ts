@@ -3,7 +3,6 @@ import argon2 from 'argon2';
 import { addUser, getUserByEmail } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
-//import { User } from '../entities/User';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
 
@@ -56,7 +55,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
   //await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
-    accountAuthorized: user.accountAuthorized
+    accountAuthorized: user.accountAuthorized,
+    userId: user.userId,
+    authToken: user.spotifyAuth,
+    refreshToken: user.refreshAuth,
   };
   req.session.isLoggedIn = true;
 

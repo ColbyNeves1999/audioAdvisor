@@ -28,6 +28,9 @@ export class User {
   @Column({ default: false })
   accountAuthorized: boolean;
 
+  @Column({ default: null })
+  spotifyId: string;
+
   @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
   @JoinColumn()
   avatarPhoto: Relation<AvatarPhoto>;

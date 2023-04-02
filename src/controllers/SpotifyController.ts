@@ -81,6 +81,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
     const { access_token, refresh_token } = resJson as SpotifyTokenResponse;
 
     //await storeAuth(access_token, refresh_token, req.session.authenticatedUser.email);
+    //THIS IS FOR TESTING THE LINE ABOVE IS FOR WHEN A FRONT END IS DEVELOPED
     await storeAuth(access_token, refresh_token, "colby.neves@smail.astate.edu");
 
     //COMMENT OUT. JUST FOR TESTING PURPOSES
@@ -96,7 +97,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
 //Refreshing a token from spotify
 async function refreshToken(req: Request, res: Response): Promise<void> {
-  var refresh_token = req.query.refresh_token as string || null;
+  var refresh_token = req.session.authenticatedUser.refreshToken as string || null;
 
   var myObj = {
     grant_type: 'refresh_token',
@@ -125,6 +126,13 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   //refreshAuth(access_token, req.session.authenticatedUser.email);
   refreshAuth(access_token, "colby.neves@smail.astate.edu")
 
+
+
+  /*if (req.session.isLoggedIn === true) {
+    req.session.authenticatedUser.authToken = access_token;
+    console.log(req.session.authenticatedUser.authToken);
+  }*/
+
   //COMMENT OUT. JUST FOR TESTING PURPOSES
   //Temporarily using so user just ends up at spotify
   //Will rplace later
@@ -132,4 +140,23 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
 }
 
-export { spotifyLogin, callBack, refreshToken };
+async function getSpotifyId(req: Request, res: Response): Promise<void> {
+
+  console.log(`Bearer ${req.session.authenticatedUser.authToken}`);
+
+  const fetchResponse = await fetch('https://api.spotify.com/v1/me', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken
+    }
+  });
+
+  const data = await fetchResponse.json();
+
+  console.log(data);
+
+  res.sendStatus(200);
+
+}
+
+export { spotifyLogin, callBack, refreshToken, getSpotifyId };

@@ -8,6 +8,9 @@ declare module 'express-session' {
         authenticatedUser: {
             email: string;
             accountAuthorized: boolean;
+            userId: string;
+            authToken: string;
+            refreshToken: string;
         };
         isLoggedIn: boolean;
         logInAttempts: number;
