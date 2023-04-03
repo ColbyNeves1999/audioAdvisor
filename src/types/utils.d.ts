@@ -14,4 +14,6 @@ type SpotifyTokenResponse = {
   refresh_token: string;
 };
 
-
+type SpotifyUserData = {
+  id: string;
+}

@@ -142,18 +142,25 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
-  console.log(`Bearer ${req.session.authenticatedUser.authToken}`);
-
-  const fetchResponse = await fetch('https://api.spotify.com/v1/me', {
+  const result = await fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken
     }
   });
 
-  const data = await fetchResponse.json();
+  if (!result.ok) {
+    console.log(res.status);
+  }
 
-  console.log(data);
+  //const responseBodyTest = await result.text();
+  //console.log(responseBodyTest);
+
+  const data = await result.json();
+
+  const { id } = data as SpotifyUserData;
+
+  console.log(id);
 
   res.sendStatus(200);
 
