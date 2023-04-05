@@ -11,7 +11,7 @@ function generateRandomString(length: number) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
-};
+}
 
 async function refreshAuth(authCode: string, email: string): Promise<void> {
   let thisUser = await userRepository.findOne({ where: { email } }) as User;
