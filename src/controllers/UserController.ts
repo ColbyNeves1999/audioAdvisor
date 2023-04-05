@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
-import { addUser, getUserByEmail } from '../models/UserModel';
+import { addUser, getUserByEmail, setUserSpotId } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
-
 
 async function registerUser(req: Request, res: Response): Promise<void> {
 
@@ -71,4 +70,35 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 }
 
-export { registerUser, logIn };
+async function getSpotifyId(req: Request, res: Response): Promise<void> {
+
+  if(!req.session.authenticatedUser.authToken){
+    res.sendStatus(404);
+    return;
+  }
+
+  const result = await fetch('https://api.spotify.com/v1/me', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken
+    }
+  });
+
+  if (!result.ok) {
+    console.log(res.status);
+  }
+
+  //const responseBodyTest = await result.text();
+  //console.log(responseBodyTest);
+
+  const data = await result.json();
+
+  const { id } = data as SpotifyUserData;
+
+  await setUserSpotId(req.session.authenticatedUser.userId, id);
+
+  res.sendStatus(200);
+
+}
+
+export { registerUser, logIn, getSpotifyId };

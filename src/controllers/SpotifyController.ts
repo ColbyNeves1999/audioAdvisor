@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import querystring from 'querystring';
-import { storeAuth, refreshAuth } from '../models/UserModel';
-import { generateRandomString } from '../models/SpotifyModel';
+import { generateRandomString, refreshAuth, storeAuth } from '../models/SpotifyModel';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -123,8 +122,8 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   const { access_token } = resJson as SpotifyTokenResponse;
 
-  //refreshAuth(access_token, req.session.authenticatedUser.email);
-  refreshAuth(access_token, "colby.neves@smail.astate.edu")
+  refreshAuth(access_token, req.session.authenticatedUser.email);
+  //refreshAuth(access_token, "colby.neves@smail.astate.edu")
 
 
 
@@ -140,30 +139,4 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
 }
 
-async function getSpotifyId(req: Request, res: Response): Promise<void> {
-
-  const result = await fetch('https://api.spotify.com/v1/me', {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken
-    }
-  });
-
-  if (!result.ok) {
-    console.log(res.status);
-  }
-
-  //const responseBodyTest = await result.text();
-  //console.log(responseBodyTest);
-
-  const data = await result.json();
-
-  const { id } = data as SpotifyUserData;
-
-  console.log(id);
-
-  res.sendStatus(200);
-
-}
-
-export { spotifyLogin, callBack, refreshToken, getSpotifyId };
+export { spotifyLogin, callBack, refreshToken };

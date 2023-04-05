@@ -19,6 +19,15 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 
 }
 
+async function setUserSpotId(userId: string, spotId: string): Promise<void> {
+
+  let user = await getUserById(userId);
+  user.spotifyId = spotId;
+
+  user = await userRepository.save(user);
+
+}
+
 async function getUserByEmail(email: string): Promise<User | null> {
   return userRepository.findOne({ where: { email } });
 }
@@ -38,19 +47,4 @@ async function getUsersByViews(minViews: number): Promise<User[]> {
   return users;
 }
 
-async function storeAuth(authCode: string, refreshCode: string, email: string): Promise<void> {
-  let thisUser = await userRepository.findOne({ where: { email } }) as User;
-  thisUser.spotifyAuth = authCode;
-  thisUser.refreshAuth = refreshCode;
-
-  thisUser = await userRepository.save(thisUser);
-}
-
-async function refreshAuth(authCode: string, email: string): Promise<void> {
-  let thisUser = await userRepository.findOne({ where: { email } }) as User;
-  thisUser.spotifyAuth = authCode;
-
-  thisUser = await userRepository.save(thisUser);
-}
-
-export { addUser, getUserByEmail, getUserById, getUsersByViews, storeAuth, refreshAuth };
+export { addUser, getUserByEmail, getUserById, getUsersByViews, setUserSpotId };

@@ -3,8 +3,8 @@ import 'express-async-errors';
 import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
-import { registerUser, logIn } from './controllers/UserController';
-import { spotifyLogin, callBack, refreshToken, getSpotifyId } from './controllers/SpotifyController';
+import { registerUser, logIn, getSpotifyId } from './controllers/UserController';
+import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
