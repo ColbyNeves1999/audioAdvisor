@@ -5,6 +5,7 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn, getSpotifyId } from './controllers/UserController';
 import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
+import { getSongFromSpotify } from './controllers/SongController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -30,6 +31,7 @@ app.get('/api/spotifyLogin', spotifyLogin); //Logs in to and authorizes spotify 
 app.get('/api/callBack', callBack);
 app.get('/api/refreshToken', refreshToken);
 app.get('/api/spotifyId', getSpotifyId);
+app.get('/api/getSong', getSongFromSpotify);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

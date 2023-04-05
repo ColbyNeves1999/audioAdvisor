@@ -29,12 +29,11 @@ async function setUserSpotId(userId: string, spotId: string): Promise<void> {
 }
 
 async function getUserByEmail(email: string): Promise<User | null> {
-  return userRepository.findOne({ where: { email } });
+  return await userRepository.findOne({ where: { email } });
 }
 
 async function getUserById(userId: string): Promise<User | null> {
-  const user = await userRepository.findOne({ where: { userId } });
-  return user;
+  return await userRepository.findOne({ where: { userId } });
 }
 
 async function getUsersByViews(minViews: number): Promise<User[]> {

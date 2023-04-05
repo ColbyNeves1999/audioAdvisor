@@ -16,4 +16,14 @@ type SpotifyTokenResponse = {
 
 type SpotifyUserData = {
   id: string;
-}
+};
+
+type tracks = {
+  items: string[];
+  id: string;
+  limit: string;
+};
+
+type SpotifySongData = {
+  tracks: tracks;
+};
