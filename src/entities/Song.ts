@@ -7,16 +7,16 @@ export class Song {
     @PrimaryGeneratedColumn('uuid')
     songID: string;
 
-    @Column({ unique: true })
+    @Column({ unique: true, default: null })
     songTitle: string;
 
-    @Column()
+    @Column({ default: null })
     artist: string;
 
-    @Column()
+    @Column({ default: null })
     album: string;
 
-    @Column()
+    @Column({ default: null })
     genera: string;
 
     @CreateDateColumn()

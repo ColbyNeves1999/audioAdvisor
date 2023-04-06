@@ -18,12 +18,17 @@ type SpotifyUserData = {
   id: string;
 };
 
-type tracks = {
-  items: string[];
+type songData = {
   id: string;
-  limit: string;
+  name: string;
+  artists: string[];
 };
 
 type SpotifySongData = {
-  tracks: tracks;
+  limit: number;
+  items: [songData];
+};
+
+type tracks = {
+  tracks: SpotifySongData;
 };
