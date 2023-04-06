@@ -17,7 +17,7 @@ export class Song {
     album: string;
 
     @Column({ default: null })
-    genera: string;
+    genre: string;
 
     @CreateDateColumn()
     releaseYear: number;
