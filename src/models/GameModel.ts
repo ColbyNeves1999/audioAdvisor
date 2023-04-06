@@ -13,25 +13,37 @@ async function getGamesWon(gamesWon: number): Promise<GameWinner | null> {
   return wins;
 }
 
-async function setGamesPlayed(gamesPlayed: number): Promise<GameWinner> {
-  // Create a new GameWinner object
-  let numGames = new GameWinner();
-  numGames.gamesPlayed = gamesPlayed;
+async function updateGamesPlayed(gameData: GameWinner): Promise<GameWinner> {
+  const updatedUser = gameData;
+  updatedUser.gamesPlayed += 1;
 
-  // Save it to the database
-  numGames = await gameRepository.save(numGames);
+  await gameRepository
+    .createQueryBuilder()
+    .update(GameWinner)
+    .set({ gamesPlayed: updatedUser.gamesPlayed })
+    .where({ userID: updatedUser.userID })
+    .execute();
 
-  return numGames;
-}
-async function setGamesWon(gamesWon: number): Promise<GameWinner> {
-  // Create a new GameWinner object
-  let wins = new GameWinner();
-  wins.gamesWon = gamesWon;
-
-  // Save the object to the database
-  wins = await gameRepository.save(wins);
-
-  return wins;
+  return updatedUser;
 }
 
-export { getGamesPlayed, getGamesWon, setGamesPlayed, setGamesWon };
+async function updateGamesWon(gameData: GameWinner): Promise<GameWinner> {
+  const updatedUser = gameData;
+  updatedUser.gamesWon += 1;
+
+  await gameRepository
+    .createQueryBuilder()
+    .update(GameWinner)
+    .set({ gamesWon: updatedUser.gamesWon })
+    .where({ userID: updatedUser.userID })
+    .execute();
+
+  return updatedUser;
+}
+
+async function getUserById(userID: string): Promise<GameWinner | null> {
+  const user = await gameRepository.findOne({ where: { userID } });
+  return user;
+}
+
+export { getGamesPlayed, getGamesWon, updateGamesPlayed, updateGamesWon, getUserById };

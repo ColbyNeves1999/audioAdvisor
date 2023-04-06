@@ -7,7 +7,8 @@ async function addSong(
   songTitle: string,
   artist: string,
   album: string,
-  genera: string
+  genera: string,
+  releaseYear: number
 ): Promise<Song> {
   // Create the new song to be added
   let newSong = new Song();
@@ -15,6 +16,7 @@ async function addSong(
   newSong.artist = artist;
   newSong.album = album;
   newSong.genera = genera;
+  newSong.releaseYear = releaseYear;
 
   // Then save it to the data base
   newSong = await songRepository.save(newSong);
@@ -22,23 +24,47 @@ async function addSong(
   return newSong;
 }
 
-async function getSongByAlbum(album: string): Promise<Song | null> {
-  const albumName = await songRepository.findOne({ where: { album } });
-  return albumName;
+async function getSongByAlbum(albumName: string): Promise<Song[]> {
+  // function gets an array of every song on a specific album
+  const songs = await songRepository
+    .createQueryBuilder('song')
+    .where('album = :albumName', { albumName })
+    .select(['song.songTitle', 'song.artist', 'song.genera'])
+    .getMany();
+
+  return songs;
 }
 
-async function getSongbyGenera(genera: string): Promise<Song | null> {
-  const songGenera = await songRepository.findOne({ where: { genera } });
+async function getSongbyGenera(genera: string): Promise<Song[]> {
+  // function gets an array of every song by that genera
+  const songGenera = await songRepository
+    .createQueryBuilder('song')
+    .where('genera = :genera', { genera })
+    .select(['song.songTitle', 'song.album', 'song.artist'])
+    .getMany();
+
   return songGenera;
 }
 
-async function getSongbyArtist(artist: string): Promise<Song | null> {
-  const songArtist = await songRepository.findOne({ where: { artist } });
+async function getSongbyArtist(artistName: string): Promise<Song[]> {
+  // function gets an array of every song this artist has
+  const songArtist = await songRepository
+    .createQueryBuilder('song')
+    .where('artist = :artistName', { artistName })
+    .select(['song.album', 'song.songTitle', 'song.genera'])
+    .getMany();
+
   return songArtist;
 }
 
-async function getSongbyTitle(songTitle: string): Promise<Song | null> {
-  const title = await songRepository.findOne({ where: { songTitle } });
+async function getSongbyTitle(songTitle: string): Promise<Song[]> {
+  // function gets an array of every song that has the same title
+  const title = await songRepository
+    .createQueryBuilder('song')
+    .where('title = :songTitle', { songTitle })
+    .select(['song.artist', 'song.album', 'song.releaseYear'])
+    .getMany();
+
   return title;
 }
 
@@ -48,6 +74,7 @@ async function getSongbyID(songID: string): Promise<Song | null> {
 }
 
 async function getSongsByYear(releaseDate: number): Promise<Song[]> {
+  // function gets an array of every song that was released in a specific year
   const songs = await songRepository
     .createQueryBuilder('song')
     .where('releaseYear = :releaseDate', { releaseDate })
