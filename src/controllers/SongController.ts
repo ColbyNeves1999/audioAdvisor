@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { addSong } from '../models/SongModel';
+import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, } from '../models/SongModel';
+
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.authenticatedUser.authToken) {
@@ -28,16 +29,95 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   const [{ id }] = items as [songData];
   const [{ name }] = items as [songData];
   const [{ artists }] = items as [songData];
-
+  const genre = "hello";
+  const releaseYear = 0;
   //console.log(items);
   console.log(id);
   console.log(name);
   console.log(artists);
 
-  await addSong(name, id, "Miles Davis");
+  await addSong(name, id, "Miles Davis", genre, releaseYear);
 
   res.sendStatus(200);
 
 }
 
-export { getSongFromSpotify };
+async function getAlbum(req: Request, res: Response): Promise<void> {
+  const { album } = req.body as NewAlbumRequestBody;
+
+  const albumName = await getSongByAlbum(album);
+  if (!albumName) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  console.log(albumName);
+  res.sendStatus(200); // 200 OK
+}
+
+async function getSongsFromYear(req: Request, res: Response): Promise<void> {
+  const { releaseYear } = req.body as NewYearRequestBody;
+
+  const yearReleased = await getSongsByYear(releaseYear);
+
+  if (!yearReleased) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  res.sendStatus(200); // 200 Ok
+}
+
+async function getSong(req: Request, res: Response): Promise<void> {
+  const { songID } = req.body as NewSongRequestBody;
+
+  const songId = await getSongbyID(songID);
+
+  if (!songId) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  res.sendStatus(200); // 200 Ok
+}
+
+async function getSongTitle(req: Request, res: Response): Promise<void> {
+  const { songTitle } = req.body as NewSongTitleRequestBody;
+
+  const title = await getSongbyTitle(songTitle);
+
+  if (!title) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  res.sendStatus(200); // 200 Ok
+}
+
+async function getArtistSongs(req: Request, res: Response): Promise<void> {
+  const { artist } = req.body as NewArtistRequestBody;
+
+  const artistSongs = await getSongbyArtist(artist);
+
+  if (!artistSongs) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  res.sendStatus(200); // 200 Ok
+}
+
+async function getSongsGenre(req: Request, res: Response): Promise<void> {
+  const { genera } = req.body as NewGeneraRequestBody;
+
+  const generaSongs = await getSongbyGenre(genera);
+
+  if (!generaSongs) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  res.sendStatus(200); // 200 Ok
+}
+
+export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre };

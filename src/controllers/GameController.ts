@@ -1,11 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  getGamesPlayed,
-  updateGamesWon,
-  updateGamesPlayed,
-  getUserById,
-  getGamesWon,
-} from '../models/GameModel';
+import { getGamesPlayed, updateGamesWon, updateGamesPlayed, getUserById, getGamesWon } from '../models/GameModel';
 
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;

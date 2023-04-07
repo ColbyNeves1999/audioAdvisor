@@ -26,6 +26,6 @@ type NewSongAdditionBody = {
   songTitle: string;
   artist: string;
   album: string;
-  genera: string;
+  genre: string;
   releaseYear: number;
 };

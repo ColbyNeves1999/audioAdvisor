@@ -3,13 +3,15 @@ import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
-async function addSong(songTitle: string, songId: string, artist: string): Promise<Song> {
+async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: number): Promise<Song> {
 
   // Create the new user object
   let newSong = new Song();
   newSong.songID = songId;
   newSong.songTitle = songTitle;
   newSong.artist = artist;
+  newSong.genre = genre;
+  newSong.releaseYear = releaseYear;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access
@@ -31,7 +33,7 @@ async function getSongByAlbum(albumName: string): Promise<Song[]> {
   return songs;
 }
 
-async function getSongbyGenera(genera: string): Promise<Song[]> {
+async function getSongbyGenre(genera: string): Promise<Song[]> {
   // function gets an array of every song by that genera
   const songGenera = await songRepository
     .createQueryBuilder('song')
@@ -80,4 +82,4 @@ async function getSongsByYear(releaseDate: number): Promise<Song[]> {
   return songs;
 }
 
-export { addSong, getSongByAlbum, getSongbyGenera, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID };
+export { addSong, getSongByAlbum, getSongbyGenre, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID };

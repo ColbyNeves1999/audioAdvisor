@@ -49,6 +49,7 @@ async function getUsersByViews(minViews: number): Promise<User[]> {
 
   return users;
 }
+
 async function incrementProfileViews(userData: User): Promise<User> {
   const updatedUser = userData;
   updatedUser.profileViews += 1;

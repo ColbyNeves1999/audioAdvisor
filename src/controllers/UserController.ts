@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
-import { addUser, getUserByEmail, setUserSpotId } from '../models/UserModel';
+import { addUser, getUserByEmail, setUserSpotId, getUserById, updateEmailAddress } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
@@ -98,4 +98,42 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
 }
 
-export { registerUser, logIn, getSpotifyId };
+async function updateUserEmail(req: Request, res: Response): Promise<void> {
+  const { targetUserId } = req.params as UserIdParam;
+
+  // NOTES: Access the data from `req.session`
+  const { isLoggedIn, authenticatedUser } = req.session;
+
+  // NOTES: We need to make sure that this client is logged in AND
+  //        they are try to modify their own user account
+  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+    res.sendStatus(403); // 403 Forbidden
+    return;
+  }
+
+  const { email } = req.body as { email: string };
+
+  // Get the user account
+  const user = await getUserById(targetUserId);
+
+  if (!user) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  // Now update their email address
+  try {
+    await updateEmailAddress(targetUserId, email);
+  } catch (err) {
+    // The email was taken so we need to send an error message
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err);
+    res.status(500).json(databaseErrorMessage);
+    return;
+  }
+
+  res.sendStatus(200);
+}
+
+
+export { registerUser, logIn, getSpotifyId, updateUserEmail };
