@@ -26,9 +26,10 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   //console.log(responseBodyTest);
 
   const data = await result.json();
-  console.log(data);
+
   const { tracks } = data as tracks;
   const { items } = tracks as SpotifySongData;
+  console.log(items);
   const [{ id, name }] = items as [songData];
   const genre = "hello";
   const releaseYear = 0;

@@ -3,6 +3,8 @@ import argon2 from 'argon2';
 import { addUser, getUserByEmail, setUserSpotId, getUserById, updateEmailAddress } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
+const { PORT } = process.env;
+
 async function registerUser(req: Request, res: Response): Promise<void> {
 
   const { email, password } = req.body as AuthRequest;
@@ -56,10 +58,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
   req.session.isLoggedIn = true;
 
   if (user.accountAuthorized === false) {
-    res.redirect("http://localhost:7444/api/spotifyLogin");
+    res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
     return;
-  }else{
-    res.redirect("http://localhost:7444/api/refreshToken");
+  } else {
+    res.redirect(`http://localhost:${PORT}/api/refreshToken`);
     return;
   }
 
