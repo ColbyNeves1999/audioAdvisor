@@ -29,20 +29,17 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
+  console.log(req.session);
+
   const { email, password } = req.body as AuthRequest;
 
   const user = await getUserByEmail(email);
-
-  // Check if the user account exists for that email
   if (!user) {
     res.sendStatus(404); // 404 Not Found 
     return;
   }
 
-  // The account exists so now we can check their password
   const { passwordHash } = user;
-
-  // If the password does not match
   if (!(await argon2.verify(passwordHash, password))) {
     res.sendStatus(404); // 404 Not Found
     return;
@@ -72,7 +69,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
-  if(!req.session.authenticatedUser.authToken){
+  if (!req.session.authenticatedUser.authToken) {
     res.sendStatus(404);
     return;
   }

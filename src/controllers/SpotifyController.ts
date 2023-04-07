@@ -15,12 +15,11 @@ var stateKey = 'spotify_auth_state';
 
 //Spotify login
 function spotifyLogin(req: Request, res: Response): void {
-
-  var state = generateRandomString(16);
+  const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email';
 
   var myObj = {
     response_type: 'code',
@@ -30,7 +29,7 @@ function spotifyLogin(req: Request, res: Response): void {
     state: state
   }
 
-  var myJSON = querystring.stringify(myObj);
+  const myJSON = querystring.stringify(myObj);
 
   res.redirect(`https://accounts.spotify.com/authorize?` + myJSON);
 
@@ -38,8 +37,8 @@ function spotifyLogin(req: Request, res: Response): void {
 };
 
 //Getting a token from Spotify
-async function callBack(req: Request, res: Response): Promise<void> {
 
+async function callBack(req: Request, res: Response): Promise<void> {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
