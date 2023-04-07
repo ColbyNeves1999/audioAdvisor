@@ -122,14 +122,6 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   const { access_token } = resJson as SpotifyTokenResponse;
 
   refreshAuth(access_token, req.session.authenticatedUser.email);
-  //refreshAuth(access_token, "colby.neves@smail.astate.edu")
-
-
-
-  /*if (req.session.isLoggedIn === true) {
-    req.session.authenticatedUser.authToken = access_token;
-    console.log(req.session.authenticatedUser.authToken);
-  }*/
 
   //COMMENT OUT. JUST FOR TESTING PURPOSES
   //Temporarily using so user just ends up at spotify

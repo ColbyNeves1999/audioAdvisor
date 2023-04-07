@@ -8,8 +8,11 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const result = await fetch('https://api.spotify.com/v1/search?q=remaster track:Doxy artist:Miles Davis&type=track&market=ES&limit=1&offset=0', {
+  const { songTitle, artist } = req.body as NewSongAdditionBody;
+
+  const result = await fetch(`https://api.spotify.com/v1/search?q=track:${songTitle}%20artist:${artist}&type=track&market=ES&limit=1&offset=0`, {
     method: 'GET',
+
     headers: {
       'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken,
     }
@@ -23,20 +26,17 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   //console.log(responseBodyTest);
 
   const data = await result.json();
-
+  console.log(data);
   const { tracks } = data as tracks;
   const { items } = tracks as SpotifySongData;
-  const [{ id }] = items as [songData];
-  const [{ name }] = items as [songData];
-  const [{ artists }] = items as [songData];
+  const [{ id, name }] = items as [songData];
   const genre = "hello";
   const releaseYear = 0;
   //console.log(items);
   console.log(id);
   console.log(name);
-  console.log(artists);
 
-  await addSong(name, id, "Miles Davis", genre, releaseYear);
+  await addSong(name, id, artist, genre, releaseYear);
 
   res.sendStatus(200);
 

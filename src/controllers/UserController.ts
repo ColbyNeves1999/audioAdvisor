@@ -45,9 +45,6 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  // The user has successfully logged in
-  // NOTES: We will update this once we implement session management
-
   //await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
@@ -61,9 +58,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
   if (user.accountAuthorized === false) {
     res.redirect("http://localhost:7444/api/spotifyLogin");
     return;
+  }else{
+    res.redirect("http://localhost:7444/api/refreshToken");
+    return;
   }
-
-  res.sendStatus(200);
 
 }
 
