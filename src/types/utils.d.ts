@@ -32,3 +32,7 @@ type SpotifySongData = {
 type tracks = {
   tracks: SpotifySongData;
 };
+
+type NewUserId = {
+  userId: string;
+};

@@ -82,4 +82,4 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
 }
 
 
-export { addUser, getUserByEmail, getUserById, getUsersByViews, setUserSpotId };
+export { addUser, getUserByEmail, getUserById, getUsersByViews, setUserSpotId, allUserData, incrementProfileViews, resetAllProfileViews, updateEmailAddress };
