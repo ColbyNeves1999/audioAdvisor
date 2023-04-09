@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
 import { addUser, getUserByEmail, setUserSpotId, getUserById, updateEmailAddress } from '../models/UserModel';
+import { refreshAuth } from '../models/SpotifyModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 const { PORT } = process.env;
@@ -35,19 +36,23 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
   const { email, password } = req.body as AuthRequest;
 
-  const user = await getUserByEmail(email);
+  let user = await getUserByEmail(email);
+
   if (!user) {
     res.sendStatus(404); // 404 Not Found 
     return;
   }
 
   const { passwordHash } = user;
+
   if (!(await argon2.verify(passwordHash, password))) {
     res.sendStatus(404); // 404 Not Found
     return;
   }
 
-  //await req.session.clearSession();
+  refreshAuth(user.refreshAuth, user.email);
+  user = await getUserByEmail(email);
+
   req.session.authenticatedUser = {
     email: user.email,
     accountAuthorized: user.accountAuthorized,
@@ -59,9 +64,6 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
   if (user.accountAuthorized === false) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
-    return;
-  } else {
-    res.redirect(`http://localhost:${PORT}/api/refreshToken`);
     return;
   }
 
