@@ -12,6 +12,9 @@ const { PORT, COOKIE_SECRET } = process.env;
 
 const SQLiteStore = connectSqlite3(session);
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public', { extensions: ['html'] }));
+
 app.use(
   session({
     store: new SQLiteStore({ db: 'sessions.sqlite' }),
@@ -27,7 +30,7 @@ app.use(express.json());
 
 app.post('/api/users', registerUser); // Create an account
 app.post('/api/login', logIn); // Log in to an account
-app.get('/api/spotifyLogin', spotifyLogin); //Logs in to and authorizes spotify access
+app.get('/api/spotifyLogin', spotifyLogin); // Logs in to and authorizes spotify access
 app.get('/api/callBack', callBack);
 app.get('/api/refreshToken', refreshToken);
 app.get('/api/spotifyId', getSpotifyId);
