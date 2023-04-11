@@ -44,6 +44,34 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
 }
 
+async function getSongFromSpotifyById(req: Request, res: Response): Promise<void> {
+
+  if (!req.session.authenticatedUser.authToken) {
+    res.sendStatus(404);
+    return;
+  }
+
+  const { id } = req.body as songData;
+
+  const result = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
+    method: 'GET',
+
+    headers: {
+      'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken,
+    }
+  });
+
+  if (!result.ok) {
+    console.log(res.status);
+  }
+
+  const data = await result.json();
+  const { name } = data as songData;
+
+  //await addSong(name, id, artistName, genre, release_date);
+
+}
+
 async function getAlbum(req: Request, res: Response): Promise<void> {
   const { album } = req.body as NewAlbumRequestBody;
 
@@ -122,4 +150,4 @@ async function getSongsGenre(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
-export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre };
+export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById };
