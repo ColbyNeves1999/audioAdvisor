@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import querystring from 'querystring';
 import { generateRandomString, refreshAuth, storeAuth } from '../models/SpotifyModel';
+import { getUserByEmail } from '../models/UserModel';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -79,8 +80,12 @@ async function callBack(req: Request, res: Response): Promise<void> {
     const { access_token, refresh_token } = resJson as SpotifyTokenResponse;
 
     //await storeAuth(access_token, refresh_token, req.session.authenticatedUser.email);
+    //const user = await getUserByEmail(req.session.authenticatedUser.email);
     //THIS IS FOR TESTING THE LINE ABOVE IS FOR WHEN A FRONT END IS DEVELOPED
     await storeAuth(access_token, refresh_token, "colby.neves@smail.astate.edu");
+    const user = await getUserByEmail("colby.neves@smail.astate.edu");
+
+    user.accountAuthorized = true;
 
     //COMMENT OUT. JUST FOR TESTING PURPOSES
     //Temporarily using so user just ends up at spotify
