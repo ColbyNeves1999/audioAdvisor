@@ -10,6 +10,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   const { songTitle, artist } = req.body as NewSongAdditionBody;
 
+  //Requests spotify for a song using a song title and the artist
   const result = await fetch(`https://api.spotify.com/v1/search?q=track:${songTitle}%20artist:${artist}&type=track&market=ES&limit=1&offset=0`, {
     method: 'GET',
 
@@ -24,19 +25,21 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   const data = await result.json();
 
+  //Breaking down information for song to be added to database
   const { tracks } = data as tracks;
   const { items } = tracks as SpotifySongData;
   const [{ id, artists, name, album }] = items as [songData];
   const { release_date } = album as spotSongRelease;
 
+  //This is creating a string that will contain all artists associated with the song
   let artistName = artists[0].name;
-
   for (let i = 1; i < artists.length; i++) {
     artistName = artistName + ", " + artists[i].name;
   }
 
-  //This is temporary till a better solution is decided. Spotify doesn't store songs with genres
-  const genre = "hello";
+  //This is temporary till a better solution is decided. 
+  //Spotify doesn't store songs with genres, just the album's genre
+  const genre = "music";
 
   await addSong(name, id, artistName, genre, release_date);
 

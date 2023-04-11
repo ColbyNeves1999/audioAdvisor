@@ -5,7 +5,7 @@ const userRepository = AppDataSource.getRepository(User);
 
 async function addUser(email: string, passwordHash: string): Promise<User> {
 
-  // Create the new user object
+  // Create the new user object and saves data
   let newUser = new User();
   newUser.email = email;
   newUser.passwordHash = passwordHash;
@@ -41,6 +41,7 @@ async function getUserById(userId: string): Promise<User | null> {
 }
 
 async function getUsersByViews(minViews: number): Promise<User[]> {
+
   const users = await userRepository
     .createQueryBuilder('user')
     .where('profileViews >= :minViews', { minViews }) // NOTES: the parameter `:minViews` must match the key name `minViews`
@@ -48,9 +49,11 @@ async function getUsersByViews(minViews: number): Promise<User[]> {
     .getMany();
 
   return users;
+
 }
 
 async function incrementProfileViews(userData: User): Promise<User> {
+
   const updatedUser = userData;
   updatedUser.profileViews += 1;
 
@@ -62,6 +65,7 @@ async function incrementProfileViews(userData: User): Promise<User> {
     .execute();
 
   return updatedUser;
+  
 }
 
 async function resetAllProfileViews(): Promise<void> {
