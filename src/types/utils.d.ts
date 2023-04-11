@@ -18,21 +18,32 @@ type SpotifyUserData = {
   id: string;
 };
 
+type NewUserId = {
+  userId: string;
+};
+////////////////////////////////////////////////////////////////////////////
+
+type spotArtName = {
+  name: string;
+};
+
+type spotSongRelease = {
+  release_date: string;
+}
+
 type songData = {
+  artists: [spotArtName];
   id: string;
   name: string;
-  artists: string[];
+  album: spotSongRelease;
 };
 
 type SpotifySongData = {
-  limit: number;
   items: [songData];
+  limit: number;
 };
 
 type tracks = {
   tracks: SpotifySongData;
 };
 
-type NewUserId = {
-  userId: string;
-};

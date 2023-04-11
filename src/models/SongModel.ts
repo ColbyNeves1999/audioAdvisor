@@ -3,7 +3,7 @@ import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
-async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: number): Promise<Song> {
+async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: string): Promise<Song> {
 
   // Create the new user object
   let newSong = new Song();

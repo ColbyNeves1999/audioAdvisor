@@ -50,8 +50,8 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  refreshAuth(user.refreshAuth, user.email);
-  user = await getUserByEmail(email);
+  //refreshAuth(user.refreshAuth, user.email);
+  //user = await getUserByEmail(email);
 
   req.session.authenticatedUser = {
     email: user.email,

@@ -19,6 +19,6 @@ export class Song {
   genre: string;
 
   @CreateDateColumn()
-  releaseYear: number;
+  releaseYear: string;
 
 }
