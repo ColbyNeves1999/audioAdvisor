@@ -79,11 +79,11 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
     const { access_token, refresh_token } = resJson as SpotifyTokenResponse;
 
-    //await storeAuth(access_token, refresh_token, req.session.authenticatedUser.email);
-    //const user = await getUserByEmail(req.session.authenticatedUser.email);
+    await storeAuth(access_token, refresh_token, req.session.authenticatedUser.email);
+    const user = await getUserByEmail(req.session.authenticatedUser.email);
     //THIS IS FOR TESTING THE LINE ABOVE IS FOR WHEN A FRONT END IS DEVELOPED
-    await storeAuth(access_token, refresh_token, "colby.neves@smail.astate.edu");
-    const user = await getUserByEmail("colby.neves@smail.astate.edu");
+    //await storeAuth(access_token, refresh_token, "colby.neves@smail.astate.edu");
+    //const user = await getUserByEmail("colby.neves@smail.astate.edu");
 
     user.accountAuthorized = true;
 
@@ -128,11 +128,11 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   await refreshAuth(access_token, req.session.authenticatedUser.email);
 
-  //const user = await getUserByEmail(req.session.authenticatedUser.email);
-  //req.session.authenticatedUser.authToken = user.spotifyAuth;
-  
-  const user = await getUserByEmail("colby.neves@smail.astate.edu");
+  const user = await getUserByEmail(req.session.authenticatedUser.email);
   req.session.authenticatedUser.authToken = user.spotifyAuth;
+
+  //const user = await getUserByEmail("colby.neves@smail.astate.edu");
+  //req.session.authenticatedUser.authToken = user.spotifyAuth;
 
   //COMMENT OUT. JUST FOR TESTING PURPOSES
   //Temporarily using so user just ends up at spotify
