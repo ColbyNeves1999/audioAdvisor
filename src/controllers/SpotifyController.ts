@@ -137,7 +137,7 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   //COMMENT OUT. JUST FOR TESTING PURPOSES
   //Temporarily using so user just ends up at spotify
   //Will rplace later
-  res.redirect('https://open.spotify.com/');
+  res.redirect('http://localhost:3000');
 
 }
 
