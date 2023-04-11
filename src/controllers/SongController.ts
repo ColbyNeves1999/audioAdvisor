@@ -24,7 +24,6 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   const data = await result.json();
 
-  console.log(data);
   const { tracks } = data as tracks;
   const { items } = tracks as SpotifySongData;
   const [{ id, artists, name, album }] = items as [songData];

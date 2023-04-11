@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
 import { addUser, getUserByEmail, setUserSpotId, getUserById, updateEmailAddress } from '../models/UserModel';
-import { refreshToken } from './SpotifyController';
 import { parseDatabaseError } from '../utils/db-utils';
 
 const { PORT } = process.env;
@@ -86,9 +85,6 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   if (!result.ok) {
     console.log(res.status);
   }
-
-  //const responseBodyTest = await result.text();
-  //console.log(responseBodyTest);
 
   const data = await result.json();
 

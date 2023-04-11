@@ -128,7 +128,10 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   await refreshAuth(access_token, req.session.authenticatedUser.email);
 
-  const user = await getUserByEmail(req.session.authenticatedUser.email);
+  //const user = await getUserByEmail(req.session.authenticatedUser.email);
+  //req.session.authenticatedUser.authToken = user.spotifyAuth;
+  
+  const user = await getUserByEmail("colby.neves@smail.astate.edu");
   req.session.authenticatedUser.authToken = user.spotifyAuth;
 
   //COMMENT OUT. JUST FOR TESTING PURPOSES
