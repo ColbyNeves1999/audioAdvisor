@@ -19,9 +19,10 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
-    const newUser = await addUser(email, passwordHash);
-    console.log(newUser);
-    res.sendStatus(201);
+    //const newUser = await addUser(email, passwordHash);
+    //console.log(newUser);
+    await addUser(email, passwordHash);
+    res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -58,10 +59,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
-  if (user.accountAuthorized === false) {
+  if (user.accountAuthorized === null) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
     return;
-  }else {
+  } else {
     res.redirect(`http://localhost:${PORT}/api/refreshToken`);
     return;
   }
