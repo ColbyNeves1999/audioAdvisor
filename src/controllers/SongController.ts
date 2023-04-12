@@ -28,7 +28,11 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   //Breaking down information for song to be added to database
   const { tracks } = data as tracks;
   const { items } = tracks as SpotifySongData;
-  const [{ id, artists, name, album }] = items as [songData];
+  let [{ name }] = items as [songData];
+  const songName = name;
+  const [{ id, artists, album }] = items as [songData];
+
+  ({ name } = album as spotSongRelease);
   const { release_date } = album as spotSongRelease;
 
   //This is creating a string that will contain all artists associated with the song
@@ -41,7 +45,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   //Spotify doesn't store songs with genres, just the album's genre
   const genre = "music";
 
-  await addSong(name, id, artistName, genre, release_date);
+  await addSong(songName, id, artistName, genre, release_date, name);
 
   res.sendStatus(200);
 
@@ -54,7 +58,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
     return;
   }
 
-  const { id } = req.body as songData;
+  const { id } = req.body as songDataByID;
 
   const result = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
     method: 'GET',
@@ -69,9 +73,22 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
   }
 
   const data = await result.json();
-  const { name } = data as songData;
+  let { name } = data as songDataByID;
+  const songName = name;
+  const { artists, album } = data as songDataByID;
+  ({ name } = album as spotSongReleaseByID);
+  const { release_date } = album as spotSongReleaseByID;
+  const genre = "music";
 
-  //await addSong(name, id, artistName, genre, release_date);
+  //This is creating a string that will contain all artists associated with the song
+  let artistName = artists[0].name;
+  for (let i = 1; i < artists.length; i++) {
+    artistName = artistName + ", " + artists[i].name;
+  }
+
+  await addSong(songName, id, artistName, genre, release_date, name);
+
+  res.sendStatus(200);
 
 }
 

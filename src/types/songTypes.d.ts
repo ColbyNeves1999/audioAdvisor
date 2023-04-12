@@ -41,6 +41,7 @@ type spotArtName = {
 
 type spotSongRelease = {
   release_date: string;
+  name: string;
 }
 
 type songData = {
@@ -57,4 +58,33 @@ type SpotifySongData = {
 
 type tracks = {
   tracks: SpotifySongData;
+};
+
+///////////////////////////////////
+////// Spotify song data by ID
+///////////////////////////////////
+
+type spotArtNameByID = {
+  name: string;
+};
+
+type spotSongReleaseByID = {
+  release_date: string;
+  name: string;
+};
+
+type songDataByID = {
+  artists: [spotArtNameByID];
+  id: string;
+  name: string;
+  album: spotSongReleaseByID;
+};
+
+type SpotifySongDataByID = {
+  items: songData;
+  limit: number;
+};
+
+type tracksByID = {
+  tracks: SpotifySongDataByID;
 };
