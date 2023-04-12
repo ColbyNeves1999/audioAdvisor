@@ -94,6 +94,11 @@ async function callBack(req: Request, res: Response): Promise<void> {
     user.accountAuthorized = true;
     await userRepository.save(user);
 
+    req.session.authenticatedUser.accountAuthorized = user.accountAuthorized;
+    req.session.authenticatedUser.userId = user.userId;
+    req.session.authenticatedUser.authToken = user.spotifyAuth;
+    req.session.authenticatedUser.refreshToken = user.refreshAuth;
+
     //sends user to main page once they have authentification token
     res.redirect('http://localhost:3000');
 
