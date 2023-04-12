@@ -1,11 +1,10 @@
 type playlistItems = {
-    items: [playlistTracks];
-};
-
+    items: [playlistTracks]
+}
 type playlistTracks = {
-    track: plalistSongID;
+    track: plalistSongData;
 };
 
-type plalistSongID = {
+type plalistSongData = {
     id: string;
 };
