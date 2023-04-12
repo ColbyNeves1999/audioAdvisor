@@ -55,7 +55,7 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
         for (let i = 1; i < artists.length; i++) {
             artistName = artistName + ", " + artists[i].name;
         }
-
+        console.log(songName);
         await addSong(songName, id, artistName, genre, release_date, name);
 
     }
