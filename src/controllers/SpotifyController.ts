@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Buffer } from 'buffer';
 import querystring from 'querystring';
 import { generateRandomString, refreshAuth, storeAuth } from '../models/SpotifyModel';
 import { getUserByEmail } from '../models/UserModel';
@@ -74,7 +75,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
       method: 'POST',
       body: myJSON,
       headers: {
-        'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')),
+        'Authorization': 'Basic ' + (Buffer.from(`${CLIENT_ID} + ':' + ${CLIENT_SECRET}`).toString('base64')),
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
