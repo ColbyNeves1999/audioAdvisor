@@ -75,7 +75,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
       method: 'POST',
       body: myJSON,
       headers: {
-        'Authorization': 'Basic ' + (Buffer.from(`${CLIENT_ID} + ':' + ${CLIENT_SECRET}`).toString('base64')),
+        'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ":" + CLIENT_SECRET).toString('base64')),
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     });
