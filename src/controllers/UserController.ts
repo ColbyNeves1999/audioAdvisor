@@ -22,7 +22,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     //const newUser = await addUser(email, passwordHash);
     //console.log(newUser);
     await addUser(email, passwordHash);
-    res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
+    res.redirect(`http://localhost:${PORT}/login`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -59,7 +59,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
-  if (user.accountAuthorized === null) {
+  if (req.session.authenticatedUser.authToken === null) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
     return;
   } else {
