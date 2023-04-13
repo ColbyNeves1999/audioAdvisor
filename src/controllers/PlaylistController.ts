@@ -4,6 +4,7 @@ import { addSongsFromPlaylist } from '../models/PlaylistModel';
 
 async function getSongsFromPlaylists(req: Request, res: Response): Promise<void> {
 
+    //makes sure the user is authorized to pull from spotify
     if (!req.session.authenticatedUser.authToken) {
         res.sendStatus(404);
         return;
@@ -28,10 +29,8 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     let { tracks } = data as playlistTracksGroup;
     let { items, next } = tracks as playlistItems;
-    //console.log(items);
-    await addSongsFromPlaylist(items, req.session.authenticatedUser.authToken, next);
 
-    
+    await addSongsFromPlaylist(items, req.session.authenticatedUser.authToken, next);    
 
     res.sendStatus(200);
 

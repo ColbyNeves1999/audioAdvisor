@@ -2,8 +2,10 @@ import { addSong } from './SongModel';
 
 async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, next: string): Promise<void> {
 
+  //Loops until there is no longer a another page of songs
   do{
 
+    //Loops through and adds every song reported by Spotify
     for (let i = 0; i < items.length; i++) {
 
       const songResult = await fetch(`https://api.spotify.com/v1/tracks/${items[i].track.id}`, {
@@ -18,6 +20,7 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
           return;
       }
 
+      //This is grabbing individual groupings of data from each page of songs
       const data = await songResult.json();
       let { name } = data as songDataByID;
       const { id } = data as songDataByID;
@@ -33,12 +36,11 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
           artistName = artistName + ", " + artists[i].name;
       }
 
-      //console.log(songName);
       await addSong(songName, id, artistName, genre, release_date, name);
 
     }
 
-    //This section checks to make sure the next set of songs is grabbed.
+    //This section checks to make sure the next set of songs from the playlist is grabbed
     if(next !== null){
 
       let result = await fetch(next, {
