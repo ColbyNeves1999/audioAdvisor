@@ -1,18 +1,66 @@
-/*import { AppDataSource } from '../dataSource';
-import { Song } from '../entities/Song';
+import { addSong } from './SongModel';
 
-const songRepository = AppDataSource.getRepository(Song);
+async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, next: string): Promise<void> {
 
-async function addSongsFromPlaylist(songIds: string): Promise<Song> {
+  do{
 
-    // Create the new user object
-    let newSong = new Song();
+    for (let i = 0; i < items.length; i++) {
 
-    // Then save it to the database
-    // NOTES: We reassign to `newUser` so we can access
-    // NOTES: the fields the database autogenerates (the id & default columns)
-    newSong = await songRepository.save(newSong);
+      const songResult = await fetch(`https://api.spotify.com/v1/tracks/${items[i].track.id}`, {
+        method: 'GET',
+
+        headers: {
+            'Authorization': 'Bearer ' + authToken,
+        }
+      });
+
+      if (!songResult.ok) {
+          return;
+      }
+
+      const data = await songResult.json();
+      let { name } = data as songDataByID;
+      const { id } = data as songDataByID;
+      const songName = name;
+      const { artists, album } = data as songDataByID;
+      ({ name } = album as spotSongReleaseByID);
+      const { release_date } = album as spotSongReleaseByID;
+      const genre = "music";
+
+      //This is creating a string that will contain all artists associated with the song
+      let artistName = artists[0].name;
+      for (let i = 1; i < artists.length; i++) {
+          artistName = artistName + ", " + artists[i].name;
+      }
+
+      //console.log(songName);
+      await addSong(songName, id, artistName, genre, release_date, name);
+
+    }
+
+    //This section checks to make sure the next set of songs is grabbed.
+    if(next !== null){
+
+      let result = await fetch(next, {
+        method: 'GET',
+
+        headers: {
+            'Authorization': 'Bearer ' + authToken,
+        }
+
+      });
+
+      if (!result.ok) {
+        return;
+      }
+
+      let data = await result.json();
+      ({ items, next } = data as playlistTracksGroup);
+
+    }
+
+  }while( next !== null )
   
-    return newSong;
-  
-  }*/
+}
+
+  export { addSongsFromPlaylist };

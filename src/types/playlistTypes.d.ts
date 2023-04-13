@@ -1,9 +1,13 @@
 type playlistTracksGroup = {
     tracks: playlistItems;
+    items: [playlistTracks];
+    next: string;
 };
 
 type playlistItems = {
-    items: [playlistTracks]
+    items: [playlistTracks];
+    total: number;
+    next: string;
 }
 type playlistTracks = {
     track: plalistSongData;
