@@ -3,7 +3,7 @@ import { addSong } from './SongModel';
 async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, next: string): Promise<void> {
 
   //Loops until there is no longer a another page of songs
-  do{
+  do {
 
     //Loops through and adds every song reported by Spotify
     for (let i = 0; i < items.length; i++) {
@@ -12,12 +12,12 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
         method: 'GET',
 
         headers: {
-            'Authorization': 'Bearer ' + authToken,
+          'Authorization': 'Bearer ' + authToken,
         }
       });
 
       if (!songResult.ok) {
-          return;
+        return;
       }
 
       //This is grabbing individual groupings of data from each page of songs
@@ -25,7 +25,7 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
       let { name } = data as songDataByID;
       const { id } = data as songDataByID;
       const songName = name;
-      const { artists, album } = data as songDataByID;
+      const { artists, album, preview_url } = data as songDataByID;
       ({ name } = album as spotSongReleaseByID);
       const { release_date } = album as spotSongReleaseByID;
       const genre = "music";
@@ -33,21 +33,21 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
       //This is creating a string that will contain all artists associated with the song
       let artistName = artists[0].name;
       for (let i = 1; i < artists.length; i++) {
-          artistName = artistName + ", " + artists[i].name;
+        artistName = artistName + ", " + artists[i].name;
       }
 
-      await addSong(songName, id, artistName, genre, release_date, name);
+      await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
     }
 
     //This section checks to make sure the next set of songs from the playlist is grabbed
-    if(next !== null){
+    if (next !== null) {
 
       let result = await fetch(next, {
         method: 'GET',
 
         headers: {
-            'Authorization': 'Bearer ' + authToken,
+          'Authorization': 'Bearer ' + authToken,
         }
 
       });
@@ -61,8 +61,8 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
 
     }
 
-  }while( next !== null )
-  
+  } while (next !== null)
+
 }
 
-  export { addSongsFromPlaylist };
+export { addSongsFromPlaylist };

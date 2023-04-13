@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, } from '../models/SongModel';
 
+//Get song and add it to database
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
@@ -30,7 +31,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   const { items } = tracks as SpotifySongData;
   let [{ name }] = items as [songData];
   const songName = name;
-  const [{ id, artists, album }] = items as [songData];
+  const [{ id, artists, album, preview_url }] = items as [songData];
 
   ({ name } = album as spotSongRelease);
   const { release_date } = album as spotSongRelease;
@@ -45,7 +46,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   //Spotify doesn't store songs with genres, just the album's genre
   const genre = "music";
 
-  await addSong(songName, id, artistName, genre, release_date, name);
+  await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
   res.sendStatus(200);
 
@@ -75,7 +76,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
   const data = await result.json();
   let { name } = data as songDataByID;
   const songName = name;
-  const { artists, album } = data as songDataByID;
+  const { artists, album, preview_url } = data as songDataByID;
   ({ name } = album as spotSongReleaseByID);
   const { release_date } = album as spotSongReleaseByID;
   const genre = "music";
@@ -86,11 +87,13 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
     artistName = artistName + ", " + artists[i].name;
   }
 
-  await addSong(songName, id, artistName, genre, release_date, name);
+  await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
   res.sendStatus(200);
 
 }
+
+//Get Song by Information
 
 async function getAlbum(req: Request, res: Response): Promise<void> {
   const { album } = req.body as NewAlbumRequestBody;

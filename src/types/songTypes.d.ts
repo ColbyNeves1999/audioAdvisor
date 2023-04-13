@@ -49,6 +49,7 @@ type songData = {
   id: string;
   name: string;
   album: spotSongRelease;
+  preview_url: string;
 };
 
 type SpotifySongData = {
@@ -78,6 +79,7 @@ type songDataByID = {
   id: string;
   name: string;
   album: spotSongReleaseByID;
+  preview_url: string;
 };
 
 type SpotifySongDataByID = {

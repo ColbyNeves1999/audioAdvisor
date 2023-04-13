@@ -18,6 +18,9 @@ export class Song {
   @Column({ default: null })
   genre: string;
 
+  @Column({ default: null })
+  preview: string;
+
   @CreateDateColumn()
   releaseYear: string;
 

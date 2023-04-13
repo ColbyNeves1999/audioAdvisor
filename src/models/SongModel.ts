@@ -3,7 +3,7 @@ import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
-async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: string, album: string): Promise<Song> {
+async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: string, album: string, songPreview: string): Promise<Song> {
 
   // Create the new user object
   let newSong = new Song();
@@ -13,6 +13,7 @@ async function addSong(songTitle: string, songId: string, artist: string, genre:
   newSong.genre = genre;
   newSong.releaseYear = releaseYear;
   newSong.album = album;
+  newSong.preview = songPreview;
 
   // Then save it to the database
   // NOTES: We reassign to `newUser` so we can access
@@ -20,9 +21,9 @@ async function addSong(songTitle: string, songId: string, artist: string, genre:
 
   const songInPlaylist = await getSongbyID(newSong.songID);
 
-  if(!songInPlaylist){
-  console.log(newSong.songTitle);
-  newSong = await songRepository.save(newSong);
+  if (!songInPlaylist) {
+    console.log(newSong.songTitle);
+    newSong = await songRepository.save(newSong);
   }
 
   return newSong;
