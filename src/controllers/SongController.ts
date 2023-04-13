@@ -3,7 +3,7 @@ import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, g
 
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
-  if (!req.session.authenticatedUser.authToken) {
+  if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
     res.sendStatus(404);
     return;
   }
@@ -53,7 +53,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
 async function getSongFromSpotifyById(req: Request, res: Response): Promise<void> {
 
-  if (!req.session.authenticatedUser.authToken) {
+  if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
     res.sendStatus(404);
     return;
   }

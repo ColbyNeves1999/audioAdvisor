@@ -113,6 +113,11 @@ async function callBack(req: Request, res: Response): Promise<void> {
 async function refreshToken(req: Request, res: Response): Promise<void> {
   var refresh_token = req.session.authenticatedUser.refreshToken as string || null;
 
+  if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken || !req.session.authenticatedUser.refreshToken) {
+    res.sendStatus(404);
+    return;
+  }
+
   var myObj = {
     grant_type: 'refresh_token',
     refresh_token: refresh_token,
