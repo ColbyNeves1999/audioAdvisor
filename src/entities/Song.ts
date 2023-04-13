@@ -6,7 +6,7 @@ export class Song {
   @PrimaryGeneratedColumn('uuid')
   songID: string;
 
-  @Column({ unique: true, default: null })
+  @Column({ default: null })
   songTitle: string;
 
   @Column({ default: null })
