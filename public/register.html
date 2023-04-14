@@ -16,12 +16,30 @@
       <div>
         <form method="POST" action="/api/users">
           <label for="email"></label>
-          <input type="email" name="email" id="email" placeholder="Email">
+          <input type="email" name="email" id="email" placeholder="Email" required>
           <label for="password"></label>
-          <input type="password" name="password" id="password" placeholder="Password">
+          <input type="password" name="password" id="password" placeholder="Password" required>
           <button>Create Account</button>
         </form>
       </div>
+      <div>
+        <form action="/login">
+          <h3>
+            <div>
+              <button>
+                Login
+              </button>
+            </div>
+          </h3>
+        </form>
+      </div>
+      <span>
+        <form action="/index">
+          <button>
+            Back to HomePage
+          </button>
+        </form>
+      </span>
     </section>
   </div>
 

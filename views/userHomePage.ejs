@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= user.email %> | Home Page</title>
+</head>
+<body>
+  <div>
+    <h1>
+      Welcome to you home page <%= user.email %>!
+    </h1>
+    <h1>
+      <%= user.email %>'s Songs
+      <% if (user.song.length === 0) { %>
+        <p>There are no songs yet.</p>
+        <% } else { %>
+        <ul>
+            <!-- <% for( const song of user.song ) { %>
+            <li>
+                <p><a href="/users/<%= song.user.userId %>"><%= song.user.email %></a></p>
+                <p><%= song.rating %>/5</p>
+                <p><%= song.songText %></p>
+            </li>
+            <% } %>
+        </ul>
+        <% } %> -->
+    </h1>
+  </div>
+</body>
+</html>
