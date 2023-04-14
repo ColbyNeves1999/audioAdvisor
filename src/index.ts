@@ -6,7 +6,7 @@ import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn, getSpotifyId } from './controllers/UserController';
 import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
 import { getSongFromSpotify, getSongFromSpotifyById } from './controllers/SongController';
-import { getSongsFromPlaylists } from './controllers/PlaylistController'
+import { getSongsFromPlaylists } from './controllers/PlaylistController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -15,6 +15,7 @@ const SQLiteStore = connectSqlite3(session);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { extensions: ['html'] }));
+app.set('view engine', 'ejs');
 
 app.use(
   session({
