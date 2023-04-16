@@ -1,12 +1,17 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
-import { addUser, getUserByEmail, setUserSpotId, getUserById, updateEmailAddress } from '../models/UserModel';
+import {
+  addUser,
+  getUserByEmail,
+  setUserSpotId,
+  getUserById,
+  updateEmailAddress,
+} from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 const { PORT } = process.env;
 
 async function registerUser(req: Request, res: Response): Promise<void> {
-
   const { email, password } = req.body as AuthRequest;
   const user = await getUserByEmail(email);
 
@@ -19,8 +24,8 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
-    //const newUser = await addUser(email, passwordHash);
-    //console.log(newUser);
+    // const newUser = await addUser(email, passwordHash);
+    // console.log(newUser);
     await addUser(email, passwordHash);
     res.redirect(`http://localhost:${PORT}/login`);
   } catch (err) {
@@ -28,7 +33,6 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     const databaseErrorMessage = parseDatabaseError(err);
     res.status(500).json(databaseErrorMessage);
   }
-
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
@@ -36,10 +40,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
   const { email, password } = req.body as AuthRequest;
 
-  let user = await getUserByEmail(email);
+  const user = await getUserByEmail(email);
 
   if (!user) {
-    res.sendStatus(404); // 404 Not Found 
+    res.sendStatus(404); // 404 Not Found
     return;
   }
 
@@ -59,18 +63,17 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
+  // res.render('userHomePage', { user });
+
+  // The following is commented out until the redirect URI is working properly
   if (req.session.authenticatedUser.authToken === null) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
-    return;
   } else {
     res.redirect(`http://localhost:${PORT}/api/refreshToken`);
-    return;
   }
-
 }
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
-
   if (!req.session.authenticatedUser.authToken) {
     res.sendStatus(404);
     return;
@@ -79,8 +82,8 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   const result = await fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer ' + req.session.authenticatedUser.authToken
-    }
+      Authorization: `Bearer ${req.session.authenticatedUser.authToken}`,
+    },
   });
 
   if (!result.ok) {
@@ -94,7 +97,6 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   await setUserSpotId(req.session.authenticatedUser.userId, id);
 
   res.sendStatus(200);
-
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
@@ -133,6 +135,5 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 
   res.sendStatus(200);
 }
-
 
 export { registerUser, logIn, getSpotifyId, updateUserEmail };
