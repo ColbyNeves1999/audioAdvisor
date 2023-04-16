@@ -11,6 +11,7 @@ declare module 'express-session' {
       userId: string;
       authToken: string;
       refreshToken: string;
+      spotifyId: string;
     };
     isLoggedIn: boolean;
     logInAttempts: number;

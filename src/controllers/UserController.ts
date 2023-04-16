@@ -60,6 +60,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     userId: user.userId,
     authToken: user.spotifyAuth,
     refreshToken: user.refreshAuth,
+    spotifyId: user.spotifyId,
   };
   req.session.isLoggedIn = true;
 
