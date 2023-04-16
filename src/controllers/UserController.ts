@@ -96,7 +96,7 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
   await setUserSpotId(req.session.authenticatedUser.userId, id);
 
-  res.sendStatus(200);
+  res.status(200).redirect(`http://localhost:3000`);
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {

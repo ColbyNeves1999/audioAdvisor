@@ -10,6 +10,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 var stateKey = 'spotify_auth_state';
+const { PORT } = process.env;
 
 const userRepository = AppDataSource.getRepository(User);
 /**
@@ -101,7 +102,8 @@ async function callBack(req: Request, res: Response): Promise<void> {
     req.session.authenticatedUser.refreshToken = user.refreshAuth;
 
     //sends user to main page once they have authentification token
-    res.redirect('http://localhost:3000');
+    //res.send(200).redirect('http://localhost:3000');
+    res.redirect(`http://localhost:${PORT}/api/spotifyId`);
 
   }
 
