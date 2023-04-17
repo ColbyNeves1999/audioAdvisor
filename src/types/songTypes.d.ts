@@ -101,4 +101,8 @@ type userPlaylistItems = {
 
 type userPlaylistIds = {
   id: string;
-}
+};
+
+type songRow = {
+  row: number;
+};

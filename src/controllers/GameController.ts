@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import { getGamesPlayed, updateGamesWon, updateGamesPlayed, getUserById, getGamesWon } from '../models/GameModel';
-//import { getSongDatabaseSize, getRandomInt } from '../models/SongModel';
+import { getSongDatabaseSize, getRandomInt } from '../models/SongModel';
+import { AppDataSource } from '../dataSource';
+import { Song } from '../entities/Song';
+
+const songRepository = AppDataSource.getRepository(Song);
 
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;
@@ -30,11 +34,12 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
 
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
   
-  //const databaseSize = getSongDatabaseSize();
+  const databaseSize = getSongDatabaseSize();
+  let urlArray = new Array(10);
 
-  //const lengthArray = await getRandomInt(await databaseSize);
+  const numArray = await getRandomInt(await databaseSize);
 
-
+  //const test = await songRepository.getElementById("_row")
 
 }
 
