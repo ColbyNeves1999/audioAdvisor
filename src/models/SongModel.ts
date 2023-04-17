@@ -90,4 +90,32 @@ async function getSongsByYear(releaseDate: number): Promise<Song[]> {
   return songs;
 }
 
-export { addSong, getSongByAlbum, getSongbyGenre, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID };
+async function getSongDatabaseSize(): Promise<number | null>{
+
+  const songSize = await songRepository.count();
+
+  return songSize;
+}
+
+function getRandomInt(max: number): number[] {
+
+  let numArray = new Array(10).fill(-1);
+
+  for(let i = 0; i < 10; i++){
+
+    let numTemp = Math.floor(Math.random() * max);
+    
+    while(numArray.includes(numTemp)){
+
+      numTemp = Math.floor(Math.random() * max);
+
+    }
+
+    numArray[i] = numTemp;
+
+  }
+
+  return numArray;
+}
+
+export { addSong, getSongByAlbum, getSongbyGenre, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID, getSongDatabaseSize, getRandomInt };

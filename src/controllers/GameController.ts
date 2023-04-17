@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getGamesPlayed, updateGamesWon, updateGamesPlayed, getUserById, getGamesWon } from '../models/GameModel';
+//import { getSongDatabaseSize, getRandomInt } from '../models/SongModel';
 
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;
@@ -25,6 +26,16 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
   }
 
   res.sendStatus(200); // 200 Ok
+}
+
+async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
+  
+  //const databaseSize = getSongDatabaseSize();
+
+  //const lengthArray = await getRandomInt(await databaseSize);
+
+
+
 }
 
 async function setNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -59,4 +70,4 @@ async function setNumGamesWon(req: Request, res: Response): Promise<void> {
   res.json(userGames);
 }
 
-export { getNumGamesPlayed, getNumGamesWon, setNumGamesPlayed, setNumGamesWon };
+export { getNumGamesPlayed, getNumGamesWon, setNumGamesPlayed, setNumGamesWon, getSongUrlsForGame };
