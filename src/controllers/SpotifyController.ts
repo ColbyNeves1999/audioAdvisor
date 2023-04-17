@@ -5,6 +5,7 @@ import { generateRandomString, refreshAuth, storeAuth } from '../models/SpotifyM
 import { getUserByEmail } from '../models/UserModel';
 import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
+import { decrypt } from '../utils/encrypt';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -98,8 +99,8 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
     req.session.authenticatedUser.accountAuthorized = user.accountAuthorized;
     req.session.authenticatedUser.userId = user.userId;
-    req.session.authenticatedUser.authToken = user.spotifyAuth;
-    req.session.authenticatedUser.refreshToken = user.refreshAuth;
+    req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
+    req.session.authenticatedUser.refreshToken = decrypt(user.refreshAuth);
 
     //sends user to main page once they have authentification token
     //res.send(200).redirect('http://localhost:3000');
@@ -113,7 +114,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
 //Refreshing a token from spotify
 async function refreshToken(req: Request, res: Response): Promise<void> {
-  var refresh_token = req.session.authenticatedUser.refreshToken as string || null;
+  var refresh_token = decrypt(req.session.authenticatedUser.refreshToken) as string || null;
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken || !req.session.authenticatedUser.refreshToken) {
     res.sendStatus(404);
@@ -150,7 +151,7 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   //Makes sure the current user gets the newest authentification code
   const user = await getUserByEmail(req.session.authenticatedUser.email);
-  req.session.authenticatedUser.authToken = user.spotifyAuth;
+  req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
 
   //const user = await getUserByEmail("colby.neves@smail.astate.edu");
   //req.session.authenticatedUser.authToken = user.spotifyAuth;

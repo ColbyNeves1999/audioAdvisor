@@ -1,5 +1,6 @@
 import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
+import { encrypt } from '../utils/encrypt';
 
 const userRepository = AppDataSource.getRepository(User);
 
@@ -15,7 +16,7 @@ function generateRandomString(length: number) {
 
 async function refreshAuth(authCode: string, email: string): Promise<string> {
   let thisUser = await userRepository.findOne({ where: { email } }) as User;
-  thisUser.spotifyAuth = authCode;
+  thisUser.spotifyAuth = encrypt(authCode);
 
   thisUser = await userRepository.save(thisUser);
   return thisUser.spotifyAuth;
@@ -23,8 +24,8 @@ async function refreshAuth(authCode: string, email: string): Promise<string> {
 
 async function storeAuth(authCode: string, refreshCode: string, email: string): Promise<void> {
   let thisUser = await userRepository.findOne({ where: { email } }) as User;
-  thisUser.spotifyAuth = authCode;
-  thisUser.refreshAuth = refreshCode;
+  thisUser.spotifyAuth = encrypt(authCode);
+  thisUser.refreshAuth = encrypt(refreshCode);
 
   thisUser = await userRepository.save(thisUser);
 }
