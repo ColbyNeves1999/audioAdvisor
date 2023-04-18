@@ -37,35 +37,45 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
   const databaseSize = getSongDatabaseSize();
   let urlArray = new Array(10);
 
+  for(let i = 0; i < 10; i++){
+
+    urlArray[i] = new Array(2);
+    
+  }
+
   const numArray = await getRandomInt(await databaseSize);
 
   for (let i = 0; i < 10; i++) {
 
-    const crumb = numArray[i];
-    const test = await songRepository
+    const rowValues = numArray[i];
+    const results = await songRepository
       .createQueryBuilder('song')
-      .where('rowid = :crumb', { crumb })
+      .where('rowid = :rowValues', { rowValues })
       .getOne();
 
-    const { preview } = test as songRowData;
+    const { preview, songID} = results as songRowData;
     if (!preview || urlArray.includes(preview)) {
 
-      console.log(numArray[i]);
+      //console.log(songID);
+      //console.log(numArray[i]);
       numArray[i] = numArray[i] + 1;
       i = i - 1;
 
     } else {
-      urlArray[i] = preview;
+      urlArray[i][0] = preview;
+      urlArray[i][1] = songID;
     }
 
   }
 
-  console.log("I AM HERE");
-  for (let i = 0; i < 10; i++) {
+  for(let i = 0; i < 10; i++){
 
-    console.log(urlArray[i]);
+    console.log("URL:", urlArray[i][0]);
+    console.log("ID:", urlArray[i][1])
 
   }
+
+  res.sendStatus(200); // 200 Ok
 
 }
 
