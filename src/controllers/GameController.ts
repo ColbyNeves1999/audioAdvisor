@@ -33,13 +33,39 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
 }
 
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
-  
+
   const databaseSize = getSongDatabaseSize();
   let urlArray = new Array(10);
 
   const numArray = await getRandomInt(await databaseSize);
 
-  //const test = await songRepository.getElementById("_row")
+  for (let i = 0; i < 10; i++) {
+
+    const crumb = numArray[i];
+    const test = await songRepository
+      .createQueryBuilder('song')
+      .where('rowid = :crumb', { crumb })
+      .getOne();
+
+    const { preview } = test as songRowData;
+    if (!preview || urlArray.includes(preview)) {
+
+      console.log(numArray[i]);
+      numArray[i] = numArray[i] + 1;
+      i = i - 1;
+
+    } else {
+      urlArray[i] = preview;
+    }
+
+  }
+
+  console.log("I AM HERE");
+  for (let i = 0; i < 10; i++) {
+
+    console.log(urlArray[i]);
+
+  }
 
 }
 

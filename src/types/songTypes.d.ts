@@ -103,6 +103,16 @@ type userPlaylistIds = {
   id: string;
 };
 
-type songRow = {
-  row: number;
+///////////////////////////////////
+////// Database Information
+///////////////////////////////////
+
+type myRow = {
+  Song: songRowData
 };
+
+type songRowData = {
+  preview: string;
+
+};
+
