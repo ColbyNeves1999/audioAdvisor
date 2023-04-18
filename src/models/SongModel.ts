@@ -90,7 +90,7 @@ async function getSongsByYear(releaseDate: number): Promise<Song[]> {
   return songs;
 }
 
-async function getSongDatabaseSize(): Promise<number | null>{
+async function getSongDatabaseSize(): Promise<number | null> {
 
   const songSize = await songRepository.count();
 
@@ -101,11 +101,11 @@ function getRandomInt(max: number): number[] {
 
   let numArray = new Array(10).fill(-1);
 
-  for(let i = 0; i < 10; i++){
+  for (let i = 0; i < 10; i++) {
 
     let numTemp = Math.floor(Math.random() * max);
-    
-    while(numArray.includes(numTemp)){
+
+    while (numArray.includes(numTemp)) {
 
       numTemp = Math.floor(Math.random() * max);
 
@@ -118,4 +118,9 @@ function getRandomInt(max: number): number[] {
   return numArray;
 }
 
-export { addSong, getSongByAlbum, getSongbyGenre, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID, getSongDatabaseSize, getRandomInt };
+async function getSongs(): Promise<Song[]> {
+  // function gets an array of all the songs in the database
+  return await songRepository.find();
+}
+
+export { addSong, getSongByAlbum, getSongbyGenre, getSongbyArtist, getSongbyTitle, getSongsByYear, getSongbyID, getSongDatabaseSize, getRandomInt, getSongs };
