@@ -72,6 +72,7 @@ type spotArtNameByID = {
 type spotSongReleaseByID = {
   release_date: string;
   name: string;
+  genres: [string];
 };
 
 type songDataByID = {
