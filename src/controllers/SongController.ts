@@ -176,12 +176,12 @@ async function getSongsGenre(req: Request, res: Response): Promise<void> {
 async function getAllSongs(req: Request, res: Response): Promise<void> {
   // Don't send back the raw data. Instead render it with EJS
 
-  const songs = await getSongs();
-  console.log(songs)
+  const song = await getSongs();
+  //console.log(song)
   //songPage is where you're displaying all the songs
-  //res.render('songPage', { songs });
-  res.sendStatus(200);
-  return;
+  res.render('songPage', { song });
+  //res.sendStatus(200);
+  //return;
 }
 
 export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById, getAllSongs };

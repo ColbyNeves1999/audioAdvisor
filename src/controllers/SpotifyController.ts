@@ -157,7 +157,8 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   //req.session.authenticatedUser.authToken = user.spotifyAuth;
 
   //Sends user to main page upon successful login
-  res.redirect('http://localhost:3000');
+  //res.redirect('http://localhost:3000');
+  res.render('userHomePage', { user });
 
 }
 

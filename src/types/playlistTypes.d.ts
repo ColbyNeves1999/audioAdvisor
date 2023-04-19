@@ -16,3 +16,16 @@ type playlistTracks = {
 type plalistSongData = {
     id: string;
 };
+
+///////////////////////////////////
+////// Spotify song from User's Playlists
+///////////////////////////////////
+
+type userPlaylistItems = {
+    items: [userPlaylistIds];
+
+};
+
+type userPlaylistIds = {
+    id: string;
+};

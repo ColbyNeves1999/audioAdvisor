@@ -72,6 +72,7 @@ type spotArtNameByID = {
 type spotSongReleaseByID = {
   release_date: string;
   name: string;
+  genres: [string];
 };
 
 type songDataByID = {
@@ -89,18 +90,6 @@ type SpotifySongDataByID = {
 
 type tracksByID = {
   tracks: SpotifySongDataByID;
-};
-
-///////////////////////////////////
-////// Spotify song from User's Playlists
-///////////////////////////////////
-
-type userPlaylistItems = {
-  items: [userPlaylistIds];
-};
-
-type userPlaylistIds = {
-  id: string;
 };
 
 ///////////////////////////////////

@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= user.email.split('@')[0] %> | Home Page</title>
+  <meta http-equiv="refresh" content="3600">
+  <title>
+    <%= user.email.split('@')[0] %> | Home Page
+  </title>
 </head>
+
 <body>
   <span>
     <h1>
       Welcome to your home page <%= user.email.split('@')[0] %>!
     </h1>
   </span>
+  <form action="/api/test" method="GET">
+    <button>Get All Songs on AudioAdvisor</button>
+  </form>
   <div>
-    Songs
-    <ul>
 
-        <span> This will be the song title
-          <audio id="my-audio" src="https://p.scdn.co/mp3-preview/246e9dc1fb2676bdacceaa564e46967ed000afef?cid=b600ddf7cdc34759b5e44a10408ef18f"
-          preload="audio">
-          </audio>
-          <button class="playButton" onclick="toggleSong()">Play Song</button>
-        </span>
-        <div id="audio-container"></div>
-        <script>
-          let audio = document.getElementById('my-audio');
-          audio.src = 'https://p.scdn.co/mp3-preview/246e9dc1fb2676bdacceaa564e46967ed000afef?cid=b600ddf7cdc34759b5e44a10408ef18f';
-
-          function toggleSong() {
-            if (audio.paused) {
-              audio.play();
-              document.getElementById('play-button').innerText = 'Pause Song';
-            } else {
-              audio.pause();
-              document.getElementById('play-button').innerText = 'Play Song';
-            }
-          }
-        </script>
-
-    </ul>
-  </div>
+    <div>
+      <form action="/api/updateEmail" method="POST">
+        Update your email here
+        <label for="email"></label>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+        <!-- <form action="" method="get"></form> -->
+        <button>Update Email</button>
+      </form>
+    </div>
 </body>
+
 </html>

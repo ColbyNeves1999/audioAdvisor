@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="3600">
+    <title>Document</title>
+</head>
+
+<body>
+    Songs
+
+    <ul>
+
+        <% for (let i=0; i < song.length; i++) { %>
+            <% if (!song[i].preview) { %>
+                <span>
+                    <%= song[i].songTitle %>
+                        <button class="playButton">No Preview Available</button>
+                        <% } else { %>
+                            <span>
+                                <%= song[i].songTitle %>
+                                    <audio id="myAudio" src=<%=song[i].preview %>
+                                        preload="audio">
+                                    </audio>
+                                    <button class="playButton" onclick="toggleSong()">Play Song</button>
+                            </span>
+                            <% } %>
+
+
+                                <div id="audioContainer"></div>
+                                <script>
+                                    let audio = document.getElementById('myAudio');
+                                    audio.src = song[i].preview;
+                                    function toggleSong() {
+                                        if (audio.paused) {
+                                            audio.play();
+                                            document.getElementById('playButton').innerText = 'Pause Song';
+                                        } else {
+                                            audio.pause();
+                                            document.getElementById('playButton').innerText = 'Play Song';
+                                        }
+                                    }
+                                </script>
+
+                                <% } %>
+
+    </ul>
+
+
+    </div>
+</body>
+
+</html>

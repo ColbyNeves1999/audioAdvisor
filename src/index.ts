@@ -8,6 +8,7 @@ import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyContr
 import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './controllers/SongController';
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
 import { getSongUrlsForGame } from './controllers/GameController';
+import { validateLoginBody, validateNewUserBody } from '../views/authValidators';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -31,8 +32,8 @@ app.use(
 
 app.use(express.json());
 
-app.post('/api/users', registerUser); // Create an account
-app.post('/api/login', logIn); // Log in to an account
+app.post('/api/users', validateNewUserBody, registerUser); // Create an account
+app.post('/api/login', validateLoginBody, logIn); // Log in to an account
 app.get('/api/spotifyLogin', spotifyLogin); // Logs in to and authorizes spotify access
 app.get('/api/callBack', callBack);
 app.get('/api/refreshToken', refreshToken);
