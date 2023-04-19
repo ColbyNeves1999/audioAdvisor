@@ -65,4 +65,27 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
 
 }
 
-export { addSongsFromPlaylist };
+async function fetchFromPlaylists(playlistId: string, userToken: string): Promise<void> {
+
+  let result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+    method: 'GET',
+
+    headers: {
+      'Authorization': 'Bearer ' + userToken,
+    }
+  });
+
+  if (!result.ok) {
+    return;
+  }
+
+  let data = await result.json();
+
+  let { tracks } = data as playlistTracksGroup;
+  let { items, next } = tracks as playlistItems;
+
+  await addSongsFromPlaylist(items, userToken, next);
+
+}
+
+export { addSongsFromPlaylist, fetchFromPlaylists };

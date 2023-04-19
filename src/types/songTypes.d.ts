@@ -90,3 +90,29 @@ type SpotifySongDataByID = {
 type tracksByID = {
   tracks: SpotifySongDataByID;
 };
+
+///////////////////////////////////
+////// Spotify song from User's Playlists
+///////////////////////////////////
+
+type userPlaylistItems = {
+  items: [userPlaylistIds];
+};
+
+type userPlaylistIds = {
+  id: string;
+};
+
+///////////////////////////////////
+////// Database Information
+///////////////////////////////////
+
+type myRow = {
+  Song: songRowData
+};
+
+type songRowData = {
+  preview: string;
+  songID: string;
+};
+

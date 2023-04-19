@@ -5,8 +5,9 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn, getSpotifyId } from './controllers/UserController';
 import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
-import { getSongFromSpotify, getSongFromSpotifyById } from './controllers/SongController';
-import { getSongsFromPlaylists } from './controllers/PlaylistController';
+import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './controllers/SongController';
+import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
+import { getSongUrlsForGame } from './controllers/GameController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -39,6 +40,9 @@ app.get('/api/spotifyId', getSpotifyId);
 app.get('/api/getSong', getSongFromSpotify);
 app.get('/api/songBySpotId', getSongFromSpotifyById);
 app.get('/api/Playlists', getSongsFromPlaylists);
+app.get('/api/usersPlaylists', getUsersSpotifyPlaylists);
+app.get('/api/getDatabaseSongs', getSongUrlsForGame);
+app.get('/api/test', getAllSongs);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

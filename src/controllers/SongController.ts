@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, } from '../models/SongModel';
+import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
 
 //Get song and add it to database
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
@@ -173,4 +173,15 @@ async function getSongsGenre(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
-export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById };
+async function getAllSongs(req: Request, res: Response): Promise<void> {
+  // Don't send back the raw data. Instead render it with EJS
+
+  const songs = await getSongs();
+  console.log(songs)
+  //songPage is where you're displaying all the songs
+  //res.render('songPage', { songs });
+  res.sendStatus(200);
+  return;
+}
+
+export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById, getAllSongs };
