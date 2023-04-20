@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { makeValidator } from '../utils/makeValidator';
 
+//Makes sure that the email for new users is kept consistent
 const newUserSchema = Joi.object({
     email: Joi.string()
         .email()
@@ -13,6 +14,8 @@ const newUserSchema = Joi.object({
 });
 
 const validateNewUserBody = makeValidator(newUserSchema, 'body');
+
+//Makes sure that the email for logging in users is kept consistent
 
 const loginSchema = Joi.object({
     email: Joi.string()

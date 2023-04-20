@@ -19,6 +19,7 @@ async function addUser(email: string, passwordHash: string): Promise<User> {
 
 }
 
+//Helps stored the recieved Spotify ID
 async function setUserSpotId(userId: string, spotId: string): Promise<void> {
 
   let user = await getUserById(userId);

@@ -6,6 +6,7 @@ import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
+//Retrieves the user's number of games played
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;
 
@@ -19,6 +20,7 @@ async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
+//Retrieves the user's number of games won
 async function getNumGamesWon(req: Request, res: Response): Promise<void> {
   const { gamesWon } = req.body as NewGamesWonRequestBody;
 
@@ -32,6 +34,7 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
+//Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
 
   const databaseSize = getSongDatabaseSize();
@@ -45,6 +48,7 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
 
   const numArray = await getRandomInt(await databaseSize);
 
+  //Grabs 10 random URLs based on the generated numbers
   for (let i = 0; i < 10; i++) {
 
     const rowValues = numArray[i];
@@ -53,31 +57,25 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
       .where('rowid = :rowValues', { rowValues })
       .getOne();
 
-    const { preview, songID} = results as songRowData;
+    console.log(results);
+
+    
+    const { preview } = results as songRowData;
+
+    //Saves song data so it's more readily available
+    //Also prevents null and duplicate results
     if (!preview || urlArray.includes(preview)) {
 
-      //console.log(songID);
-      //console.log(numArray[i]);
       numArray[i] = numArray[i] + 1;
       i = i - 1;
 
     } else {
       urlArray[i][0] = preview;
-      urlArray[i][1] = songID;
+      urlArray[i][1] = results;
     }
 
   }
 
-  for(let i = 0; i < 10; i++){
-
-    console.log("URL:", urlArray[i][0]);
-    console.log("ID:", urlArray[i][1])
-
-  }
-
-  
-
-  //res.sendStatus(200); // 200 Ok
   res.render('gamePage', { urlArray });
 
 }

@@ -1,5 +1,6 @@
 import { addSong } from './SongModel';
 
+//Recieves playlist data to add songs from said playlists
 async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, next: string): Promise<void> {
 
   //Loops until there is no longer a another page of songs
@@ -65,6 +66,7 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
 
 }
 
+//Requests a playlist's data from Spotify
 async function fetchFromPlaylists(playlistId: string, userToken: string): Promise<void> {
 
   let result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {

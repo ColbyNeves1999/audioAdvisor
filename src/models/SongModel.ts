@@ -5,7 +5,7 @@ const songRepository = AppDataSource.getRepository(Song);
 
 async function addSong(songTitle: string, songId: string, artist: string, genre: string, releaseYear: string, album: string, songPreview: string): Promise<Song> {
 
-  // Create the new user object
+  // Create the new song object and saves all the incoming data for it
   let newSong = new Song();
   newSong.songID = songId;
   newSong.songTitle = songTitle;
@@ -16,8 +16,7 @@ async function addSong(songTitle: string, songId: string, artist: string, genre:
   newSong.preview = songPreview;
 
   // Then save it to the database
-  // NOTES: We reassign to `newUser` so we can access
-  // NOTES: the fields the database autogenerates (the id & default columns)
+  // NOTES: We reassign to `newSong` so we can access
 
   const songInPlaylist = await getSongbyID(newSong.songID);
 
@@ -97,10 +96,13 @@ async function getSongDatabaseSize(): Promise<number | null> {
   return songSize;
 }
 
+//A function intended to be used with the audioAdvisor game
 function getRandomInt(max: number): number[] {
 
+  //Fills the array(10) with -1 to make sure no unintentional matches happen
   let numArray = new Array(10).fill(-1);
 
+  //The list is maxing out at 10
   for (let i = 0; i < 10; i++) {
 
     let numTemp = Math.floor(Math.random() * max);

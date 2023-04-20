@@ -64,9 +64,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
-  // res.render('userHomePage', { user });
-
-  // The following is commented out until the redirect URI is working properly
+  //Redirects the user to make sure they get a current authorization token
   if (req.session.authenticatedUser.authToken === null) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
   } else {
@@ -75,11 +73,13 @@ async function logIn(req: Request, res: Response): Promise<void> {
 }
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
+  
   if (!req.session.authenticatedUser.authToken) {
     res.sendStatus(404);
     return;
   }
 
+  //Requests the spotifyID of the user's authorized Spotify account
   const result = await fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers: {
@@ -96,8 +96,11 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   const { id } = data as SpotifyUserData;
 
   await setUserSpotId(req.session.authenticatedUser.userId, id);
+  const user = await getUserByEmail(req.session.authenticatedUser.email);
 
-  res.status(200).redirect(`http://localhost:3000`);
+  //Makes sure the user ends up back at their homepage afterwards
+  res.render('userHomePage', { user });
+
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {

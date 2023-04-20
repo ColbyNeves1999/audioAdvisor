@@ -84,9 +84,6 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
     const resJson = await fetchResponse.json();
 
-    //Used to troubleshoot responses
-    //console.log(resJson);
-
     const { access_token, refresh_token } = resJson as SpotifyTokenResponse;
 
     //Stores user authentification token
@@ -102,8 +99,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
     req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
     req.session.authenticatedUser.refreshToken = decrypt(user.refreshAuth);
 
-    //sends user to main page once they have authentification token
-    //res.send(200).redirect('http://localhost:3000');
+    //sends user to get their spotify ID
     res.redirect(`http://localhost:${PORT}/api/spotifyId`);
 
   }
@@ -142,9 +138,6 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   const resJson = await fetchResponse.json();
 
-  //Used to troubleshoot responses
-  //console.log(resJson);
-
   //Refreshes authentification code and saves it for the user.
   const { access_token } = resJson as SpotifyTokenResponse;
   await refreshAuth(access_token, req.session.authenticatedUser.email);
@@ -153,11 +146,7 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(req.session.authenticatedUser.email);
   req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
 
-  //const user = await getUserByEmail("colby.neves@smail.astate.edu");
-  //req.session.authenticatedUser.authToken = user.spotifyAuth;
-
-  //Sends user to main page upon successful login
-  //res.redirect('http://localhost:3000');
+  //Sends User to their ID homepage upon completion
   res.render('userHomePage', { user });
 
 }

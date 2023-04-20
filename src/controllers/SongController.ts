@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
 
-//Get song and add it to database
+//Gets a song from spotify based on it's title and artist(s)
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
@@ -43,7 +43,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   }
 
   //This is temporary till a better solution is decided. 
-  //Spotify doesn't store songs with genres, just the album's genre
+  //Spotify doesn't store songs with genres
   const genre = "music";
 
   await addSong(songName, id, artistName, genre, release_date, name, preview_url);
@@ -52,6 +52,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
 }
 
+//Gets a song from spotify based on it's song ID
 async function getSongFromSpotifyById(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
@@ -61,6 +62,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
 
   const { id } = req.body as songDataByID;
 
+  //Requests spotify for a song using an ID
   const result = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
     method: 'GET',
 
@@ -73,6 +75,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
     console.log(res.status);
   }
 
+  //Breaking down information for song to be added to database
   const data = await result.json();
   let { name } = data as songDataByID;
   const songName = name;
@@ -94,7 +97,6 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
 }
 
 //Get Song by Information
-
 async function getAlbum(req: Request, res: Response): Promise<void> {
   const { album } = req.body as NewAlbumRequestBody;
 
