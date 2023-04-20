@@ -6,14 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="3600">
-    <title>Document</title>
+    <title> Song Data Base | AudioAdvisor</title>
 </head>
 
 <body>
-    Songs
-
-    <ul>
-
+    Song Data Base
+    <ol>
         <% for (let i=0; i < song.length; i++) { %>
             <% if (!song[i].preview) { %>
                 <span>
@@ -22,33 +20,33 @@
                         <% } else { %>
                             <span>
                                 <%= song[i].songTitle %>
-                                    <audio id="myAudio" src=<%=song[i].preview %>
-                                        preload="audio">
-                                    </audio>
-                                    <button class="playButton" onclick="toggleSong()">Play Song</button>
+                                    <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
+                                    <button class="playButton" onclick="toggleSong(<%= i %>)">Play/Pause</button>
                             </span>
                             <% } %>
 
 
                                 <div id="audioContainer"></div>
                                 <script>
-                                    let audio = document.getElementById('myAudio');
-                                    audio.src = song[i].preview;
-                                    function toggleSong() {
+                                    function toggleSong(index) {
+                                        console.log(index);
+                                        let audio = document.getElementById('audio' + index);
+                                        let button = document.getElementById('button' + index);
                                         if (audio.paused) {
-                                            audio.play();
-                                            document.getElementById('playButton').innerText = 'Pause Song';
+                                            document.querySelectorAll('audio').forEach(allSongs => allSongs.pause());
+                                            setTimeout(() => { audio.play(); }, 500);
+                                            button.innerText = 'Pause Song';
                                         } else {
                                             audio.pause();
-                                            document.getElementById('playButton').innerText = 'Play Song';
+                                            audio.currentTime = 0;
+                                            button.innerText = 'Play Song';
                                         }
                                     }
                                 </script>
-
                                 <% } %>
 
-    </ul>
 
+    </ol>
 
     </div>
 </body>

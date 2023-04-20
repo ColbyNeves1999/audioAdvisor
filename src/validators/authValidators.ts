@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { makeValidator } from '../src/utils/makeValidator';
+import { makeValidator } from '../utils/makeValidator';
 
 const newUserSchema = Joi.object({
     email: Joi.string()
