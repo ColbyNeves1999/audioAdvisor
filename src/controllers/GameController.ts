@@ -75,7 +75,10 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
 
   }
 
-  res.sendStatus(200); // 200 Ok
+  
+
+  //res.sendStatus(200); // 200 Ok
+  res.render('gamePage', { urlArray });
 
 }
 

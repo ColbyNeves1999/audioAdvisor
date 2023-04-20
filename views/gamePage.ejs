@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Page | AudioAdvisor</title>
+</head>
+<body>
+  <ul>
+    <% for (let i = 0; i < urlArray.length; i++) { %>
+      <li>
+        <p>Song ID: <%= urlArray[i][1] %></p>
+        <audio id="audio<%= i %>" src="<%=urlArray[i][0] %>" preload="audio"></audio>
+        <button id="button<%= i %>" onclick="toggleSong(<%= i %>)">Play Song</button>
+      </li>
+    <% } %>
+    </ul>
+
+    <script>
+      function toggleSong(index) {
+          let audio = document.getElementById('audio' + index);
+          let button = document.getElementById('button' + index);
+          if (audio.paused) {
+              audio.src = 'https://p.scdn.co/mp3-preview/62bccc2f61bb990df31d1a247a3bf69efd32da18?cid=b600ddf7cdc34759b5e44a10408ef18f';
+              audio.play();
+              button.innerText = 'Pause Song';
+          } else {
+              audio.pause();
+              button.innerText = 'Play Song';
+          }
+      }
+    </script>
+
+</body>
+</html>
