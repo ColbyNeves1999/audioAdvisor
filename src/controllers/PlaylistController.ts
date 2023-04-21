@@ -46,7 +46,7 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
     }
 
     const userId = await req.session.authenticatedUser.spotifyId;
-
+    console.log(userId);
     //Spotify only allows 50 playlists requested per fetch
     let result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists?&limit=50&offset=0`, {
         method: 'GET',

@@ -9,6 +9,7 @@ import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './contr
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
 import { getSongUrlsForGame } from './controllers/GameController';
 import { validateLoginBody, validateNewUserBody } from './validators/authValidators';
+import { songAddPage } from './controllers/PageController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -44,6 +45,7 @@ app.get('/api/Playlists', getSongsFromPlaylists);
 app.get('/api/usersPlaylists', getUsersSpotifyPlaylists);
 app.get('/api/getDatabaseSongs', getSongUrlsForGame);
 app.get('/api/test', getAllSongs);
+app.get('/songAdditionPage', songAddPage);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
