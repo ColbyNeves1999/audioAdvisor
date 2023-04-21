@@ -51,7 +51,7 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     var thisScope = {
 
-        scope: 'playlist-read-private ' + ' user-read-collaborative'
+        scope: 'playlist-read-private user-read-collaborative'
 
     }
 
@@ -73,7 +73,7 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
     //Sending each playlist song's ID to be searched
     for (let i = 0; i < items.length; i++) {
 
-        fetchFromPlaylists(items[i].id, req.session.authenticatedUser.authToken);
+        await fetchFromPlaylists(items[i].id, req.session.authenticatedUser.authToken);
 
     }
 

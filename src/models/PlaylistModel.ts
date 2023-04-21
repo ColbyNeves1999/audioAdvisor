@@ -84,7 +84,7 @@ async function fetchFromPlaylists(playlistId: string, userToken: string): Promis
   let data = await result.json();
 
   let { tracks } = data as playlistTracksGroup;
-  let { items, next } = tracks as playlistItems;
+  let { items, next } = await tracks as playlistItems;
 
   await addSongsFromPlaylist(items, userToken, next);
 
