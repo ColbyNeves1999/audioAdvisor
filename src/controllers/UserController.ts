@@ -98,6 +98,8 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   await setUserSpotId(req.session.authenticatedUser.userId, id);
   const user = await getUserByEmail(req.session.authenticatedUser.email);
 
+  req.session.authenticatedUser.spotifyId = user.spotifyId;
+
   //Makes sure the user ends up back at their homepage afterwards
   res.render('userHomePage', { user });
 
