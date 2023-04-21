@@ -48,7 +48,14 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
     const userId = await req.session.authenticatedUser.spotifyId;
     console.log(userId);
     //Spotify only allows 50 playlists requested per fetch
-    let result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists?&limit=50&offset=0`, {
+
+    var thisScope = {
+
+        scope: 'playlist-read-private ' + ' user-read-collaborative'
+
+    }
+
+    let result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists?&limit=50&offset=0&` + thisScope, {
         method: 'GET',
 
         headers: {
@@ -61,7 +68,6 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
     }
 
     let data = await result.json();
-
     const { items } = data as userPlaylistItems;
 
     //Sending each playlist song's ID to be searched
@@ -71,7 +77,8 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     }
 
-    res.sendStatus(200);
+    //res.sendStatus(200);
+    res.render('songAdditionPage');
 
 }
 
