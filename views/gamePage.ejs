@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Page | AudioAdvisor</title>
+</head>
+<body>
+  <ul>
+    <% let correctTitleArray = new Array(10); %>
+    <% for (let i = 0; i < urlArray.length; i++) { %>
+      <li>
+        <p><%= urlArray[i][1].songTitle %></p>
+        <audio id="audio<%= i %>" src="<%=urlArray[i][0] %>" preload="audio"></audio>
+        <button id="button<%= i %>" onclick="toggleSong(<%= i %>)">Play Song</button>
+          <div>
+            <% correctTitleArray[i] = urlArray[i][1].songTitle %>
+            <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
+            <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
+
+            <% let j = getRandomInt(); %>
+              <% while (urlArray[j][1].songTitle === urlArray[i][1]) {
+                j = getRandomInt();
+              } %>
+            <% let k = getRandomInt(); %>
+              <% while (urlArray[k][1].songTitle === urlArray[i][1] && urlArray[k][1].songTitle === urlArray[j][1]) {
+                k = getRandomInt();
+              } %>
+            <% let l = getRandomInt(); %>
+              <% while (urlArray[l][1].songTitle === urlArray[i][1] && urlArray[l][1].songTitle === urlArray[j][1] && urlArray[l][1].songTitle === urlArray[k][1].songTitle) {
+                l = getRandomInt();
+              } %>
+            <% let option = getAnswerOption() %>
+
+            <% if (option === 0) {%> <!-- displays the correct answer as the first option -->
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+
+            <% if (option === 1) { %> <!-- displays the correct answer as the second option -->
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+
+            <% if (option === 2) { %> <!-- displays the correct answer as the third option -->
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+
+            <% if (option === 3) { %> <!-- displays the correct answer as the fourth option -->
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
+            <% } %>
+          </div>
+      </li>
+    <% } %>
+    </ul>
+
+    <script>
+      function toggleSong(index) {
+          let audio = document.getElementById('audio' + index);
+          let button = document.getElementById('button' + index);
+          if (audio.paused) {
+            document.querySelectorAll('audio').forEach(allSongs => {allSongs.pause(); button.innerText = 'Play Song';});
+            setTimeout(() => { audio.play(); }, 500);
+            button.innerText = 'Pause Song';
+          } else {
+              audio.pause();
+              audio.currentTime = 0;
+              button.innerText = 'Play Song';
+          }
+      }
+
+      function getRandomInt() {
+        return Math.floor(Math.random() * 10)
+      }
+    </script>
+
+
+    <script>
+      function checkIfCorrect(buttonClicked) {
+        let correctAnswer = buttonClicked.parentNode.querySelector('button:first-of-type').innerText;
+        let selectedAnswer = buttonClicked.innerText;
+        if (correctAnswer === selectedAnswer) {
+          console.log('Correct!');
+        } else {
+          console.log('Incorrect. The correct answer is: ' + correctAnswer);
+        }
+      }
+    </script>
