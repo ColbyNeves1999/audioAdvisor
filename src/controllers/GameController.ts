@@ -1,11 +1,19 @@
 import { Request, Response } from 'express';
-import { getGamesPlayed, updateGamesWon, updateGamesPlayed, getUserById, getGamesWon } from '../models/GameModel';
+import {
+  getGamesPlayed,
+  updateGamesWon,
+  updateGamesPlayed,
+  getUserById,
+  getGamesWon,
+  updateQuestionsCorrect,
+} from '../models/GameModel';
 import { getSongDatabaseSize, getRandomInt } from '../models/SongModel';
 import { AppDataSource } from '../dataSource';
 import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
+// Retrieves the user's number of games played
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;
 
@@ -19,6 +27,7 @@ async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
+// Retrieves the user's number of games won
 async function getNumGamesWon(req: Request, res: Response): Promise<void> {
   const { gamesWon } = req.body as NewGamesWonRequestBody;
 
@@ -32,51 +41,41 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
+// Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
-
   const databaseSize = getSongDatabaseSize();
-  let urlArray = new Array(10);
+  const urlArray = new Array(10);
 
-  for(let i = 0; i < 10; i++){
-
+  for (let i = 0; i < 10; i++) {
     urlArray[i] = new Array(2);
-    
   }
 
   const numArray = await getRandomInt(await databaseSize);
 
+  // Grabs 10 random URLs based on the generated numbers
   for (let i = 0; i < 10; i++) {
-
     const rowValues = numArray[i];
     const results = await songRepository
       .createQueryBuilder('song')
       .where('rowid = :rowValues', { rowValues })
       .getOne();
 
-    const { preview, songID} = results as songRowData;
+    // console.log(results);
+
+    const { preview } = results as songRowData;
+
+    // Saves song data so it's more readily available
+    // Also prevents null and duplicate results
     if (!preview || urlArray.includes(preview)) {
-
-      //console.log(songID);
-      //console.log(numArray[i]);
       numArray[i] = numArray[i] + 1;
-      i = i - 1;
-
+      i -= 1;
     } else {
       urlArray[i][0] = preview;
-      urlArray[i][1] = songID;
+      urlArray[i][1] = results;
     }
-
   }
 
-  for(let i = 0; i < 10; i++){
-
-    console.log("URL:", urlArray[i][0]);
-    console.log("ID:", urlArray[i][1])
-
-  }
-
-  res.sendStatus(200); // 200 Ok
-
+  res.render('gamePage', { urlArray });
 }
 
 async function setNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -111,4 +110,27 @@ async function setNumGamesWon(req: Request, res: Response): Promise<void> {
   res.json(userGames);
 }
 
-export { getNumGamesPlayed, getNumGamesWon, setNumGamesPlayed, setNumGamesWon, getSongUrlsForGame };
+async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void> {
+  const { userId } = req.body as NewUserId;
+
+  let userQuestions = await getUserById(userId);
+
+  if (!userQuestions) {
+    res.sendStatus(404); // 404 Not Found
+    return;
+  }
+
+  // Now Update the Questions Correct
+  userQuestions = await updateQuestionsCorrect(userQuestions);
+
+  res.json(userQuestions);
+}
+
+export {
+  getNumGamesPlayed,
+  getNumGamesWon,
+  setNumGamesPlayed,
+  setNumGamesWon,
+  getSongUrlsForGame,
+  setNumQuestionsCorrect,
+};

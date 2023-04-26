@@ -46,4 +46,25 @@ async function getUserById(userID: string): Promise<GameWinner | null> {
   return user;
 }
 
-export { getGamesPlayed, getGamesWon, updateGamesPlayed, updateGamesWon, getUserById };
+async function updateQuestionsCorrect(gameData: GameWinner): Promise<GameWinner> {
+  const updatedUser = gameData;
+  updatedUser.questionsCorrect += 1;
+
+  await gameRepository
+    .createQueryBuilder()
+    .update(GameWinner)
+    .set({ questionsCorrect: updatedUser.questionsCorrect })
+    .where({ userID: updatedUser.userID })
+    .execute();
+
+  return updatedUser;
+}
+
+export {
+  getGamesPlayed,
+  getGamesWon,
+  updateGamesPlayed,
+  updateGamesWon,
+  getUserById,
+  updateQuestionsCorrect,
+};

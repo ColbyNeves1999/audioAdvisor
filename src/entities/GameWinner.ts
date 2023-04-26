@@ -18,4 +18,7 @@ export class GameWinner {
 
   @Column({ default: 0 })
   gamesWon: number;
+
+  @Column({ default: 0 })
+  questionsCorrect: number;
 }
