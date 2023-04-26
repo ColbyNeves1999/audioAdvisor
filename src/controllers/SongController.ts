@@ -48,7 +48,8 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
-  res.sendStatus(200);
+  //res.sendStatus(200);
+  res.render('songAdditionPage');
 
 }
 

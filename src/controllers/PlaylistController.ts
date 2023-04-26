@@ -34,7 +34,7 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     await addSongsFromPlaylist(items, req.session.authenticatedUser.authToken, next);
 
-    res.sendStatus(200);
+    res.render('songAdditionPage');
 
 }
 
