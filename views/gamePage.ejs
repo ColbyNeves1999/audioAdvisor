@@ -8,14 +8,12 @@
 </head>
 <body>
   <ul>
-    <% let correctTitleArray = new Array(10); %>
     <% for (let i = 0; i < urlArray.length; i++) { %>
       <li>
-        <p><%= urlArray[i][1].songTitle %></p>
+        <p>Guess the Correct Answer for song #<%= i + 1 %></p>
         <audio id="audio<%= i %>" src="<%=urlArray[i][0] %>" preload="audio"></audio>
         <button id="button<%= i %>" onclick="toggleSong(<%= i %>)">Play Song</button>
           <div>
-            <% correctTitleArray[i] = urlArray[i][1].songTitle %>
             <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
             <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
 
@@ -34,31 +32,31 @@
             <% let option = getAnswerOption() %>
 
             <% if (option === 0) {%> <!-- displays the correct answer as the first option -->
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[l][1].songTitle%></button>
             <% } %>
 
             <% if (option === 1) { %> <!-- displays the correct answer as the second option -->
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[l][1].songTitle%></button>
             <% } %>
 
             <% if (option === 2) { %> <!-- displays the correct answer as the third option -->
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[l][1].songTitle%></button>
             <% } %>
 
             <% if (option === 3) { %> <!-- displays the correct answer as the fourth option -->
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle)"><%=urlArray[l][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[j][1].songTitle)"><%=urlArray[j][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[k][1].songTitle)"><%=urlArray[k][1].songTitle%></button>
-              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[l][1].songTitle)"><%=urlArray[i][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[l][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[j][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[k][1].songTitle%></button>
+              <button id="button<%= i %>" onclick="checkIfCorrect(urlArray[i][1].songTitle, this)"><%=urlArray[i][1].songTitle%></button>
             <% } %>
           </div>
       </li>
@@ -83,17 +81,14 @@
       function getRandomInt() {
         return Math.floor(Math.random() * 10)
       }
-    </script>
 
-
-    <script>
-      function checkIfCorrect(buttonClicked) {
-        let correctAnswer = buttonClicked.parentNode.querySelector('button:first-of-type').innerText;
-        let selectedAnswer = buttonClicked.innerText;
-        if (correctAnswer === selectedAnswer) {
-          console.log('Correct!');
+      function checkIfCorrect(correctTitle, buttonClicked) {
+        console.log('You are right before the if');
+        if (correctTitle === buttonClicked){
+          console.log("You are inside the if statement");
+          setNumQuestionsCorrect();
         } else {
-          console.log('Incorrect. The correct answer is: ' + correctAnswer);
+          console.log("You are inside the else");
         }
       }
     </script>
