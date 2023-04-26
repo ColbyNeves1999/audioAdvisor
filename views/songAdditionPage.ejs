@@ -12,5 +12,21 @@
       <button>Grab your Spotify Playlists!</button>
     </form>
   </div>
+  <div>
+    <form method="POST" action="/api/Playlists">
+      <label for="id">Playlist ID</label>
+      <input type="text" name="id" id="id" placeholder="id">
+      <button>Request</button>
+    </form>
+  </div>
+  <div>
+    <form method="POST" action="/api/getSong">
+      <label for="songTitle">Song Title</label>
+      <input type="text" name="songTitle" id="songTitle" placeholder="songTitle">
+      <label for="artist"></label>
+      <input type="text" name="artist" id="artist" placeholder="artist">
+      <button>Login</button>
+    </form>
+  </div>
 </body>
 </html>

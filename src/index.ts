@@ -39,9 +39,9 @@ app.get('/api/spotifyLogin', spotifyLogin); // Logs in to and authorizes spotify
 app.get('/api/callBack', callBack);
 app.get('/api/refreshToken', refreshToken);
 app.get('/api/spotifyId', getSpotifyId);
-app.get('/api/getSong', getSongFromSpotify);
+app.post('/api/getSong', getSongFromSpotify);
 app.get('/api/songBySpotId', getSongFromSpotifyById);
-app.get('/api/Playlists', getSongsFromPlaylists);
+app.post('/api/Playlists', getSongsFromPlaylists);
 app.get('/api/usersPlaylists', getUsersSpotifyPlaylists);
 app.get('/api/getDatabaseSongs', getSongUrlsForGame);
 app.get('/api/test', getAllSongs);

@@ -11,6 +11,7 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     const { id } = req.body as plalistSongData;
     const playlistId = id;
+    console.log(playlistId);
 
     //Allows for a specific playlist to be added
     let result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
