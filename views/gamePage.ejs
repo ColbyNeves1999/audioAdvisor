@@ -10,28 +10,97 @@
   <ul>
     <% for (let i = 0; i < urlArray.length; i++) { %>
       <li>
-        <p>Song ID: <%= urlArray[i][1].songTitle %></p>
+        <p>Guess the Correct Answer for song #<%= i + 1 %></p>
         <audio id="audio<%= i %>" src="<%=urlArray[i][0] %>" preload="audio"></audio>
         <button id="button<%= i %>" onclick="toggleSong(<%= i %>)">Play Song</button>
-      </li>
-    <% } %>
-    </ul>
+        <div>
+            <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
+            <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
+            <% let numArray = []%>
+            <% numArray[0] = i; %>
 
-    <script>
-      function toggleSong(index) {
-          let audio = document.getElementById('audio' + index);
-          let button = document.getElementById('button' + index);
-          if (audio.paused) {
-            document.querySelectorAll('audio').forEach(allSongs => {allSongs.pause(); button.innerText = 'Play Song';});
-            setTimeout(() => { audio.play(); }, 500);
-            button.innerText = 'Pause Song';
-          } else {
-              audio.pause();
-              audio.currentTime = 0;
-              button.innerText = 'Play Song';
-          }
-      }
+            <% let j = getRandomInt(); %>
+            <% while (numArray.includes(j)) {
+              j = getRandomInt();
+            } %>
+            <% numArray[1] = j; %>
+
+            <% let k = getRandomInt(); %>
+            <% while (numArray.includes(k)) {
+              k = getRandomInt();
+            } %>
+            <% numArray[2] = k;%> %>
+
+            <% let l = getRandomInt(); %>
+            <% while (numArray.includes(l)) {
+              l = getRandomInt();
+            } %>
+            <% numArray[3] = l; %>
+
+            <% let option = getAnswerOption() %>
+
+            <% if (option === 0) {%> <!-- displays the correct answer as the first option -->
+              <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[k][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[k][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[l][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+            <% if (option === 1) { %> <!-- displays the correct answer as the second option -->
+              <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[k][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[k][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[l][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+            <% if (option === 2) { %> <!-- displays the correct answer as the third option -->
+              <button class="songTitleBtn" data-song-title="<%=urlArray[k][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[k][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[l][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[l][1].songTitle%></button>
+            <% } %>
+            <% if (option === 3) { %> <!-- displays the correct answer as the fourth option -->
+              <button class="songTitleBtn" data-song-title="<%=urlArray[l][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[l][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[k][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[k][1].songTitle%></button>
+              <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+            <% } %>
+          </div>
+    </li>
+  <% } %>
+  </ul>
+
+  <script type="text/javascript">
+    function toggleSong(index) {
+        let audio = document.getElementById('audio' + index);
+        let button = document.getElementById('button' + index);
+        if (audio.paused) {
+          document.querySelectorAll('audio').forEach(allSongs => {allSongs.pause(); button.innerText = 'Play Song';});
+          setTimeout(() => { audio.play(); }, 500);
+          button.innerText = 'Pause Song';
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+            button.innerText = 'Play Song';
+        }
+    }
+    function getRandomInt() {
+      return Math.floor(Math.random() * 10)
+    }
+
+    function handleSongTitleClick (event) {
+    const target = event.target;
+
+    const title = target.dataset.songTitle;
+    const actual = target.dataset.gan;
+    if(title === actual){
+      alert(`CORRECT`);
+    }else{
+      alert(`WRONG! YOU SUCK.`);
+    }
+
+    }
+
+    document.querySelectorAll('.songTitleBtn').forEach( (button) => {
+    button.addEventListener('click', handleSongTitleClick);
+    });
+    
     </script>
-
-</body>
-</html>
