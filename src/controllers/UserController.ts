@@ -24,8 +24,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
-    // const newUser = await addUser(email, passwordHash);
-    // console.log(newUser);
+
     await addUser(email, passwordHash);
     res.redirect(`http://localhost:${PORT}/login`);
   } catch (err) {
@@ -36,7 +35,6 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
-  console.log(req.session);
 
   const { email, password } = req.body as AuthRequest;
 

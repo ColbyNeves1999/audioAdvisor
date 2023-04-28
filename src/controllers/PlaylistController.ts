@@ -11,7 +11,6 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     const { id } = req.body as plalistSongData;
     const playlistId = id;
-    console.log(playlistId);
 
     //Allows for a specific playlist to be added
     let result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
@@ -47,8 +46,6 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
     }
 
     const userId = await req.session.authenticatedUser.spotifyId;
-    console.log(userId);
-    //Spotify only allows 50 playlists requested per fetch
 
     var thisScope = {
 
@@ -56,6 +53,7 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     }
 
+    //Spotify only allows 50 playlists requested per fetch
     let result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists?&limit=50&offset=0&` + thisScope, {
         method: 'GET',
 
