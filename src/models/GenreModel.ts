@@ -1,27 +1,30 @@
-const getOptions = {
+async function getArtistGenre(id: string, authToken: string): Promise<string>{
+    
+    const result = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
     method: 'GET',
+
     headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'shazam.p.rapidapi.com',
-    },
-};
+        'Authorization': 'Bearer ' + authToken,
+      }
+    });
 
-async function getSongKey(songTitle: string): Promise<string> {
-    const urlSafeTitle = encodeURI(songTitle);
-    const searchUrl = `https://shazam.p.rapidapi.com/search?term=${urlSafeTitle}&locale=en-US&offset=0&limit=2`;
+    if (!result.ok) {
+        return "no";
+    }
 
-    const seachResponse = await fetch(searchUrl, getOptions);
-    const { tracks } = await seachResponse.json();
-    const song = tracks.hits[0].track;
-    const { key } = song;
-    return key;
+    const data = await result.json();
+
+    const { genres } = data as spotArtGenre;
+
+    let songGenre;
+    if(!genres){
+        songGenre = "unknown";
+    }else{
+        songGenre = genres[0];
+    }
+
+    return songGenre;
+
 }
 
-async function getSongDetails(key: string): Promise<Record<string, unknown>> {
-    const detailsUrl = `https://shazam.p.rapidapi.com/songs/get-details?key=${key}&l=en-US`;
-    const detailsResponse = await fetch(detailsUrl, getOptions);
-    const result = await detailsResponse.json();
-    return result;
-}
-
-export { getSongKey, getSongDetails };
+export {getArtistGenre};

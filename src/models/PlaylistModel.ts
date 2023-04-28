@@ -1,4 +1,5 @@
 import { addSong } from './SongModel';
+import { getArtistGenre } from './GenreModel';
 
 //Recieves playlist data to add songs from said playlists
 async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, next: string): Promise<void> {
@@ -29,9 +30,9 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
       const { artists, album, preview_url } = data as songDataByID;
       ({ name } = album as spotSongReleaseByID);
       const { release_date } = album as spotSongReleaseByID;
-      const genre = "music";
 
-
+      const artId = artists[0].id;
+      const genre = await getArtistGenre(artId, authToken);
 
       //This is creating a string that will contain all artists associated with the song
       let artistName = artists[0].name;

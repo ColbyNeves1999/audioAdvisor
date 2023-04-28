@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
-import { getSongDetails, getSongKey } from '../models/GenreModel';
+import { getArtistGenre } from '../models/GenreModel';
 
 //Gets a song from spotify based on it's title and artist(s)
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
@@ -33,14 +33,11 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   let [{ name }] = items as [songData];
   const songName = name;
   const [{ id, artists, album, preview_url }] = items as [songData];
-
   ({ name } = album as spotSongRelease);
   const { release_date } = album as spotSongRelease;
 
-  const songKey = await getSongKey('Billie Jean');
-  const details = await getSongDetails(songKey);
-  console.log(details.genres);
-
+  const artId = artists[0].id;
+  const genre = await getArtistGenre(artId, req.session.authenticatedUser.authToken);
 
   //This is creating a string that will contain all artists associated with the song
   let artistName = artists[0].name;
@@ -50,7 +47,6 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   //This is temporary till a better solution is decided. 
   //Spotify doesn't store songs with genres
-  const genre = "music";
 
   await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
@@ -89,7 +85,9 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
   const { artists, album, preview_url } = data as songDataByID;
   ({ name } = album as spotSongReleaseByID);
   const { release_date } = album as spotSongReleaseByID;
-  const genre = "music";
+  
+  const artId = artists[0].id;
+  const genre = await getArtistGenre(artId, req.session.authenticatedUser.authToken);
 
   //This is creating a string that will contain all artists associated with the song
   let artistName = artists[0].name;

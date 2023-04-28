@@ -35,8 +35,13 @@ type NewSongAdditionBody = {
 ////// Spotify song data
 ///////////////////////////////////
 
+type spotArtGenre = {
+  genres: [string];
+};
+
 type spotArtName = {
   name: string;
+  id: string;
 };
 
 type spotSongRelease = {
