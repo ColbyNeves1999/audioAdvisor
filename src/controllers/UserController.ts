@@ -52,6 +52,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
     accountAuthorized: user.accountAuthorized,
@@ -73,8 +74,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
   
   if (!req.session.authenticatedUser.authToken) {
-    res.sendStatus(404);
-    return;
+    res.redirect(`/login`);
   }
 
   //Requests the spotifyID of the user's authorized Spotify account

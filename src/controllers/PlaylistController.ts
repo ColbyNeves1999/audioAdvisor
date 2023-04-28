@@ -5,8 +5,7 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     //makes sure the user is authorized to pull from spotify
     if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
-        res.sendStatus(404);
-        return;
+        res.redirect(`/login`);
     }
 
     const { id } = req.body as plalistSongData;
@@ -41,8 +40,7 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
-        res.sendStatus(404);
-        return;
+        res.redirect(`/login`);
     }
 
     const userId = await req.session.authenticatedUser.spotifyId;

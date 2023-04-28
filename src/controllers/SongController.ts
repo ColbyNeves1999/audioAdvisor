@@ -6,8 +6,7 @@ import { getArtistGenre } from '../models/GenreModel';
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
-    res.sendStatus(404);
-    return;
+    res.redirect(`/login`);
   }
 
   const { songTitle, artist } = req.body as NewSongAdditionBody;
@@ -59,8 +58,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 async function getSongFromSpotifyById(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
-    res.sendStatus(404);
-    return;
+    res.redirect(`/login`);
   }
 
   const { id } = req.body as songDataByID;

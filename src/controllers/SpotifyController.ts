@@ -110,12 +110,12 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
 //Refreshing a token from spotify
 async function refreshToken(req: Request, res: Response): Promise<void> {
-  var refresh_token = decrypt(req.session.authenticatedUser.refreshToken) as string || null;
-
+  
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken || !req.session.authenticatedUser.refreshToken) {
-    res.sendStatus(404);
-    return;
+    res.redirect(`/login`);
   }
+
+  var refresh_token = decrypt(req.session.authenticatedUser.refreshToken) as string || null;
 
   var myObj = {
     grant_type: 'refresh_token',
