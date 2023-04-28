@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
+import { getSongDetails, getSongKey } from '../models/GenreModel';
 
 //Gets a song from spotify based on it's title and artist(s)
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
@@ -35,6 +36,11 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   ({ name } = album as spotSongRelease);
   const { release_date } = album as spotSongRelease;
+
+  const songKey = await getSongKey('Billie Jean');
+  const details = await getSongDetails(songKey);
+  console.log(details.genres);
+
 
   //This is creating a string that will contain all artists associated with the song
   let artistName = artists[0].name;

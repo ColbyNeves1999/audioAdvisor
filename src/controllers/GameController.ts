@@ -52,10 +52,7 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
 
   const numArray = await getRandomInt(await databaseSize);
 
-
-  const maxSize = songRepository.createQueryBuilder("song");
-  maxSize.select("MAX(song.rowid)", "max");
-  const repoSize = await maxSize.getRawOne();
+  const repoSize = await songRepository.count();
 
   // Grabs 10 random URLs based on the generated numbers
   for (let i = 0; i < 10; i++) {
@@ -67,13 +64,13 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
 
     //const { preview } = results as songRowData;
     let preview;
-    if(results.preview){
+    if (results.preview) {
       preview = results.preview
       // Saves song data so it's more readily available
       // Also prevents null and duplicate results
       if (urlArray.includes(preview)) {
         numArray[i] = numArray[i] + 1;
-        if(numArray[i] > repoSize.max){
+        if (numArray[i] > repoSize) {
           numArray[i] = 1;
         }
         i -= 1;
@@ -81,17 +78,17 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
         urlArray[i][0] = preview;
         urlArray[i][1] = results;
       }
-    }else{
+    } else {
 
       numArray[i] = numArray[i] + 1;
-        if(numArray[i] > repoSize.max){
-          numArray[i] = 1;
-        }
-        i -= 1;
+      if (numArray[i] > repoSize) {
+        numArray[i] = 1;
+      }
+      i -= 1;
 
     }
 
-    
+
   }
 
   res.render('gamePage', { urlArray });

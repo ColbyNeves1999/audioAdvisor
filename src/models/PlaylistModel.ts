@@ -31,6 +31,8 @@ async function addSongsFromPlaylist(items: [playlistTracks], authToken: string, 
       const { release_date } = album as spotSongReleaseByID;
       const genre = "music";
 
+
+
       //This is creating a string that will contain all artists associated with the song
       let artistName = artists[0].name;
       for (let i = 1; i < artists.length; i++) {
