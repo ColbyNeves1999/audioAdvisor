@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { addSongsFromPlaylist, fetchFromPlaylists } from '../models/PlaylistModel';
+import { getUserByEmail } from '../models/UserModel';
+import { decrypt } from '../utils/encrypt';
 
 async function getSongsFromPlaylists(req: Request, res: Response): Promise<void> {
 
@@ -7,6 +9,15 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
     if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
         res.redirect(`/login`);
     }
+
+    const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
+
+    if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
+
+        req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
+
+    }
+
 
     const { id } = req.body as plalistSongData;
     const playlistId = id;
@@ -41,6 +52,14 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
         res.redirect(`/login`);
+    }
+
+    const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
+
+    if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
+
+        req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
+
     }
 
     const userId = await req.session.authenticatedUser.spotifyId;

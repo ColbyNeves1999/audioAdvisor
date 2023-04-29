@@ -1,12 +1,22 @@
 import { Request, Response } from 'express';
 import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
 import { getArtistGenre } from '../models/GenreModel';
+import { getUserByEmail } from '../models/UserModel';
+import { decrypt } from '../utils/encrypt';
 
 //Gets a song from spotify based on it's title and artist(s)
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
     res.redirect(`/login`);
+  }
+
+  const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
+
+  if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
+
+    req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
+
   }
 
   const { songTitle, artist } = req.body as NewSongAdditionBody;
@@ -61,6 +71,14 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
     res.redirect(`/login`);
   }
 
+  const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
+
+  if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
+
+    req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
+
+  }
+
   const { id } = req.body as songDataByID;
 
   //Requests spotify for a song using an ID
@@ -83,7 +101,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
   const { artists, album, preview_url } = data as songDataByID;
   ({ name } = album as spotSongReleaseByID);
   const { release_date } = album as spotSongReleaseByID;
-  
+
   const artId = artists[0].id;
   const genre = await getArtistGenre(artId, req.session.authenticatedUser.authToken);
 

@@ -11,8 +11,8 @@ import { getSongUrlsForGame } from './controllers/GameController';
 import { validateLoginBody, validateNewUserBody } from './validators/authValidators';
 import { songAddPage } from './controllers/PageController';
 import { scheduleJob } from 'node-schedule';
-//import { HourlyRefresh } from './controllers/HourlyRefreshController';
 import { refreshTokenHourly } from './models/HourlyRefreshModel';
+
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
 
