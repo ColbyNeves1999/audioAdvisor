@@ -110,7 +110,7 @@ async function callBack(req: Request, res: Response): Promise<void> {
 
 //Refreshing a token from spotify
 async function refreshToken(req: Request, res: Response): Promise<void> {
-  
+
   if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken || !req.session.authenticatedUser.refreshToken) {
     res.redirect(`/login`);
   }
