@@ -1,0 +1,3 @@
+type recommendationYear = {
+    year: string;
+};

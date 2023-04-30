@@ -8,11 +8,12 @@ import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyContr
 import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './controllers/SongController';
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
 import { getSongUrlsForGame } from './controllers/GameController';
-import { validateLoginBody, validateNewUserBody } from './validators/authValidators';
+import { validateLoginBody, validateNewUserBody, validateyearBody } from './validators/authValidators';
 import { songAddPage } from './controllers/PageController';
 import { scheduleJob } from 'node-schedule';
 import { refreshTokenHourly } from './models/HourlyRefreshModel';
 import { checkAnswer } from './controllers/GameController';
+import { recommendationPage, recommendSongByDecade } from './controllers/RecommendationController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -56,6 +57,8 @@ app.get('/api/getDatabaseSongs', getSongUrlsForGame);
 app.get('/api/test', getAllSongs);
 app.get('/songAdditionPage', songAddPage);
 app.post('/questions/questionNumber', checkAnswer);
+app.post('/recommendationPage', recommendationPage);
+app.post('/getSongByDecade', validateyearBody, recommendSongByDecade);
 
 
 app.listen(PORT, () => {

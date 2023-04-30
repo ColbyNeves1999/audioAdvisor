@@ -28,4 +28,16 @@ const loginSchema = Joi.object({
 });
 const validateLoginBody = makeValidator(loginSchema, 'body');
 
-export { validateNewUserBody, validateLoginBody };
+//Makes sure that the email for logging in users is kept consistent
+
+const yearSchema = Joi.object({
+    year: Joi.number()
+        .integer()
+        .min(1900)
+        .max(2023),
+
+});
+
+const validateyearBody = makeValidator(yearSchema, 'body');
+
+export { validateNewUserBody, validateLoginBody, validateyearBody };

@@ -126,8 +126,6 @@ async function getAlbum(req: Request, res: Response): Promise<void> {
     res.sendStatus(404); // 404 Not Found
     return;
   }
-
-  console.log(albumName);
   res.sendStatus(200); // 200 OK
 }
 
@@ -200,7 +198,6 @@ async function getAllSongs(req: Request, res: Response): Promise<void> {
   // Don't send back the raw data. Instead render it with EJS
 
   const song = await getSongs();
-  //console.log(song)
   //songPage is where you're displaying all the songs
   res.render('songPage', { song });
   //res.sendStatus(200);

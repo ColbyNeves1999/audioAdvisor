@@ -9,11 +9,6 @@ import {
   getNumQuestionsCorrect,
   chooseSongUrlsForGame
 } from '../models/GameModel';
-import { getRandomInt } from '../models/SongModel';
-//import { AppDataSource } from '../dataSource';
-//import { Song } from '../entities/Song';
-
-//const songRepository = AppDataSource.getRepository(Song);
 
 // Retrieves the user's number of games played
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -47,11 +42,10 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
   const urlArray = await chooseSongUrlsForGame();
 
-  //console.log(urlArray);
   req.session.urlArray = urlArray;
-  console.log(req.session.urlArray);
+  req.session.questionNumber = 0;
 
-  res.render('gamePage', { urlArray, questionNumber: 0 });
+  res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
 }
 
 async function setNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -103,23 +97,16 @@ async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void
 }
 
 async function checkAnswer(req: Request, res: Response): Promise<void> {
-  //const { questionNumber, functionArray } = req.body as QuestionNumberParam;
-  //console.log(questionNumber);
-  //let temp = parseInt(questionNumber);
 
-  //const urlArray = await chooseSongUrlsForGame();
   req.session.questionNumber;
   const urlArray = req.session.urlArray;
 
   const { questionsCorrect } = req.session.authenticatedUser;
-  console.log('hello world!');
 
   // Now redirect to the proper question in the array
   req.session.questionNumber = req.session.questionNumber + 1;
-  //console.log(temp);
-  //console.log('look here');
+
   if (req.session.questionNumber < 10) {
-    //res.render(`/gamePage`, { urlArray, temp });
     res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
   } else {
     res.render('/results', { numQuestions: getNumQuestionsCorrect(questionsCorrect) });
@@ -134,5 +121,4 @@ export {
   getSongUrlsForGame,
   setNumQuestionsCorrect,
   checkAnswer,
-  getRandomInt
 };
