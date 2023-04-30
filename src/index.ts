@@ -12,6 +12,7 @@ import { validateLoginBody, validateNewUserBody } from './validators/authValidat
 import { songAddPage } from './controllers/PageController';
 import { scheduleJob } from 'node-schedule';
 import { refreshTokenHourly } from './models/HourlyRefreshModel';
+import { checkAnswer } from './controllers/GameController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -54,6 +55,7 @@ app.get('/api/usersPlaylists', getUsersSpotifyPlaylists);
 app.get('/api/getDatabaseSongs', getSongUrlsForGame);
 app.get('/api/test', getAllSongs);
 app.get('/songAdditionPage', songAddPage);
+app.post('/questions/questionNumber', checkAnswer);
 
 
 app.listen(PORT, () => {

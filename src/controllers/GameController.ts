@@ -6,12 +6,14 @@ import {
   getUserById,
   getGamesWon,
   updateQuestionsCorrect,
+  getNumQuestionsCorrect,
+  chooseSongUrlsForGame
 } from '../models/GameModel';
-import { getSongDatabaseSize, getRandomInt } from '../models/SongModel';
-import { AppDataSource } from '../dataSource';
-import { Song } from '../entities/Song';
+import { getRandomInt } from '../models/SongModel';
+//import { AppDataSource } from '../dataSource';
+//import { Song } from '../entities/Song';
 
-const songRepository = AppDataSource.getRepository(Song);
+//const songRepository = AppDataSource.getRepository(Song);
 
 // Retrieves the user's number of games played
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -43,55 +45,13 @@ async function getNumGamesWon(req: Request, res: Response): Promise<void> {
 
 // Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
-  const databaseSize = getSongDatabaseSize();
-  const urlArray = new Array(10);
+  const urlArray = await chooseSongUrlsForGame();
 
-  for (let i = 0; i < 10; i++) {
-    urlArray[i] = new Array(2);
-  }
+  //console.log(urlArray);
+  req.session.urlArray = urlArray;
+  console.log(req.session.urlArray);
 
-  const numArray = await getRandomInt(await databaseSize);
-
-  const repoSize = await songRepository.count();
-
-  // Grabs 10 random URLs based on the generated numbers
-  for (let i = 0; i < 10; i++) {
-    const rowValues = numArray[i];
-    const results = await songRepository
-      .createQueryBuilder('song')
-      .where('rowid = :rowValues', { rowValues })
-      .getOne();
-
-    //const { preview } = results as songRowData;
-    let preview;
-    if (results.preview) {
-      preview = results.preview
-      // Saves song data so it's more readily available
-      // Also prevents null and duplicate results
-      if (urlArray.includes(preview)) {
-        numArray[i] = numArray[i] + 1;
-        if (numArray[i] > repoSize) {
-          numArray[i] = 1;
-        }
-        i -= 1;
-      } else {
-        urlArray[i][0] = preview;
-        urlArray[i][1] = results;
-      }
-    } else {
-
-      numArray[i] = numArray[i] + 1;
-      if (numArray[i] > repoSize) {
-        numArray[i] = 1;
-      }
-      i -= 1;
-
-    }
-
-
-  }
-
-  res.render('gamePage', { urlArray });
+  res.render('gamePage', { urlArray, questionNumber: 0 });
 }
 
 async function setNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -142,6 +102,29 @@ async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void
   res.json(userQuestions);
 }
 
+async function checkAnswer(req: Request, res: Response): Promise<void> {
+  const { questionNumber, functionArray } = req.body as QuestionNumberParam;
+  console.log(questionNumber);
+  let temp = parseInt(questionNumber);
+
+  //const urlArray = await chooseSongUrlsForGame();
+  const urlArray = req.session.urlArray;
+
+  const { questionsCorrect } = req.session.authenticatedUser;
+  console.log('hello world!');
+
+  // Now redirect to the proper question in the array
+  temp += 1;
+  //console.log(temp);
+  //console.log('look here');
+  if (temp < 10) {
+    //res.render(`/gamePage`, { urlArray, temp });
+    res.render('gamePage', { urlArray, questionNumber: temp });
+  } else {
+    res.render('/results', { numQuestions: getNumQuestionsCorrect(questionsCorrect) });
+  }
+}
+
 export {
   getNumGamesPlayed,
   getNumGamesWon,
@@ -149,4 +132,6 @@ export {
   setNumGamesWon,
   getSongUrlsForGame,
   setNumQuestionsCorrect,
+  checkAnswer,
+  getRandomInt
 };

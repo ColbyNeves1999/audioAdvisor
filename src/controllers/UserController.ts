@@ -60,8 +60,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
     authToken: user.spotifyAuth,
     refreshToken: user.refreshAuth,
     spotifyId: user.spotifyId,
+    questionsCorrect: user.questionsCorrect,
   };
   req.session.isLoggedIn = true;
+  req.session.urlArray = null;
 
   //Redirects the user to make sure they get a current authorization token
   if (req.session.authenticatedUser.authToken === null) {
@@ -72,7 +74,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 }
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
-  
+
   if (!req.session.authenticatedUser.authToken) {
     res.redirect(`/login`);
   }

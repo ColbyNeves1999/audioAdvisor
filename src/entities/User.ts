@@ -31,6 +31,9 @@ export class User {
   @Column({ default: null })
   spotifyId: string;
 
+  @Column({ default: 0 })
+  questionsCorrect: number;
+
   @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
   @JoinColumn()
   avatarPhoto: Relation<AvatarPhoto>;

@@ -12,10 +12,12 @@ declare module 'express-session' {
       authToken: string;
       refreshToken: string;
       spotifyId: string;
+      questionsCorrect: number;
     };
     isLoggedIn: boolean;
     logInAttempts: number;
     logInTimeout: string;
+    urlArray: string[];
 
   }
 }
