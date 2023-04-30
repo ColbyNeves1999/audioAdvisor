@@ -103,23 +103,24 @@ async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void
 }
 
 async function checkAnswer(req: Request, res: Response): Promise<void> {
-  const { questionNumber, functionArray } = req.body as QuestionNumberParam;
-  console.log(questionNumber);
-  let temp = parseInt(questionNumber);
+  //const { questionNumber, functionArray } = req.body as QuestionNumberParam;
+  //console.log(questionNumber);
+  //let temp = parseInt(questionNumber);
 
   //const urlArray = await chooseSongUrlsForGame();
+  req.session.questionNumber;
   const urlArray = req.session.urlArray;
 
   const { questionsCorrect } = req.session.authenticatedUser;
   console.log('hello world!');
 
   // Now redirect to the proper question in the array
-  temp += 1;
+  req.session.questionNumber = req.session.questionNumber + 1;
   //console.log(temp);
   //console.log('look here');
-  if (temp < 10) {
+  if (req.session.questionNumber < 10) {
     //res.render(`/gamePage`, { urlArray, temp });
-    res.render('gamePage', { urlArray, questionNumber: temp });
+    res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
   } else {
     res.render('/results', { numQuestions: getNumQuestionsCorrect(questionsCorrect) });
   }

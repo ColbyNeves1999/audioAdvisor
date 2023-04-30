@@ -64,6 +64,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
   req.session.urlArray = null;
+  req.session.questionNumber = 0;
 
   //Redirects the user to make sure they get a current authorization token
   if (req.session.authenticatedUser.authToken === null) {

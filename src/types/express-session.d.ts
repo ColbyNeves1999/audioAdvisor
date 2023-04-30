@@ -18,6 +18,7 @@ declare module 'express-session' {
     logInAttempts: number;
     logInTimeout: string;
     urlArray: string[];
+    questionNumber: number;
 
   }
 }
