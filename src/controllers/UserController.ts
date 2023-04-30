@@ -24,8 +24,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 
   try {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
-    // const newUser = await addUser(email, passwordHash);
-    // console.log(newUser);
+
     await addUser(email, passwordHash);
     res.redirect(`http://localhost:${PORT}/login`);
   } catch (err) {
@@ -36,8 +35,6 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
-  console.log(req.session);
-
   const { email, password } = req.body as AuthRequest;
 
   const user = await getUserByEmail(email);
@@ -54,6 +51,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
     accountAuthorized: user.accountAuthorized,
@@ -61,12 +59,11 @@ async function logIn(req: Request, res: Response): Promise<void> {
     authToken: user.spotifyAuth,
     refreshToken: user.refreshAuth,
     spotifyId: user.spotifyId,
+    questionsCorrect: user.questionsCorrect,
   };
   req.session.isLoggedIn = true;
 
-  // res.render('userHomePage', { user });
-
-  // The following is commented out until the redirect URI is working properly
+  // Redirects the user to make sure they get a current authorization token
   if (req.session.authenticatedUser.authToken === null) {
     res.redirect(`http://localhost:${PORT}/api/spotifyLogin`);
   } else {
@@ -76,10 +73,10 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
   if (!req.session.authenticatedUser.authToken) {
-    res.sendStatus(404);
-    return;
+    res.redirect(`/login`);
   }
 
+  // Requests the spotifyID of the user's authorized Spotify account
   const result = await fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers: {
@@ -96,8 +93,14 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   const { id } = data as SpotifyUserData;
 
   await setUserSpotId(req.session.authenticatedUser.userId, id);
+  const user = await getUserByEmail(req.session.authenticatedUser.email);
 
-  res.status(200).redirect(`http://localhost:3000`);
+  req.session.authenticatedUser.spotifyId = user.spotifyId;
+
+  req.session.authenticatedUser.spotifyId = user.spotifyId;
+
+  // Makes sure the user ends up back at their homepage afterwards
+  res.render('userHomePage', { user });
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
