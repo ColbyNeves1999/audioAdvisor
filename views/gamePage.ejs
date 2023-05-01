@@ -125,9 +125,8 @@
     <input type="hidden" name="answer" id="answerInput">
     <input type="hidden" name="questionNumber" id="questionNumber" value="<%= questionNumber %>">
     <input type="hidden" name="functionArray" id="functionArray">
+    <input type="hidden" name="updateQuestion" id="updateQuestion">
   </form>
-
-  <form id="updateQuestion" action="/correctQuestions/" method=" POST"></form>
 
   <script type="text/javascript">
     function toggleSong(index) {
@@ -155,7 +154,7 @@
       // functionArray.value = JSON.parse(urlArray);
       if (title === actual) {
         alert(`CORRECT`);
-        updateQuestion.value += 1;
+        updateQuestion.value = 1;
         const answerInput = document.getElementById('answerInput');
         answerInput.value = 'correct';
         document.getElementById('answerForm').submit();

@@ -1,4 +1,5 @@
 import 'express-session';
+import { Song } from '../entities/Song';
 
 declare module 'express-session' {
   export interface Session {
@@ -19,6 +20,8 @@ declare module 'express-session' {
     logInTimeout: string;
     urlArray: string[];
     questionNumber: number;
+    previousRecommendation: Song;
+    genreArray: string;
 
   }
 }

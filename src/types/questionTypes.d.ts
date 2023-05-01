@@ -1,17 +1,17 @@
-
 type ArrayData = {
     songID: string;
-};
-
-type SongArrayRetrieval = {
+  };
+  
+  type SongArrayRetrieval = {
     Song: ArrayData;
-};
-
-type QuestionNumberParam = {
+  };
+  
+  type QuestionNumberParam = {
     questionNumber: string;
     functionArray: [SongArrayRetrieval];
-};
-
-type QuestionsCorrectParam = {
+    updateQuestion: string;
+  };
+  
+  type QuestionsCorrectParam = {
     questionsCorrect: number;
-};
+  };

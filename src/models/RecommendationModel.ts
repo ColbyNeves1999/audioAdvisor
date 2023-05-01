@@ -3,9 +3,9 @@ import { Song } from '../entities/Song';
 
 const songRepository = AppDataSource.getRepository(Song);
 
-async function getRandomInt(): Promise<number> {
+function getRandomInt(max: number): number {
 
-    const max = await songRepository.count();
+    //const max = await songRepository.count();
 
     //Fills the array(10) with -1 to make sure no unintentional matches happen
     let value = Math.floor(Math.random() * max);
@@ -13,10 +13,45 @@ async function getRandomInt(): Promise<number> {
     return value;
 }
 
-async function getSongRecommendationByDecade(year: number): Promise<Song | null> {
+function arrayToString(value: string[]): string {
 
-    let count = 1;
-    let exit = 0;
+    let retuVal = value[1];
+
+    for(let i = 2; i < value.length; i++){
+
+        retuVal = retuVal + ", " + value[i];
+
+    }
+
+    return retuVal;
+}
+
+async function getGenreArray(): Promise<string[]> {
+    
+    let genreArray = new Array();
+
+    const repoSize = await songRepository.count();
+    let rowValues = 0;
+
+    for( let i = 1; i <= repoSize; i++){
+
+        rowValues = i;
+
+        const results = await songRepository
+            .createQueryBuilder('song')
+            .where('rowid = :rowValues', { rowValues })
+            .getOne();
+
+            if (!genreArray.includes(results.genre) && results.genre !== null) {
+                genreArray.push(results.genre);
+            }
+    } 
+
+    return genreArray;
+
+}
+
+async function getSongRecommendationByDecade(year: number): Promise<Song | null> {
 
     let tempYear = year;
     let begin = tempYear % 10;
@@ -32,64 +67,84 @@ async function getSongRecommendationByDecade(year: number): Promise<Song | null>
     endYear.setFullYear(tempYear + 9);
     let beginningYear = new Date();
     beginningYear.setFullYear(tempYear);
-
-    let beginTemp = beginningYear.getTime();
-    let endTemp = endYear.getTime();
+    let beginTemp = beginningYear.getFullYear();
+    let endTemp = endYear.getFullYear();
 
     let rowValues = 0;
-    let results = null;
     let temp;
-    do {
-        while (rowValues === 0) {
-            rowValues = await getRandomInt();
-        }
+    const repoSize = await songRepository.count();
+    let yearArray = [];
 
-        results = await songRepository
+    for( let i = 0; i < repoSize; i++){
+
+        rowValues = i;
+
+        const results = await songRepository
             .createQueryBuilder('song')
             .where('rowid = :rowValues', { rowValues })
             .getOne();
 
+        if (results) {
+            temp = new Date(results.releaseYear).getFullYear();
+            if(temp >= beginTemp && temp <= endTemp){
+                yearArray.push(results);
 
-        if (results.releaseYear !== null) {
-            temp = new Date(results.releaseYear);
+            }
         }
 
-        if (temp.getTime() >= beginTemp && temp.getTime() <= endTemp) {
-            console.log("It is");
-            exit = 1;
-        }
+    } 
 
-        count = count + 1;
+    const randValue = getRandomInt(yearArray.length);
 
-    } while (count <= await songRepository.count() && exit !== 1)
+    const resultingSong = yearArray[randValue];
 
-    if (count > await songRepository.count() && exit === 0) {
-        exit = 0;
-        count = 0;
-        while (count < await songRepository.count() && exit !== 1) {
-            rowValues = 1;
+    return resultingSong;
 
-            results = await songRepository
+}
+
+async function getSongRecommendationByGenre(genre: string): Promise<Song | null> {
+
+    let rowValues = 0;
+    let temp;
+    const repoSize = await songRepository.count();
+    let genreArray = [];
+    let resultingSong;
+
+    const doesItExist = await songRepository
+    .createQueryBuilder('song')
+    .where('genre = :genre', { genre })
+    .getOne();
+
+    if(doesItExist){
+
+        for( let i = 0; i < repoSize; i++){
+
+            rowValues = i;
+
+            const results = await songRepository
                 .createQueryBuilder('song')
                 .where('rowid = :rowValues', { rowValues })
                 .getOne();
 
+            if (results) {
+                temp = results.genre;
+                if(temp === genre){
+                    genreArray.push(results);
 
-            if (results.releaseYear !== null) {
-                temp = new Date(results.releaseYear);
+                }
             }
 
-            if (temp.getTime() >= beginTemp && temp.getTime() <= endTemp) {
-                console.log("It is");
-                exit = 1;
-            }
+        } 
 
-            count = count + 1;
-        }
+        const randValue = getRandomInt(genreArray.length);
+
+        resultingSong = genreArray[randValue];
+    }else{
+        resultingSong = null;
     }
-
-    return results;
+    
+        return resultingSong;
 
 }
 
-export { getSongRecommendationByDecade };
+export { getSongRecommendationByDecade, getSongRecommendationByGenre, getGenreArray, arrayToString };

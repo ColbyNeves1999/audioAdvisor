@@ -13,7 +13,7 @@ import { songAddPage } from './controllers/PageController';
 import { scheduleJob } from 'node-schedule';
 import { refreshTokenHourly } from './models/HourlyRefreshModel';
 import { checkAnswer } from './controllers/GameController';
-import { recommendationPage, recommendSongByDecade } from './controllers/RecommendationController';
+import { recommendationPage, recommendSongByDecade, recommendSongByGenre } from './controllers/RecommendationController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -59,6 +59,7 @@ app.get('/songAdditionPage', songAddPage);
 app.post('/questions/questionNumber', checkAnswer);
 app.post('/recommendationPage', recommendationPage);
 app.post('/getSongByDecade', validateyearBody, recommendSongByDecade);
+app.post('/getSongByGenre', recommendSongByGenre)
 
 
 app.listen(PORT, () => {

@@ -1,8 +1,7 @@
 import { AppDataSource } from '../dataSource';
 import { GameWinner } from '../entities/GameWinner';
 import { Song } from '../entities/Song';
-import { getSongDatabaseSize } from './SongModel';
-import { getRandomInt } from './SongModel';
+import { getSongDatabaseSize, getRandomInt } from './SongModel';
 
 const gameRepository = AppDataSource.getRepository(GameWinner);
 const songRepository = AppDataSource.getRepository(Song);
@@ -90,9 +89,7 @@ async function chooseSongUrlsForGame(): Promise<string[]> {
       .getOne();
 
     if (!urlArray.includes(results) && results.preview !== null) {
-
       urlArray[i] = results;
-
     } else {
       numArray[i] = numArray[i] + 1;
       if (numArray[i] > repoSize) {
@@ -100,10 +97,16 @@ async function chooseSongUrlsForGame(): Promise<string[]> {
       }
       i -= 1;
     }
-
   }
 
   return urlArray;
+}
+
+async function addGameWinner(userID: string): Promise<GameWinner> {
+  let newGameWinner = new GameWinner();
+  newGameWinner.userID = userID;
+  newGameWinner = await gameRepository.save(newGameWinner);
+  return newGameWinner;
 }
 
 export {
@@ -114,6 +117,6 @@ export {
   getUserById,
   updateQuestionsCorrect,
   getNumQuestionsCorrect,
-  chooseSongUrlsForGame
-
+  chooseSongUrlsForGame,
+  addGameWinner,
 };
