@@ -146,6 +146,10 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(req.session.authenticatedUser.email);
   req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
 
+  req.session.authenticatedUser.questionsCorrect = 0;
+  req.session.questionNumber = 0;
+  req.session.urlArray = new Array();
+
   //Sends User to their ID homepage upon completion
   res.render('userHomePage', { user });
 

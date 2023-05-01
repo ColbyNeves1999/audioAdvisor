@@ -10,10 +10,8 @@ import {
   addGameWinner,
 } from '../models/GameModel';
 import { getRandomInt } from '../models/SongModel';
-// import { AppDataSource } from '../dataSource';
-// import { GameWinner } from '../entities/GameWinner';
+import { arrayToString } from '../models/RecommendationModel';
 
-// const GameWinnerRepository = AppDataSource.getRepository(GameWinner);
 
 // Retrieves the user's number of games played
 async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
@@ -138,7 +136,11 @@ async function checkAnswer(req: Request, res: Response): Promise<void> {
       updateGamesWon(temp);
     }
     const questionsRight = req.session.authenticatedUser.questionsCorrect;
-    res.render('resultsPage', { questionsRight });
+    const questionsArray = arrayToString(req.session.urlArray);
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+    res.render('resultsPage', { questionsRight, questionsArray });
   }
 }
 

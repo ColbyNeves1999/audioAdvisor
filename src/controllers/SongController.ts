@@ -59,7 +59,10 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
-  //res.sendStatus(200);
+  req.session.authenticatedUser.questionsCorrect = 0;
+  req.session.questionNumber = 0;
+  req.session.urlArray = new Array();
+
   res.render('songAdditionPage');
 
 }
@@ -198,10 +201,13 @@ async function getAllSongs(req: Request, res: Response): Promise<void> {
   // Don't send back the raw data. Instead render it with EJS
 
   const song = await getSongs();
-  //songPage is where you're displaying all the songs
+  
+  req.session.authenticatedUser.questionsCorrect = 0;
+  req.session.questionNumber = 0;
+  req.session.urlArray = new Array();
+
   res.render('songPage', { song });
-  //res.sendStatus(200);
-  //return;
+
 }
 
 export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById, getAllSongs };

@@ -41,8 +41,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    res.sendStatus(404); // 404 Not Found
-    return;
+    res.redirect(`/login`);
   }
 
   const { passwordHash } = user;

@@ -43,6 +43,10 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
 
     await addSongsFromPlaylist(items, req.session.authenticatedUser.authToken, next);
 
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+
     res.render('songAdditionPage');
 
 }
@@ -93,7 +97,10 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     }
 
-    //res.sendStatus(200);
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+
     res.render('songAdditionPage');
 
 }

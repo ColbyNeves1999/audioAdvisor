@@ -15,6 +15,10 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
 
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+
     res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
 
 }
@@ -47,6 +51,10 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
     req.session.previousRecommendation = temp;
 
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+
     res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
     
 
@@ -76,6 +84,10 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
     }
 
     req.session.previousRecommendation = temp;
+
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
 
     res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
 
