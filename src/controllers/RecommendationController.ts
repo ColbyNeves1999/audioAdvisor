@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { getSongRecommendationByDecade, getSongRecommendationByGenre, getGenreArray, arrayToString } from '../models/RecommendationModel';
+import { getSongRecommendationByDecade, getSongRecommendationByGenre, getSongRecommendationByFavorite, getGenreArray, arrayToString } from '../models/RecommendationModel';
+import { getUserById } from '../models/UserModel';
 import { Song } from '../entities/Song';
 
 async function recommendationPage(req: Request, res: Response): Promise<void> {
@@ -12,6 +13,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
 
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
+    let songRecommendationByFav = "";
     let genreArray = await getGenreArray();
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
@@ -21,7 +23,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, songRecommendationByFav, myGenreArray, playableSong });
 
 }
 
@@ -33,6 +35,7 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
+    let songRecommendationByFav = "";
     let genreArray = await getGenreArray();
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
@@ -56,8 +59,7 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
-
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, songRecommendationByFav, myGenreArray, playableSong });
 
 }
 
@@ -67,6 +69,7 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
 
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
+    let songRecommendationByFav = "";
     let genreArray = await getGenreArray();
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
@@ -90,8 +93,43 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, songRecommendationByFav, myGenreArray, playableSong });
 
 }
 
-export { recommendationPage, recommendSongByDecade, recommendSongByGenre };
+async function recommendSongByFav(req: Request, res: Response): Promise<void> {
+
+    let songRecommendationByYear = "";
+    let songRecommendationBySongGenre = "";
+    let songRecommendationByFav = "";
+    let genreArray = await getGenreArray();
+    req.session.genreArray = arrayToString(genreArray);
+    const myGenreArray = req.session.genreArray;
+    let temp = req.session.previousRecommendation;
+
+    const user = await getUserById(req.session.authenticatedUser.userId);
+
+    do {
+        temp = await getSongRecommendationByFavorite(user.favoriteGenre);
+    } while (!temp && temp === req.session.previousRecommendation);
+
+    if (!temp) {
+        songRecommendationByFav = "Sorry, there is not currently a song from that genre in our database. You could add your own!"
+    } else {
+        songRecommendationByFav = temp.songTitle + " by " + temp.artist;
+    }
+
+    let playableSong = temp;
+
+    req.session.previousRecommendation = temp;
+
+    req.session.authenticatedUser.questionsCorrect = 0;
+    req.session.questionNumber = 0;
+    req.session.urlArray = new Array();
+
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, songRecommendationByFav, myGenreArray, playableSong });
+
+
+}
+
+export { recommendationPage, recommendSongByDecade, recommendSongByGenre, recommendSongByFav };
