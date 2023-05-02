@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 
-function songAddPage(req:Request, res: Response) {
+function songAddPage(req: Request, res: Response) {
 
     if (!req.session.isLoggedIn) {
         res.redirect(`/login`);
+        return;
     }
 
     req.session.authenticatedUser.questionsCorrect = 0;
@@ -12,4 +13,4 @@ function songAddPage(req:Request, res: Response) {
     res.render("songAdditionPage");
 };
 
-export {songAddPage};
+export { songAddPage };

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Audio Advisor</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
   <div>
     <section>
@@ -17,20 +20,22 @@
       <div>
         <form method="POST" action="/api/login">
           <label for="email"></label>
-          <input class="btn" type="email" name="email" id="email" placeholder="Email" required>
-          <label for="password"></label>
-          <input class="btn" type="password" name="password" id="password" placeholder="Password" required>
-          <button class="btn">Login</button>
+          <input class="input" type="email" name="email" id="email" placeholder="Email" required>
+          <div>
+            <label class="input" for="password"></label>
+            <input class="input" type="password" name="password" id="password" placeholder="Password" required>
+            <button class="btn">Login</button>
+          </div>
         </form>
       </div>
       <div>
         <form action="/register">
-        <h3>
-          <button class="btn">
-            Register Account
-          </button>
-        </h3>
-      </form>
+          <h3>
+            <button class="btn">
+              Register Account
+            </button>
+          </h3>
+        </form>
       </div>
       <span>
         <form action="/index">
@@ -43,4 +48,5 @@
   </div>
 
 </body>
+
 </html>

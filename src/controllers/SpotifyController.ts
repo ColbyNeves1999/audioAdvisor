@@ -114,7 +114,8 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
-}
+    return;
+  }
 
   var refresh_token = decrypt(req.session.authenticatedUser.refreshToken) as string || null;
 

@@ -27,11 +27,13 @@ async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
 
 // Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
-  const urlArray = await chooseSongUrlsForGame();
 
   if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
+    return;
   }
+
+  const urlArray = await chooseSongUrlsForGame();
 
   req.session.urlArray = urlArray;
 

@@ -1,101 +1,171 @@
 body {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: x-large;
-    background-image: url('/imgs/background.png');
-    background-attachment: fixed;
-    background-repeat:no-repeat;
-    background-size:100% 100vh;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: x-large;
+  background-image: url('/imgs/background.png');
+  background-size: 100%;
+}
 
-  }
-  
-  .header1 {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    color: #bb60cb;
-    -webkit-text-stroke: 2px #954fa1;
-    text-align: center;
-    padding-top: 100px ;
-  }
-  
-  .header2 {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    color: #bb60cb;
-    -webkit-text-stroke: 2px #954fa1;
-    text-align: center;
-  }
-  
-  .header3 {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    /* position: relative; */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* .btn {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    margin-bottom: 20px;
-  } */
-  
-  .btn {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    background-color: #ffffff;
-    border-radius: 4rem;
-    position: relative;
-    transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
-    top: 50%;
-    left: 40%;
-    display: inline-block;
-    box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
-    transform: rotateX(0) rotateY(0) rotateZ(0);
-    font-size: 0.75rem;
-    font-weight: bold;
-  }
+.header1 {
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #000000; */
+  text-align: center;
+  padding-top: 100px;
+}
 
-  .btn2 {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    background-color: #ffffff;
-    border-radius: 4rem;
-    position: relative;
-    transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
-    display: inline-block;
-    box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
-    transform: rotateX(0) rotateY(0) rotateZ(0);
-    font-size: 0.75rem;
-    font-weight: bold;
-  }
-  
-  .btn-large {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-    background-color: #ffffff;
-    color: black;
-    border-radius: 4rem;
-    position: relative;
-    transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
-    left: 40%;
-    display: inline-block;
-    box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
-    font-size: 1.4rem;
-    text-decoration-line: none;
-    font-weight: lighter;
-    padding: 0.25rem 0.5rem;
-  
-    transition: all .04s;
-  }
-  
-  .btn:hover {
-    box-shadow: 0 0 0 0 var(green), 0 0 0 0 var(green), 0 0 0 0 var(green);
-    top: 3px;
-    transform: rotateX(5deg) rotateY(10deg) rotateZ(0.5deg);
-    cursor: pointer;
-  }
-  
-  .btn-large:hover {
-    box-shadow: 0 0 0 0 var(green), 0 0 0 0 var(green), 0 0 0 0 var(green);
-    top: 3px;
-    transform: rotateX(5deg) rotateY(10deg) rotateZ(0.5deg);
-    cursor: pointer;
-  }
+.header2 {
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #000000; */
+  text-align: center;
+}
+
+.favGenTxt {
+
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #000000; */
+  position: relative;
+  top: 50%;
+  left: 40%;
+
+}
+
+.header3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header4 {
+
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #000000; */
+  position: relative;
+  top: 50%;
+  left: 40%;
+
+}
+
+.btn {
+  background-color: #ffffff;
+  border-radius: 4rem;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  top: 50%;
+  left: 40%;
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+  transform: rotateX(0) rotateY(0) rotateZ(0);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.btn-large {
+  background-color: #ffffff;
+  color: black;
+  border-radius: 4rem;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  left: 40%;
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+  font-size: 1.4rem;
+  text-decoration-line: none;
+  font-weight: lighter;
+  padding: 0.25rem 0.5rem;
+
+  transition: all .04s;
+}
+
+.btn:hover {
+  box-shadow: 0 0 0 0 var(green), 0 0 0 0 var(green), 0 0 0 0 var(green);
+  top: 3px;
+  transform: rotateX(5deg) rotateY(10deg) rotateZ(0.5deg);
+  cursor: pointer;
+}
+
+.btn-large:hover {
+  box-shadow: 0 0 0 0 var(green), 0 0 0 0 var(green), 0 0 0 0 var(green);
+  top: 3px;
+  transform: rotateX(5deg) rotateY(10deg) rotateZ(0.5deg);
+  cursor: pointer;
+}
+
+.input {
+  position: relative;
+  left: 40%;
+}
+
+.text {
+  position: absolute;
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #954fa1; */
+  padding-left: 40%;
+  font-size: 1rem;
+}
+
+.label {
+  position: relative;
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #954fa1; */
+  padding-left: 30%;
+}
+
+.add-song-btn {
+  background-color: #ffffff;
+  border-radius: 4rem;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  top: 50%;
+  /* left: 40%; */
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+  transform: rotateX(0) rotateY(0) rotateZ(0);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.songTitleBtn {
+  background-color: #ffffff;
+  border-radius: 4rem;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  top: 50%;
+  left: 40%;
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+  transform: rotateX(0) rotateY(0) rotateZ(0);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.songPage-header {
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #954fa1; */
+  text-align: center;
+}
+
+.label-recomendation {
+  position: relative;
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #954fa1; */
+  padding-left: 20%;
+}
+
+.label-Genera {
+  position: relative;
+  color: #ffffff;
+  /* -webkit-text-stroke: 2px #954fa1; */
+}
+
+.btn-genre {
+  background-color: #ffffff;
+  border-radius: 4rem;
+  position: relative;
+  transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+  /* top: 50%; */
+  /* left: 40%; */
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+  transform: rotateX(0) rotateY(0) rotateZ(0);
+  font-size: 0.75rem;
+  font-weight: bold;
+}

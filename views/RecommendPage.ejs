@@ -11,15 +11,15 @@
 
 <body>
   <div>
-    <h1>Let's find you some songs!</h1>
+    <h1 class="songPage-header">Let's find you some songs!</h1>
     <form action="/index" method="GET">
-      <button class="btn2">Home Page</button>
+      <button class="btn">Return To Homepage</button>
     </form>
   </div>
 </body>
 
 <body>
-  <label>Play recommended song</label>
+  <h2 class="header2">Play recommended song</label>
 </body>
 
 <body>
@@ -33,47 +33,31 @@
   <audio id="audio" src="<%= playableSong.preview %>" preload="audio"></audio>
 
   <div>
-    <h1>How would you like to get a song?</h1>
-    <h3>By Decade</h3>
+    <h1 class="songPage-header">How would you like to get a song?</h1>
+    <h3 class="label-Genera">By Decade</h3>
+    <label class="label-Genera"> Recommended song: <%= songRecommendationByYear %></label>
     <form id="year" method="POST" action="/getSongByDecade">
-      <label for="year">Year</label>
-      <input type="text" name="year" id="year" placeholder="year" required>
-      <button class="btn2">Request</button>
-      <label> Recommended song: <%= songRecommendationByYear %></label>
+      <input type="text" name="year" id="year" placeholder="Enter Year Here" required>
+      <button>Request</button>
+    </form>
 
-    </form>
-    <h3>By Genre</h3>
+    <h3 class="label-Genera">By Genre</h3>
+    <label class="label-Genera"> Recommended song: <%= songRecommendationBySongGenre %></label>
     <form id="genre" method="POST" action="/getSongByGenre">
-      <label for="genre">Genre</label>
-      <input type="genre" name="genre" id="genre" placeholder="genre" required>
-      <button class="btn2">Request</button>
-      <label> Recommended song: <%= songRecommendationBySongGenre %> </label>
+      <input type="genre" name="genre" id="genre" placeholder="Enter Genre Here" required>
+      <button class="btn-genera">Request</button>
     </form>
-    <h3>By your favorite genre</h3>
+
+    <h3 class="label-Genera">By your favorite genre</h3>
+    <label> Recommended song: <%= songRecommendationByFav %></label>
     <form id="fave" method="POST" action="/getSongByFave">
       <button class="btn2">Request</button>
-      <label> Recommended song: <%= songRecommendationByFav %></label>
+    </form>
   </div>
 </body>
 
 
-<script type="text/javascript">
-  function toggleSong() {
-    let audio = document.getElementById('audio');
-    let button = document.getElementById('button');
-    if (!audio) { button.innerText = 'Sorry no Preview Available'; }
-    else if (audio.paused) {
-      audio.currentTime = 0;
-      audio.volume = 0.1;
-      setTimeout(() => { audio.play(); }, 500);
-      button.innerText = 'Pause Song';
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-      button.innerText = 'Play Song';
-    }
-  }
-
+<script>
 </script>
 
 </html>

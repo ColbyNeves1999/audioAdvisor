@@ -5,10 +5,9 @@ import { Song } from '../entities/Song';
 
 async function recommendationPage(req: Request, res: Response): Promise<void> {
 
-    if (req.session.isLoggedIn === false) {
-
-        res.redirect(`/index`);
-
+    if (!req.session.isLoggedIn) {
+        res.redirect(`/login`);
+        return;
     }
 
     let songRecommendationByYear = "";
@@ -28,6 +27,11 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
 }
 
 async function recommendSongByDecade(req: Request, res: Response): Promise<void> {
+
+    if (!req.session.isLoggedIn) {
+        res.redirect(`/login`);
+        return;
+    }
 
     const { year } = req.body as recommendationYear;
 
@@ -66,6 +70,11 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
 async function recommendSongByGenre(req: Request, res: Response): Promise<void> {
 
+    if (!req.session.isLoggedIn) {
+        res.redirect(`/login`);
+        return;
+    }
+
     const { genre } = req.body as recommendationYear;
 
     let songRecommendationByYear = "";
@@ -100,6 +109,11 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
 }
 
 async function recommendSongByFav(req: Request, res: Response): Promise<void> {
+
+    if (!req.session.isLoggedIn) {
+        res.redirect(`/login`);
+        return;
+    }
 
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";

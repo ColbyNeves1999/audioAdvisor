@@ -9,7 +9,8 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
-}
+    return;
+  }
 
   const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
@@ -72,7 +73,8 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
 
   if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
-}
+    return;
+  }
 
   const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
@@ -201,7 +203,7 @@ async function getAllSongs(req: Request, res: Response): Promise<void> {
   // Don't send back the raw data. Instead render it with EJS
 
   const song = await getSongs();
-  
+
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();

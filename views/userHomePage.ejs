@@ -10,56 +10,60 @@
     <%= user.email.split('@')[0] %> | Home Page
   </title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
   <span>
-    <h1>
+    <h1 class="header1">
       Welcome to your home page <%= user.email.split('@')[0] %>!
     </h1>
+    <h2 class="header2">
+      Your favorite genre is currently: <%= user.favoriteGenre %>
+    </h2>
+    <h2 class="header2">
+      Current number of games won: <%= gamesWon %>
+    </h2>
+
   </span>
-  <form action="/logout" method="POST">
-    <button class="btn2">Logout</button>
-  </form>
-  <h1>You've won <%= gamesWon %> games.</h1>
+
   <div>
-    <form action="/updateEmail" method="POST">
-      Update your email here
-      <label for="email"></label>
-      <input class="btn2" type="email" name="email" id="email" placeholder="Email" required>
-      <button class="btn2">Update Email</button>
+    <form method="POST" action="/setFavoriteGenre">
+      <input class="btn" type="text" name="favoriteGenre" id="favoriteGenre" placeholder="Write Favorite Genre Here">
+      <button class="btn">Set</button>
     </form>
   </div>
-  <h1>You're favorite genre is <%= user.favoriteGenre %> right?</h1>
-    <div>
-      <form action="/setFavoriteGenre" method="POST">
-        You can change your favorite genre here
-        <label for="favoriteGenre"></label>
-        <input class="btn2" type="favoriteGenre" name="favoriteGenre" id="favoriteGenre" placeholder="favoriteGenre" required>
-        <button class="btn2">Update genre</button>
-      </form>
-    </div>
+  <div>
+    <form action="/songAdditionPage" method="GET">
+      <button class="btn">Add Songs</button>
+    </form>
+  </div>
+
   <form action="/api/test" method="GET">
-    <button class="btn2">Get All Songs on AudioAdvisor</button>
+    <button class="btn">Get All Songs on AudioAdvisor</button>
   </form>
   <div>
-    <div>
-      <form action="/api/getDatabaseSongs" method="GET">
-        <button class="btn2">Open AudioAdvisor Game</button>
-      </form>
-    </div>
+    <form action="/api/getDatabaseSongs" method="GET">
+      <button class="btn">Open AudioAdvisor Game</button>
+    </form>
+  </div>
 
-    <div>
-      <form action="/recommendationPage" method="Post">
-        <button class="btn2">Recommendation Page</button>
-      </form>
-    </div>
+  <div>
+    <form action="/recommendationPage" method="Post">
+      <button class="btn">Get Song Recommendations</button>
+    </form>
+  </div>
 
-    <div>
-      <form action="/index" method="GET">
-        <button class="btn2">Home Page</button>
-      </form>
-    </div>
+  <div>
+    <form action="/index" method="GET">
+      <button class="btn">Back To The Home Page</button>
+    </form>
+  </div>
+  <div>
+    <form action="/logout" method="POST">
+      <button class="btn">Logout</button>
+    </form>
+  </div>
 </body>
 
 </html>

@@ -44,7 +44,8 @@ async function logIn(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    res.redirect(`/login`);
+    res.redirect(`/register`);
+    return;
   }
 
   const { passwordHash } = user;
@@ -54,7 +55,6 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  await req.session.clearSession();
   req.session.authenticatedUser = {
     email: user.email,
     accountAuthorized: user.accountAuthorized,
@@ -69,7 +69,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   req.session.questionNumber = 0;
 
   const temp = await !getGamesWon(req.session.authenticatedUser.userId);
-  if(temp === false){
+  if (temp === false) {
     await addGameWinner(req.session.authenticatedUser.userId);
   }
 
@@ -83,9 +83,9 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function logOut(req: Request, res: Response): Promise<void> {
 
-  //await req.session.clearSession();
-  req.session.isLoggedIn = false;
+  await req.session.clearSession();
   res.redirect(`/index`);
+  return;
 
 }
 
@@ -93,6 +93,7 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
   if (!req.session.authenticatedUser.authToken) {
     res.redirect(`/login`);
+    return;
   }
 
   //Requests the spotifyID of the user's authorized Spotify account
@@ -152,7 +153,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
     const gamesWon = (await getGamesWon(req.session.authenticatedUser.userId)).gamesWon;
 
     res.render('userHomePage', { user, gamesWon });
-    
+
   } catch (err) {
     // The email was taken so we need to send an error message
     console.error(err);
@@ -174,7 +175,8 @@ async function updateUserGenre(req: Request, res: Response): Promise<void> {
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
   if (!isLoggedIn) {
-    res.redirect('/login');
+    res.redirect(`/login`);
+    return;
   }
 
   await setUserGenre(authenticatedUser.userId, favoriteGenre);

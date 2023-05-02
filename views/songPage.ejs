@@ -15,24 +15,22 @@
     Song Data Base
     <div>
         <form action="/api/refreshToken" method="GET">
-          <button class="btn">User HomePage</button>
+            <button class="btn">User HomePage</button>
         </form>
-      </div>
+    </div>
     <ol>
         <% for (let i=0; i < song.length; i++) { %>
             <% if (!song[i].preview) { %>
                 <span>
-                        <button class="btn2">No Preview Available</button>
-                        <%= song[i].songTitle %>
+                    <button class="btn2">No Preview Available</button>
+                    <%= song[i].songTitle %>
                         <% } else { %>
                             <span>
-                                    <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
-                                    <button class="btn2" onclick="toggleSong(<%= i %>)">Play/Pause</button>
-                                    <%= song[i].songTitle %>
+                                <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
+                                <button class="btn2" onclick="toggleSong(<%= i %>)">Play/Pause</button>
+                                <%= song[i].songTitle %>
                             </span>
                             <% } %>
-
-
                                 <div id="audioContainer"></div>
                                 <script>
                                     function toggleSong(index) {
@@ -53,6 +51,21 @@
                                 </script>
                                 <% } %>
 
+                                    <div id="audioContainer"></div>
+                                    <script>
+                                        function toggleSong(index) {
+                                            let audio = document.getElementById('audio' + index);
+                                            let button = document.getElementById('button' + index);
+                                            if (audio.paused) {
+                                                audio.play();
+                                                button.innerText = 'Pause Song';
+                                            } else {
+                                                audio.pause();
+                                                button.innerText = 'Play Song';
+                                            }
+                                        }
+                                    </script>
+                                    <% } %>
 
     </ol>
 

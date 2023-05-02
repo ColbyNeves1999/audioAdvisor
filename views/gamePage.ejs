@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question Page | AudioAdvisor</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -16,117 +17,152 @@
     </form>
   </div>
   <ul>
-    <li>
-      <p>Guess the Correct Answer for song #<%= questionNumber + 1 %>
-      </p>
-      <audio id="audio<%= questionNumber %>" src="<%=urlArray[questionNumber].preview %>" preload="audio"></audio>
-      <button id="button<%= questionNumber %>" onclick="toggleSong(<%= questionNumber %>)">Play Song</button>
-      <div>
-        <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
-          <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
-            <% let numArray=[]%>
-              <% numArray[0]=questionNumber; %>
+    <p class="header1">Guess the Correct Answer for song #<%= questionNumber + 1 %>
+    </p>
+    <audio id="audio<%= questionNumber %>" src="<%=urlArray[questionNumber].preview %>" preload="audio"></audio>
+    <button class="btn" id="button<%= questionNumber %>" onclick="toggleSong(<%= questionNumber %>)">Play Song</button>
+    <div>
+      <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
+        <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
+          <% let numArray=[]%>
+            <% numArray[0]=questionNumber; %>
 
-                <% let j=getRandomInt(); %>
-                  <% while (numArray.includes(j)) { j=getRandomInt(); } %>
-                    <% numArray[1]=j; %>
+              <% let j=getRandomInt(); %>
+                <% while (numArray.includes(j)) { j=getRandomInt(); } %>
+                  <% numArray[1]=j; %>
 
-                      <% let k=getRandomInt(); %>
-                        <% while (numArray.includes(k)) { k=getRandomInt(); } %>
-                          <% numArray[2]=k;%> %>
+                    <% let k=getRandomInt(); %>
+                      <% while (numArray.includes(k)) { k=getRandomInt(); } %>
+                        <% numArray[2]=k;%> %>
 
-                            <% let l=getRandomInt(); %>
-                              <% while (numArray.includes(l)) { l=getRandomInt(); } %>
-                                <% numArray[3]=l; %>
+                          <% let l=getRandomInt(); %>
+                            <% while (numArray.includes(l)) { l=getRandomInt(); } %>
+                              <% numArray[3]=l; %>
 
-                                  <% let option=getAnswerOption() %>
-                                      <% if (option===0) {%> <!-- displays the correct answer as the first option -->
-                                        <button class="songTitleBtn"
-                                          data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                          <%=urlArray[questionNumber].songTitle%>
-                                        </button>
-                                        <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
-                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                          <%=urlArray[j].songTitle%>
-                                        </button>
-                                        <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
-                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                          <%=urlArray[k].songTitle%>
-                                        </button>
-                                        <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
-                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                          <%=urlArray[l].songTitle%>
-                                        </button>
-                                        <% } %>
-                                          <% if (option===1) { %>
-                                            <!-- displays the correct answer as the second option -->
+                                <% let option=getAnswerOption() %>
+
+                                  <% if (option===0) {%> <!-- displays the correct answer as the first option -->
+                                    <div>
+                                      <button class="songTitleBtn"
+                                        data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                        <%=urlArray[questionNumber].songTitle%>
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
+                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                        <%=urlArray[j].songTitle%>
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
+                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                        <%=urlArray[k].songTitle%>
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
+                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                        <%=urlArray[l].songTitle%>
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <% } %>
+                                        <% if (option===1) { %>
+                                          <!-- displays the correct answer as the second option -->
+                                          <div>
                                             <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
                                               data-gan="<%=urlArray[questionNumber].songTitle%>">
                                               <%=urlArray[j].songTitle%>
                                             </button>
+                                          </div>
+                                          <div>
                                             <button class="songTitleBtn"
                                               data-song-title="<%=urlArray[questionNumber].songTitle%>"
                                               data-gan="<%=urlArray[questionNumber].songTitle%>">
                                               <%=urlArray[questionNumber].songTitle%>
                                             </button>
+                                          </div>
+                                          <div>
                                             <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
                                               data-gan="<%=urlArray[questionNumber].songTitle%>">
                                               <%=urlArray[k].songTitle%>
                                             </button>
+                                          </div>
+                                          <div>
                                             <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
                                               data-gan="<%=urlArray[questionNumber].songTitle%>">
                                               <%=urlArray[l].songTitle%>
                                             </button>
+                                          </div>
+                                          <div>
                                             <% } %>
                                               <% if (option===2) { %>
                                                 <!-- displays the correct answer as the third option -->
-                                                <button class="songTitleBtn"
-                                                  data-song-title="<%=urlArray[k].songTitle%>"
-                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                  <%=urlArray[k].songTitle%>
-                                                </button>
-                                                <button class="songTitleBtn"
-                                                  data-song-title="<%=urlArray[j].songTitle%>"
-                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                  <%=urlArray[j].songTitle%>
-                                                </button>
-                                                <button class="songTitleBtn"
-                                                  data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                  <%=urlArray[questionNumber].songTitle%>
-                                                </button>
-                                                <button class="songTitleBtn"
-                                                  data-song-title="<%=urlArray[l].songTitle%>"
-                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                  <%=urlArray[l].songTitle%>
-                                                </button>
-                                                <% } %>
-                                                  <% if (option===3) { %>
-                                                    <!-- displays the correct answer as the fourth option -->
-                                                    <button class="songTitleBtn"
-                                                      data-song-title="<%=urlArray[l].songTitle%>"
-                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                      <%=urlArray[l].songTitle%>
-                                                    </button>
-                                                    <button class="songTitleBtn"
-                                                      data-song-title="<%=urlArray[j].songTitle%>"
-                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                      <%=urlArray[j].songTitle%>
-                                                    </button>
-                                                    <button class="songTitleBtn"
-                                                      data-song-title="<%=urlArray[k].songTitle%>"
-                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                      <%=urlArray[k].songTitle%>
-                                                    </button>
-                                                    <button class="songTitleBtn"
-                                                      data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                      <%=urlArray[questionNumber].songTitle%>
-                                                    </button>
-                                                    <% } %>
-      </div>
-    </li>
+                                                <div>
+                                                  <button class="songTitleBtn"
+                                                    data-song-title="<%=urlArray[k].songTitle%>"
+                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                    <%=urlArray[k].songTitle%>
+                                                  </button>
+                                                </div>
+                                                <div>
+                                                  <button class="songTitleBtn"
+                                                    data-song-title="<%=urlArray[j].songTitle%>"
+                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                    <%=urlArray[j].songTitle%>
+                                                  </button>
+                                                </div>
+                                                <div>
+                                                  <button class="songTitleBtn"
+                                                    data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                    <%=urlArray[questionNumber].songTitle%>
+                                                  </button>
+                                                </div>
+                                                <div>
+                                                  <button class="songTitleBtn"
+                                                    data-song-title="<%=urlArray[l].songTitle%>"
+                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                    <%=urlArray[l].songTitle%>
+                                                  </button>
+                                                </div>
+                                                <div>
+                                                  <% } %>
+                                                    <% if (option===3) { %>
+                                                      <!-- displays the correct answer as the fourth option -->
+                                                      <div>
+                                                        <button class="songTitleBtn"
+                                                          data-song-title="<%=urlArray[l].songTitle%>"
+                                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                          <%=urlArray[l].songTitle%>
+                                                        </button>
+                                                      </div>
+                                                      <div>
+                                                        <button class="songTitleBtn"
+                                                          data-song-title="<%=urlArray[j].songTitle%>"
+                                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                          <%=urlArray[j].songTitle%>
+                                                        </button>
+                                                      </div>
+                                                      <div>
+                                                        <button class="songTitleBtn"
+                                                          data-song-title="<%=urlArray[k].songTitle%>"
+                                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                          <%=urlArray[k].songTitle%>
+                                                        </button>
+                                                      </div>
+                                                      <div>
+                                                        <button class="songTitleBtn"
+                                                          data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                          <%=urlArray[questionNumber].songTitle%>
+                                                        </button>
+                                                      </div>
+                                                      <div>
+                                                        <% } %>
+                                                      </div>
   </ul>
 
   <form id="answerForm" action="/questions/questionNumber" method="POST">
@@ -152,16 +188,13 @@
         button.innerText = 'Play Song';
       }
     }
-
     function getRandomInt() {
       return Math.floor(Math.random() * 10)
     }
-
     function handleSongTitleClick(event) {
       const target = event.target;
       const title = target.dataset.songTitle;
       const actual = target.dataset.gan;
-
       if (title === actual) {
         alert(`CORRECT`);
         updateQuestion.value = 1;
