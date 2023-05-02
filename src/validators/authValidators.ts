@@ -33,8 +33,8 @@ const validateLoginBody = makeValidator(loginSchema, 'body');
 const yearSchema = Joi.object({
     year: Joi.number()
         .integer()
-        .min(1900)
-        .max(2023),
+        .min(1950)
+        .max(2029),
 
 });
 

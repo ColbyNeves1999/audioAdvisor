@@ -110,40 +110,46 @@ async function getSongRecommendationByGenre(genre: string): Promise<Song | null>
     let genreArray = [];
     let resultingSong;
 
-    const doesItExist = await songRepository
+    /*const doesItExist = await songRepository
     .createQueryBuilder('song')
     .where('genre = :genre', { genre })
-    .getOne();
+    .getOne();*/
 
-    if(doesItExist){
+    for( let i = 0; i < repoSize; i++){
 
-        for( let i = 0; i < repoSize; i++){
+    rowValues = i;
 
-            rowValues = i;
+    const results = await songRepository
+        .createQueryBuilder('song')
+        .where('rowid = :rowValues', { rowValues })
+        .getOne();
 
-            const results = await songRepository
-                .createQueryBuilder('song')
-                .where('rowid = :rowValues', { rowValues })
-                .getOne();
-
-            if (results) {
+            /*if (results) {
                 temp = results.genre;
                 if(temp === genre){
                     genreArray.push(results);
 
                 }
+            }*/
+
+        if (results && results.genre) {
+
+            temp = results.genre;
+            if(temp.includes(genre) && genreArray){
+                    genreArray.push(results);
+            }else{
+                resultingSong = null;
             }
-
-        } 
-
-        const randValue = getRandomInt(genreArray.length);
-
-        resultingSong = genreArray[randValue];
-    }else{
-        resultingSong = null;
-    }
     
-        return resultingSong;
+        }
+
+    } 
+
+    const randValue = getRandomInt(genreArray.length);
+
+    resultingSong = genreArray[randValue];
+    
+    return resultingSong;
 
 }
 

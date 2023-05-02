@@ -3,7 +3,7 @@ import 'express-async-errors';
 import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
-import { registerUser, logIn, getSpotifyId, updateUserGenre } from './controllers/UserController';
+import { registerUser, logIn, logOut, getSpotifyId, updateUserGenre } from './controllers/UserController';
 import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
 import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './controllers/SongController';
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
@@ -45,6 +45,7 @@ scheduleJob('0 * * * *', iRunEveryHour);
 
 app.post('/api/users', validateNewUserBody, registerUser); // Create an account
 app.post('/api/login', validateLoginBody, logIn); // Log in to an account
+app.post('/logout', logOut);
 app.get('/api/spotifyLogin', spotifyLogin); // Logs in to and authorizes spotify access
 app.get('/api/callBack', callBack);
 app.get('/api/refreshToken', refreshToken);

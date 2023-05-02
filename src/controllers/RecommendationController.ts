@@ -7,7 +7,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn) {
 
-        res.redirect(`/login`);
+        res.redirect(`/index`);
 
     }
 
@@ -47,6 +47,7 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
     if (!temp) {
         songRecommendationByYear = "Sorry, there is not currently a song from that decade in our database. You could add your own!"
+        temp = new Song();
     } else {
         songRecommendationByYear = temp.songTitle + " by " + temp.artist;
     }
@@ -80,7 +81,8 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
     } while (!temp && temp === req.session.previousRecommendation)
 
     if (!temp) {
-        songRecommendationBySongGenre = "Sorry, there is not currently a song of that genre in our database. You could add your own!"
+        songRecommendationBySongGenre = "Sorry, there is not currently a song of that genre in our database. You could add your own!";
+        temp = new Song();
     } else {
         songRecommendationBySongGenre = temp.songTitle + " by " + temp.artist;
     }
@@ -115,6 +117,7 @@ async function recommendSongByFav(req: Request, res: Response): Promise<void> {
 
     if (!temp) {
         songRecommendationByFav = "Sorry, there is not currently a song from that genre in our database. You could add your own!"
+        temp = new Song();
     } else {
         songRecommendationByFav = temp.songTitle + " by " + temp.artist;
     }

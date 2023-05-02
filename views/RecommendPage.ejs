@@ -42,7 +42,6 @@
 
     </form>
     <h3>By Genre</h3>
-    <label> These are the genres currently in the database: <%=myGenreArray%></label>
     <form id="genre" method="POST" action="/getSongByGenre">
       <label for="genre">Genre</label>
       <input type="genre" name="genre" id="genre" placeholder="genre" required>
@@ -64,7 +63,7 @@
     if (!audio) { button.innerText = 'Sorry no Preview Available'; }
     else if (audio.paused) {
       audio.currentTime = 0;
-      audio.volume = 0.05;
+      audio.volume = 0.1;
       setTimeout(() => { audio.play(); }, 500);
       button.innerText = 'Pause Song';
     } else {

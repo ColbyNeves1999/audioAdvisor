@@ -17,6 +17,9 @@
       Welcome to your home page <%= user.email.split('@')[0] %>!
     </h1>
   </span>
+  <form action="/logout" method="POST">
+    <button>Logout</button>
+  </form>
   <h1>You've won <%= gamesWon %> games.</h1>
   <form action="/api/test" method="GET">
     <button>Get All Songs on AudioAdvisor</button>

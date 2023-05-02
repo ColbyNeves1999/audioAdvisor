@@ -81,6 +81,14 @@ async function logIn(req: Request, res: Response): Promise<void> {
   }
 }
 
+async function logOut(req: Request, res: Response): Promise<void> {
+
+  await req.session.clearSession();
+  req.session.isLoggedIn = false;
+  res.redirect(`/index`);
+
+}
+
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
   if (!req.session.authenticatedUser.authToken) {
@@ -175,4 +183,4 @@ async function updateUserGenre(req: Request, res: Response): Promise<void> {
 
 }
 
-export { registerUser, logIn, getSpotifyId, updateUserEmail, updateUserGenre };
+export { registerUser, logIn, getSpotifyId, updateUserEmail, updateUserGenre, logOut };
