@@ -17,6 +17,7 @@
       Welcome to your home page <%= user.email.split('@')[0] %>!
     </h1>
   </span>
+  <h1>You've won <%= gamesWon %> games.</h1>
   <form action="/api/test" method="GET">
     <button>Get All Songs on AudioAdvisor</button>
   </form>
@@ -30,7 +31,15 @@
         <button>Update Email</button>
       </form>
     </div>
-
+    <h1>You're favorite genre is <%= user.favoriteGenre %> right? If not, can you correct me?</h1>
+    <div>
+      <form action="/setFavoriteGenre" method="POST">
+        You can change your favorite genre here
+        <label for="favoriteGenre"></label>
+        <input type="favoriteGenre" name="favoriteGenre" id="favoriteGenre" placeholder="favoriteGenre" required>
+        <button>Update genre</button>
+      </form>
+    </div>
     <div>
       <form action="/api/getDatabaseSongs" method="GET">
         <button>Open AudioAdvisor Game</button>

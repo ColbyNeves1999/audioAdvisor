@@ -19,3 +19,7 @@ type SpotifyUserData = {
 type NewUserId = {
   userId: string;
 };
+
+type userGenre = {
+  favoriteGenre: string;
+}

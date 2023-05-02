@@ -9,18 +9,27 @@
 </head>
 
 <body>
-    <div>
-        <form action="/index" method="GET">
-          <button>Home Page</button>
-        </form>
-    </div>
-    <div>
-        <form action="/api/refreshToken" method="GET">
-          <button>User HomePage</button>
-        </form>
-    </div>
-    <label>You got <%=questionsRight%>/10 questions correct.</label>
+  <div>
+    <form action="/index" method="GET">
+      <button>Home Page</button>
+    </form>
+  </div>
+  <div>
+    <form action="/api/refreshToken" method="GET">
+      <button>User HomePage</button>
+    </form>
+  </div>
+  <div>
+    <label>You got <%=questionsRight%>/10 questions correct. You <%= gameStatus%>!</label>
+  </div>
+  <div>
     <label>Here are all the songs from this game: <%= questionsArray %></label>
+  </div>
+  <div>
+    <form action="/api/getDatabaseSongs" method="GET">
+      <button>Play again?</button>
+    </form>
+  </div>
 </body>
-  
+
 </html>

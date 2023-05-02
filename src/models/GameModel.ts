@@ -11,8 +11,11 @@ async function getGamesPlayed(gamesPlayed: number): Promise<GameWinner | null> {
   return numGames;
 }
 
-async function getGamesWon(gamesWon: number): Promise<GameWinner | null> {
-  const wins = await gameRepository.findOne({ where: { gamesWon } });
+async function getGamesWon(playerId: string): Promise<GameWinner | null> {
+  const wins = await gameRepository
+    .createQueryBuilder('song')
+    .where('userID = :playerId', { playerId })
+    .getOne();
   return wins;
 }
 
@@ -68,7 +71,8 @@ async function getNumQuestionsCorrect(questionsCorrect: number): Promise<GameWin
   return wins;
 }
 
-async function chooseSongUrlsForGame(): Promise<string[]> {
+async function chooseSongUrlsForGame(): Promise<Song[]> {
+
   const databaseSize = getSongDatabaseSize();
   const urlArray = new Array(10);
 

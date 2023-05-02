@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Buffer } from 'buffer';
 import querystring from 'querystring';
 import { generateRandomString, refreshAuth, storeAuth } from '../models/SpotifyModel';
+import { getGamesWon } from '../models/GameModel';
 import { getUserByEmail } from '../models/UserModel';
 import { AppDataSource } from '../dataSource';
 import { User } from '../entities/User';
@@ -149,9 +150,9 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();
-
+  const gamesWon = (await getGamesWon(user.userId)).gamesWon;
   //Sends User to their ID homepage upon completion
-  res.render('userHomePage', { user });
+  res.render('userHomePage', { user, gamesWon });
 
 }
 

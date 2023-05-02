@@ -4,13 +4,11 @@ import {
   updateGamesWon,
   updateGamesPlayed,
   getUserById,
-  getGamesWon,
   updateQuestionsCorrect,
   chooseSongUrlsForGame,
   addGameWinner,
 } from '../models/GameModel';
 import { getRandomInt } from '../models/SongModel';
-import { arrayToString } from '../models/RecommendationModel';
 
 
 // Retrieves the user's number of games played
@@ -27,27 +25,12 @@ async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
-// Retrieves the user's number of games won
-async function getNumGamesWon(req: Request, res: Response): Promise<void> {
-  const { gamesWon } = req.body as NewGamesWonRequestBody;
-
-  const numGames = await getGamesWon(gamesWon);
-
-  if (!numGames) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
-
 // Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
   const urlArray = await chooseSongUrlsForGame();
 
-  // console.log(urlArray);
+
   req.session.urlArray = urlArray;
-  console.log(req.session.urlArray);
 
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
@@ -104,49 +87,57 @@ async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void
 }
 
 async function checkAnswer(req: Request, res: Response): Promise<void> {
-  // const { questionNumber, functionArray } = req.body as QuestionNumberParam;
-  // console.log(questionNumber);
-  // let temp = parseInt(questionNumber);
+
+  let gameStatus = "Lost";
+
   const { updateQuestion } = req.body as QuestionNumberParam;
 
   if (updateQuestion === '1') {
     req.session.authenticatedUser.questionsCorrect += 1;
   }
-  console.log(req.session.authenticatedUser.questionsCorrect);
 
-  // const urlArray = await chooseSongUrlsForGame();
   const { urlArray } = req.session;
 
   const { questionsCorrect } = req.session.authenticatedUser;
-  // console.log('hello world!');
 
   // Now redirect to the proper question in the array
   req.session.questionNumber = req.session.questionNumber + 1;
-  // console.log(temp);
-  // console.log('look here');
+
   if (req.session.questionNumber < 10) {
-    // res.render(`/gamePage`, { urlArray, temp });
+
     res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
   } else {
     const temp = await getUserById(req.session.authenticatedUser.userId);
-    if (temp && questionsCorrect > 1) {
+    if (temp && questionsCorrect > 7) {
       updateGamesWon(temp);
-    } else if (questionsCorrect > 1) {
+      gameStatus = "Won";
+    } else if (questionsCorrect > 7) {
       await addGameWinner(req.session.authenticatedUser.userId);
       updateGamesWon(temp);
+      gameStatus = "Won";
     }
     const questionsRight = req.session.authenticatedUser.questionsCorrect;
-    const questionsArray = arrayToString(req.session.urlArray);
+    const tempArray = req.session.urlArray;
+    let questionsArray = "";
+
+    for (let i = 0; i < tempArray.length; i++) {
+
+      questionsArray = questionsArray + tempArray[i].songTitle;
+      if (i !== (tempArray.length - 1)) {
+        questionsArray = questionsArray + ", ";
+      }
+
+    }
+
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
-    res.render('resultsPage', { questionsRight, questionsArray });
+    res.render('resultsPage', { questionsRight, questionsArray, gameStatus });
   }
 }
 
 export {
   getNumGamesPlayed,
-  getNumGamesWon,
   setNumGamesPlayed,
   setNumGamesWon,
   getSongUrlsForGame,

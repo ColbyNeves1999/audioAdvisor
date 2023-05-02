@@ -3,7 +3,7 @@ import 'express-async-errors';
 import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
-import { registerUser, logIn, getSpotifyId } from './controllers/UserController';
+import { registerUser, logIn, getSpotifyId, updateUserGenre } from './controllers/UserController';
 import { spotifyLogin, callBack, refreshToken } from './controllers/SpotifyController';
 import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './controllers/SongController';
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
@@ -59,7 +59,8 @@ app.get('/songAdditionPage', songAddPage);
 app.post('/questions/questionNumber', checkAnswer);
 app.post('/recommendationPage', recommendationPage);
 app.post('/getSongByDecade', validateyearBody, recommendSongByDecade);
-app.post('/getSongByGenre', recommendSongByGenre)
+app.post('/getSongByGenre', recommendSongByGenre);
+app.post('/setFavoriteGenre', updateUserGenre);
 
 
 app.listen(PORT, () => {

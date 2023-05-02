@@ -17,11 +17,9 @@ async function addSong(songTitle: string, songId: string, artist: string, genre:
 
   // Then save it to the database
   // NOTES: We reassign to `newSong` so we can access
-
   const songInPlaylist = await getSongbyID(newSong.songID);
 
   if (!songInPlaylist) {
-    console.log(newSong.songTitle);
     newSong = await songRepository.save(newSong);
   }
 

@@ -34,6 +34,9 @@ export class User {
   @Column({ default: 0 })
   questionsCorrect: number;
 
+  @Column({ default: "rock" })
+  favoriteGenre: string;
+
   @OneToOne(() => AvatarPhoto, (avatarPhoto) => avatarPhoto.user)
   @JoinColumn()
   avatarPhoto: Relation<AvatarPhoto>;

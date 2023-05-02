@@ -9,11 +9,11 @@
 </head>
 
 <body>
-<div>
+  <div>
     <form action="/api/refreshToken" method="GET">
       <button>User HomePage</button>
     </form>
-</div>
+  </div>
   <ul>
     <li>
       <p>Guess the Correct Answer for song #<%= questionNumber + 1 %>
@@ -39,89 +39,92 @@
                                 <% numArray[3]=l; %>
 
                                   <% let option=getAnswerOption() %>
-
-                                    <% if (option===0) {%> <!-- displays the correct answer as the first option -->
-                                      <button class="songTitleBtn"
-                                        data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                        <%=urlArray[questionNumber].songTitle%>
-                                      </button>
-                                      <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
-                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                        <%=urlArray[j].songTitle%>
-                                      </button>
-                                      <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
-                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                        <%=urlArray[k].songTitle%>
-                                      </button>
-                                      <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
-                                        data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                        <%=urlArray[l].songTitle%>
-                                      </button>
-                                      <% } %>
-                                        <% if (option===1) { %>
-                                          <!-- displays the correct answer as the second option -->
-                                          <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
-                                            data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                            <%=urlArray[j].songTitle%>
-                                          </button>
-                                          <button class="songTitleBtn"
-                                            data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                            data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                            <%=urlArray[questionNumber].songTitle%>
-                                          </button>
-                                          <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
-                                            data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                            <%=urlArray[k].songTitle%>
-                                          </button>
-                                          <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
-                                            data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                            <%=urlArray[l].songTitle%>
-                                          </button>
-                                          <% } %>
-                                            <% if (option===2) { %>
-                                              <!-- displays the correct answer as the third option -->
-                                              <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
-                                                data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                <%=urlArray[k].songTitle%>
-                                              </button>
-                                              <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
-                                                data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                <%=urlArray[j].songTitle%>
-                                              </button>
-                                              <button class="songTitleBtn"
-                                                data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                                data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                <%=urlArray[questionNumber].songTitle%>
-                                              </button>
-                                              <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
-                                                data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                <%=urlArray[l].songTitle%>
-                                              </button>
-                                              <% } %>
-                                                <% if (option===3) { %>
-                                                  <!-- displays the correct answer as the fourth option -->
-                                                  <button class="songTitleBtn"
-                                                    data-song-title="<%=urlArray[l].songTitle%>"
-                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                    <%=urlArray[l].songTitle%>
-                                                  </button>
-                                                  <button class="songTitleBtn"
-                                                    data-song-title="<%=urlArray[j].songTitle%>"
-                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                    <%=urlArray[j].songTitle%>
-                                                  </button>
-                                                  <button class="songTitleBtn"
-                                                    data-song-title="<%=urlArray[k].songTitle%>"
-                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                    <%=urlArray[k].songTitle%>
-                                                  </button>
-                                                  <button class="songTitleBtn"
-                                                    data-song-title="<%=urlArray[questionNumber].songTitle%>"
-                                                    data-gan="<%=urlArray[questionNumber].songTitle%>">
-                                                    <%=urlArray[questionNumber].songTitle%>
-                                                  </button>
-                                                  <% } %>
+                                    <%= numArray %>
+                                      <% if (option===0) {%> <!-- displays the correct answer as the first option -->
+                                        <button class="songTitleBtn"
+                                          data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                          <%=urlArray[questionNumber].songTitle%>
+                                        </button>
+                                        <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
+                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                          <%=urlArray[j].songTitle%>
+                                        </button>
+                                        <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
+                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                          <%=urlArray[k].songTitle%>
+                                        </button>
+                                        <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
+                                          data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                          <%=urlArray[l].songTitle%>
+                                        </button>
+                                        <% } %>
+                                          <% if (option===1) { %>
+                                            <!-- displays the correct answer as the second option -->
+                                            <button class="songTitleBtn" data-song-title="<%=urlArray[j].songTitle%>"
+                                              data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                              <%=urlArray[j].songTitle%>
+                                            </button>
+                                            <button class="songTitleBtn"
+                                              data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                              data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                              <%=urlArray[questionNumber].songTitle%>
+                                            </button>
+                                            <button class="songTitleBtn" data-song-title="<%=urlArray[k].songTitle%>"
+                                              data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                              <%=urlArray[k].songTitle%>
+                                            </button>
+                                            <button class="songTitleBtn" data-song-title="<%=urlArray[l].songTitle%>"
+                                              data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                              <%=urlArray[l].songTitle%>
+                                            </button>
+                                            <% } %>
+                                              <% if (option===2) { %>
+                                                <!-- displays the correct answer as the third option -->
+                                                <button class="songTitleBtn"
+                                                  data-song-title="<%=urlArray[k].songTitle%>"
+                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                  <%=urlArray[k].songTitle%>
+                                                </button>
+                                                <button class="songTitleBtn"
+                                                  data-song-title="<%=urlArray[j].songTitle%>"
+                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                  <%=urlArray[j].songTitle%>
+                                                </button>
+                                                <button class="songTitleBtn"
+                                                  data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                  <%=urlArray[questionNumber].songTitle%>
+                                                </button>
+                                                <button class="songTitleBtn"
+                                                  data-song-title="<%=urlArray[l].songTitle%>"
+                                                  data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                  <%=urlArray[l].songTitle%>
+                                                </button>
+                                                <% } %>
+                                                  <% if (option===3) { %>
+                                                    <!-- displays the correct answer as the fourth option -->
+                                                    <button class="songTitleBtn"
+                                                      data-song-title="<%=urlArray[l].songTitle%>"
+                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                      <%=urlArray[l].songTitle%>
+                                                    </button>
+                                                    <button class="songTitleBtn"
+                                                      data-song-title="<%=urlArray[j].songTitle%>"
+                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                      <%=urlArray[j].songTitle%>
+                                                    </button>
+                                                    <button class="songTitleBtn"
+                                                      data-song-title="<%=urlArray[k].songTitle%>"
+                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                      <%=urlArray[k].songTitle%>
+                                                    </button>
+                                                    <button class="songTitleBtn"
+                                                      data-song-title="<%=urlArray[questionNumber].songTitle%>"
+                                                      data-gan="<%=urlArray[questionNumber].songTitle%>">
+                                                      <%=urlArray[questionNumber].songTitle%>
+                                                    </button>
+                                                    <% } %>
       </div>
     </li>
   </ul>
@@ -139,6 +142,8 @@
       let button = document.getElementById('button' + index);
       if (audio.paused) {
         document.querySelectorAll('audio').forEach(allSongs => { allSongs.pause(); button.innerText = 'Play Song'; });
+        audio.currentTime = 0;
+        audio.volume = 0.05;
         setTimeout(() => { audio.play(); }, 500);
         button.innerText = 'Pause Song';
       } else {
@@ -147,16 +152,16 @@
         button.innerText = 'Play Song';
       }
     }
+
     function getRandomInt() {
       return Math.floor(Math.random() * 10)
     }
+
     function handleSongTitleClick(event) {
       const target = event.target;
       const title = target.dataset.songTitle;
       const actual = target.dataset.gan;
-      // console.log(urlArray[questionNumber][1].songTitle);
-      // const functionArray = document.getElementById('functionArray');
-      // functionArray.value = JSON.parse(urlArray);
+
       if (title === actual) {
         alert(`CORRECT`);
         updateQuestion.value = 1;

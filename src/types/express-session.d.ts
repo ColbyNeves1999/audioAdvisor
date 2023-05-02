@@ -18,10 +18,11 @@ declare module 'express-session' {
     isLoggedIn: boolean;
     logInAttempts: number;
     logInTimeout: string;
-    urlArray: string[];
+    urlArray: Song[];
     questionNumber: number;
     previousRecommendation: Song;
     genreArray: string;
+    favoriteGenre: string;
 
   }
 }

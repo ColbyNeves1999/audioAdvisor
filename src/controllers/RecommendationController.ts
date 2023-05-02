@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getSongRecommendationByDecade, getSongRecommendationByGenre, getGenreArray, arrayToString } from '../models/RecommendationModel';
+import { Song } from '../entities/Song';
 
 async function recommendationPage(req: Request, res: Response): Promise<void> {
 
@@ -14,20 +15,19 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
     let genreArray = await getGenreArray();
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
+    let playableSong = new Song();
 
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
 
 }
 
 async function recommendSongByDecade(req: Request, res: Response): Promise<void> {
 
     const { year } = req.body as recommendationYear;
-
-    console.log(year);
 
     const thisYear = parseInt(year);
 
@@ -37,17 +37,18 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
     req.session.genreArray = arrayToString(genreArray);
     const myGenreArray = req.session.genreArray;
     let temp = req.session.previousRecommendation;
-    
 
-    do{
+    do {
         temp = await getSongRecommendationByDecade(thisYear);
-    }while(!temp && temp === req.session.previousRecommendation);
+    } while (!temp && temp === req.session.previousRecommendation);
 
-    if(!temp){
+    if (!temp) {
         songRecommendationByYear = "Sorry, there is not currently a song from that decade in our database. You could add your own!"
-    }else{
+    } else {
         songRecommendationByYear = temp.songTitle + " by " + temp.artist;
     }
+
+    let playableSong = temp;
 
     req.session.previousRecommendation = temp;
 
@@ -55,16 +56,14 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
-    
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
+
 
 }
 
 async function recommendSongByGenre(req: Request, res: Response): Promise<void> {
 
     const { genre } = req.body as recommendationYear;
-
-    console.log(genre);
 
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
@@ -73,15 +72,17 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
     const myGenreArray = req.session.genreArray;
     let temp = req.session.previousRecommendation;
 
-    do{
+    do {
         temp = await getSongRecommendationByGenre(genre);
-    }while(!temp && temp === req.session.previousRecommendation)
+    } while (!temp && temp === req.session.previousRecommendation)
 
-    if(!temp){
+    if (!temp) {
         songRecommendationBySongGenre = "Sorry, there is not currently a song of that genre in our database. You could add your own!"
-    }else{
+    } else {
         songRecommendationBySongGenre = temp.songTitle + " by " + temp.artist;
     }
+
+    let playableSong = temp;
 
     req.session.previousRecommendation = temp;
 
@@ -89,7 +90,7 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
 
-    res.render('RecommendPage', {songRecommendationByYear, songRecommendationBySongGenre, myGenreArray});
+    res.render('RecommendPage', { songRecommendationByYear, songRecommendationBySongGenre, myGenreArray, playableSong });
 
 }
 

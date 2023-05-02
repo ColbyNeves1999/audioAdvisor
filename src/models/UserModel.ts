@@ -29,6 +29,19 @@ async function setUserSpotId(userId: string, spotId: string): Promise<void> {
 
 }
 
+async function setUserGenre(userId: string, genre: string): Promise<void> {
+
+  //let user = await getUserById(userId);
+
+  await userRepository
+    .createQueryBuilder()
+    .update(User)
+    .set({ favoriteGenre: genre })
+    .where({ userId })
+    .execute();
+
+}
+
 async function getUserByEmail(email: string): Promise<User | null> {
   return userRepository.findOne({ where: { email } });
 }
@@ -66,7 +79,7 @@ async function incrementProfileViews(userData: User): Promise<User> {
     .execute();
 
   return updatedUser;
-  
+
 }
 
 async function resetAllProfileViews(): Promise<void> {
@@ -88,4 +101,4 @@ async function updateEmailAddress(userId: string, newEmail: string): Promise<voi
 }
 
 
-export { addUser, getUserByEmail, getUserById, getUsersByViews, setUserSpotId, allUserData, incrementProfileViews, resetAllProfileViews, updateEmailAddress };
+export { addUser, getUserByEmail, getUserById, getUsersByViews, setUserSpotId, allUserData, incrementProfileViews, resetAllProfileViews, updateEmailAddress, setUserGenre };

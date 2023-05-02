@@ -6,8 +6,10 @@ import {
   setUserSpotId,
   getUserById,
   updateEmailAddress,
+  setUserGenre,
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
+import { getGamesWon } from '../models/GameModel';
 
 const { PORT } = process.env;
 
@@ -99,9 +101,10 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(req.session.authenticatedUser.email);
 
   req.session.authenticatedUser.spotifyId = user.spotifyId;
+  const gamesWon = (await getGamesWon(req.session.authenticatedUser.userId)).gamesWon;
 
   //Makes sure the user ends up back at their homepage afterwards
-  res.render('userHomePage', { user });
+  res.render('userHomePage', { user, gamesWon });
 
 }
 
@@ -142,4 +145,28 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   res.sendStatus(200);
 }
 
-export { registerUser, logIn, getSpotifyId, updateUserEmail };
+async function updateUserGenre(req: Request, res: Response): Promise<void> {
+
+  const { favoriteGenre } = req.body as userGenre;
+
+  // NOTES: Access the data from `req.session`
+  const { isLoggedIn, authenticatedUser } = req.session;
+
+  // NOTES: We need to make sure that this client is logged in AND
+  //        they are try to modify their own user account
+  if (!isLoggedIn) {
+    res.redirect('/login');
+  }
+
+  await setUserGenre(authenticatedUser.userId, favoriteGenre);
+
+  const user = await getUserByEmail(req.session.authenticatedUser.email);
+
+  req.session.authenticatedUser.spotifyId = user.spotifyId;
+  const gamesWon = (await getGamesWon(req.session.authenticatedUser.userId)).gamesWon;
+
+  res.render('userHomePage', { user, gamesWon });
+
+}
+
+export { registerUser, logIn, getSpotifyId, updateUserEmail, updateUserGenre };

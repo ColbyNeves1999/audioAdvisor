@@ -18,6 +18,19 @@
 </body>
 
 <body>
+  <label>Play recommended song</label>
+</body>
+
+<body>
+  <div>
+    <button id="button" onclick="toggleSong()">Play Song</button>
+  </div>
+</body>
+
+<body>
+
+  <audio id="audio" src="<%= playableSong.preview %>" preload="audio"></audio>
+
   <div>
     <h1>How would you like to get a song?</h1>
     <h3>By Decade</h3>
@@ -34,14 +47,28 @@
       <label for="genre">Genre</label>
       <input type="genre" name="genre" id="genre" placeholder="genre" required>
       <button>Request</button>
-      <label> Recommended song: <%= songRecommendationBySongGenre %></label>
+      <label> Recommended song: <%= songRecommendationBySongGenre %> </label>
     </form>
   </div>
 </body>
 
 
-<script>
-
+<script type="text/javascript">
+  function toggleSong() {
+    let audio = document.getElementById('audio');
+    let button = document.getElementById('button');
+    if (!audio) { button.innerText = 'Sorry no Preview Available'; }
+    else if (audio.paused) {
+      audio.currentTime = 0;
+      audio.volume = 0.05;
+      setTimeout(() => { audio.play(); }, 500);
+      button.innerText = 'Pause Song';
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      button.innerText = 'Play Song';
+    }
+  }
 
 </script>
 
