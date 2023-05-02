@@ -22,12 +22,12 @@
         <% for (let i=0; i < song.length; i++) { %>
             <% if (!song[i].preview) { %>
                 <span>
-                        <button class="playButton">No Preview Available</button>
+                        <button class="btn2">No Preview Available</button>
                         <%= song[i].songTitle %>
                         <% } else { %>
                             <span>
                                     <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
-                                    <button class="playButton" onclick="toggleSong(<%= i %>)">Play/Pause</button>
+                                    <button class="btn2" onclick="toggleSong(<%= i %>)">Play/Pause</button>
                                     <%= song[i].songTitle %>
                             </span>
                             <% } %>

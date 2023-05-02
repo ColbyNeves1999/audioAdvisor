@@ -19,46 +19,45 @@
     </h1>
   </span>
   <form action="/logout" method="POST">
-    <button class="btn">Logout</button>
+    <button class="btn2">Logout</button>
   </form>
   <h1>You've won <%= gamesWon %> games.</h1>
-  <form action="/api/test" method="GET">
-    <button class="btn">Get All Songs on AudioAdvisor</button>
-  </form>
   <div>
-
-    <div>
-      <form action="/api/updateEmail" method="POST">
-        Update your email here
-        <label for="email"></label>
-        <input type="email" name="email" id="email" placeholder="Email" required>
-        <button class="btn">Update Email</button>
-      </form>
-    </div>
-    <h1>You're favorite genre is <%= user.favoriteGenre %> right?</h1>
+    <form action="/updateEmail" method="POST">
+      Update your email here
+      <label for="email"></label>
+      <input class="btn2" type="email" name="email" id="email" placeholder="Email" required>
+      <button class="btn2">Update Email</button>
+    </form>
+  </div>
+  <h1>You're favorite genre is <%= user.favoriteGenre %> right?</h1>
     <div>
       <form action="/setFavoriteGenre" method="POST">
         You can change your favorite genre here
         <label for="favoriteGenre"></label>
-        <input type="favoriteGenre" name="favoriteGenre" id="favoriteGenre" placeholder="favoriteGenre" required>
-        <button class="btn">Update genre</button>
+        <input class="btn2" type="favoriteGenre" name="favoriteGenre" id="favoriteGenre" placeholder="favoriteGenre" required>
+        <button class="btn2">Update genre</button>
       </form>
     </div>
+  <form action="/api/test" method="GET">
+    <button class="btn2">Get All Songs on AudioAdvisor</button>
+  </form>
+  <div>
     <div>
       <form action="/api/getDatabaseSongs" method="GET">
-        <button class="btn">Open AudioAdvisor Game</button>
+        <button class="btn2">Open AudioAdvisor Game</button>
       </form>
     </div>
 
     <div>
       <form action="/recommendationPage" method="Post">
-        <button class="btn">Recommendation Page</button>
+        <button class="btn2">Recommendation Page</button>
       </form>
     </div>
 
     <div>
       <form action="/index" method="GET">
-        <button class="btn">Home Page</button>
+        <button class="btn2">Home Page</button>
       </form>
     </div>
 </body>

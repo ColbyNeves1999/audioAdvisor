@@ -5,7 +5,7 @@ import { Song } from '../entities/Song';
 
 async function recommendationPage(req: Request, res: Response): Promise<void> {
 
-    if (!req.session.isLoggedIn) {
+    if (req.session.isLoggedIn === false) {
 
         res.redirect(`/index`);
 

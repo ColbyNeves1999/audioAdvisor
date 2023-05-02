@@ -92,12 +92,12 @@ async function resetAllProfileViews(): Promise<void> {
 }
 
 async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
-  await userRepository
-    .createQueryBuilder()
-    .update(User)
-    .set({ email: newEmail })
-    .where({ userId })
-    .execute();
+  
+  const user = await getUserById(userId);
+  user.email = newEmail;
+
+  await userRepository.save(user);
+
 }
 
 

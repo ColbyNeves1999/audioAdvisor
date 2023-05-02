@@ -83,7 +83,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
 async function logOut(req: Request, res: Response): Promise<void> {
 
-  await req.session.clearSession();
+  //await req.session.clearSession();
   req.session.isLoggedIn = false;
   res.redirect(`/index`);
 
@@ -126,19 +126,19 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { targetUserId } = req.params as UserIdParam;
 
   // NOTES: Access the data from `req.session`
-  const { isLoggedIn, authenticatedUser } = req.session;
+  const { isLoggedIn } = req.session;
 
   // NOTES: We need to make sure that this client is logged in AND
   //        they are try to modify their own user account
-  if (!isLoggedIn || authenticatedUser.userId !== targetUserId) {
+  if (!isLoggedIn) {
     res.sendStatus(403); // 403 Forbidden
     return;
   }
 
-  const { email } = req.body as { email: string };
+  const { email } = req.body as UserIdParam;
 
   // Get the user account
-  const user = await getUserById(targetUserId);
+  const user = await getUserById(req.session.authenticatedUser.userId);
 
   if (!user) {
     res.sendStatus(404); // 404 Not Found
@@ -148,15 +148,20 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   // Now update their email address
   try {
     await updateEmailAddress(targetUserId, email);
+    console.log('hello');
+    const gamesWon = (await getGamesWon(req.session.authenticatedUser.userId)).gamesWon;
+
+    res.render('userHomePage', { user, gamesWon });
+    
   } catch (err) {
     // The email was taken so we need to send an error message
     console.error(err);
-    const databaseErrorMessage = parseDatabaseError(err);
-    res.status(500).json(databaseErrorMessage);
-    return;
+    //const databaseErrorMessage = parseDatabaseError(err);
+    const gamesWon = (await getGamesWon(req.session.authenticatedUser.userId)).gamesWon;
+
+    res.render('userHomePage', { user, gamesWon });
   }
 
-  res.sendStatus(200);
 }
 
 async function updateUserGenre(req: Request, res: Response): Promise<void> {

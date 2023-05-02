@@ -1,5 +1,6 @@
 type UserIdParam = {
   targetUserId: string;
+  email: string;
 };
 
 type AuthRequest = {

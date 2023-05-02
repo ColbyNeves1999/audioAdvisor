@@ -54,6 +54,19 @@ body {
     font-size: 0.75rem;
     font-weight: bold;
   }
+
+  .btn2 {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    background-color: #ffffff;
+    border-radius: 4rem;
+    position: relative;
+    transition: box-shadow 0.35s, top 0.3s, transform 0.45s;
+    display: inline-block;
+    box-shadow: 0 1px 0 0 #bb60cb, 0 2px 0 0 #bb60cb, 0 3px 0 0 #bb60cb;
+    transform: rotateX(0) rotateY(0) rotateZ(0);
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
   
   .btn-large {
     font-family: "Comic Sans MS", "Comic Sans", cursive;

@@ -13,7 +13,7 @@
   <div>
     <h1>Let's find you some songs!</h1>
     <form action="/index" method="GET">
-      <button>Home Page</button>
+      <button class="btn2">Home Page</button>
     </form>
   </div>
 </body>
@@ -24,7 +24,7 @@
 
 <body>
   <div>
-    <button id="button" onclick="toggleSong()">Play Song</button>
+    <button id="button" onclick="toggleSong()" class="btn2">Play Song</button>
   </div>
 </body>
 
@@ -38,7 +38,7 @@
     <form id="year" method="POST" action="/getSongByDecade">
       <label for="year">Year</label>
       <input type="text" name="year" id="year" placeholder="year" required>
-      <button>Request</button>
+      <button class="btn2">Request</button>
       <label> Recommended song: <%= songRecommendationByYear %></label>
 
     </form>
@@ -46,12 +46,12 @@
     <form id="genre" method="POST" action="/getSongByGenre">
       <label for="genre">Genre</label>
       <input type="genre" name="genre" id="genre" placeholder="genre" required>
-      <button>Request</button>
+      <button class="btn2">Request</button>
       <label> Recommended song: <%= songRecommendationBySongGenre %> </label>
     </form>
     <h3>By your favorite genre</h3>
     <form id="fave" method="POST" action="/getSongByFave">
-      <button>Request</button>
+      <button class="btn2">Request</button>
       <label> Recommended song: <%= songRecommendationByFav %></label>
   </div>
 </body>

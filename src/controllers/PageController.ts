@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 
 function songAddPage(req:Request, res: Response) {
 
-    if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
-        res.redirect(`/index`);
+    if (!req.session.isLoggedIn) {
+        res.redirect(`/login`);
     }
 
     req.session.authenticatedUser.questionsCorrect = 0;

@@ -7,9 +7,9 @@ import { decrypt } from '../utils/encrypt';
 //Gets a song from spotify based on it's title and artist(s)
 async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
-  if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
+  if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
-  }
+}
 
   const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
@@ -70,9 +70,9 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 //Gets a song from spotify based on it's song ID
 async function getSongFromSpotifyById(req: Request, res: Response): Promise<void> {
 
-  if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
+  if (!req.session.isLoggedIn) {
     res.redirect(`/login`);
-  }
+}
 
   const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
