@@ -5,11 +5,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome | Audio Advisor</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <h1>Welcome to Audio Advisor!</h1>
-  <h3><a href="/register"> Create an Account Here!</a></h3>
-  <h3><a href="/login"> Login</a></h3>
-
+<body class="homepage">
+  <h1 class="header1">Welcome to Audio Advisor!</h1>
+  <h3><a class="btn-large" href="/register"> Create an Account Here!</a></h3>
+  <h3><a class="btn-large" href="/login"> Login</a></h3>
+  <div>
+    <form action="/api/getDatabaseSongs" method="GET">
+      <button class="btn">Open AudioAdvisor Game</button>
+    </form>
+  </div>
+  <div>
+    <form action="/songAdditionPage" method="GET">
+      <button class="btn">Add Songs</button>
+    </form>
+  </div>
+  <div>
+    <form action="/api/refreshToken" method="GET">
+      <button class="btn">User HomePage</button>
+    </form>
+  </div>
 </body>
+
+
 </html>
