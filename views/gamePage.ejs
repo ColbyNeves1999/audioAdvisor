@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question Page | AudioAdvisor</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -39,7 +40,6 @@
                                 <% numArray[3]=l; %>
 
                                   <% let option=getAnswerOption() %>
-                                    <%= numArray %>
                                       <% if (option===0) {%> <!-- displays the correct answer as the first option -->
                                         <button class="songTitleBtn"
                                           data-song-title="<%=urlArray[questionNumber].songTitle%>"

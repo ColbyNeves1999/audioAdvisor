@@ -111,10 +111,10 @@ async function checkAnswer(req: Request, res: Response): Promise<void> {
     res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
   } else {
     const temp = await getUserById(req.session.authenticatedUser.userId);
-    if (temp && questionsCorrect > 7) {
+    if (temp && questionsCorrect >= 7) {
       updateGamesWon(temp);
       gameStatus = "Won";
-    } else if (questionsCorrect > 7) {
+    } else if (questionsCorrect >= 7) {
       await addGameWinner(req.session.authenticatedUser.userId);
       updateGamesWon(temp);
       gameStatus = "Won";

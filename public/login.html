@@ -5,13 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Audio Advisor</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div>
     <section>
       <div>
-        <h1>Audio Advisor</h1>
-        <h2>Log In</h2>
+        <h1 class="header1">Audio Advisor</h1>
+        <h2 class="header2">Log In</h2>
       </div>
       <div>
         <form method="POST" action="/api/login">
@@ -19,13 +20,13 @@
           <input type="email" name="email" id="email" placeholder="Email" required>
           <label for="password"></label>
           <input type="password" name="password" id="password" placeholder="Password" required>
-          <button>Login</button>
+          <button class="btn">Login</button>
         </form>
       </div>
       <div>
         <form action="/register">
         <h3>
-          <button>
+          <button class="btn">
             Register Account
           </button>
         </h3>
@@ -33,7 +34,7 @@
       </div>
       <span>
         <form action="/index">
-          <button>
+          <button class="btn">
             Back to HomePage
           </button>
         </form>
