@@ -7,43 +7,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Song Recommendation Page</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
   <div>
-    <h1>Let's find you some songs!</h1>
+    <h1 class="songPage-header">Let's find you some songs!</h1>
     <form action="/index" method="GET">
-      <button>Home Page</button>
+      <button class="btn">Return To Homepage</button>
     </form>
   </div>
 </body>
 
 <body>
+  <label>Play recommended song</label>
+</body>
+
+<body>
   <div>
-    <h1>How would you like to get a song?</h1>
-    <h3>By Decade</h3>
+    <button id="button" onclick="toggleSong()" class="btn2">Play Song</button>
+  </div>
+</body>
+
+<body>
+
+  <audio id="audio" src="<%= playableSong.preview %>" preload="audio"></audio>
+
+  <div>
+    <h1 class="songPage-header">How would you like to get a song?</h1>
+    <h3 class="songPage-header">By Decade</h3>
     <form id="year" method="POST" action="/getSongByDecade">
-      <label for="year">Year</label>
+      <label class="label" for="year">Year</label>
       <input type="text" name="year" id="year" placeholder="year" required>
       <button>Request</button>
-      <label> Recommended song: <%= songRecommendationByYear %></label>
+      <div>
+        <label class="label"> Recommended song: <%= songRecommendationByYear %></label>
+      </div>
 
     </form>
-    <h3>By Genre</h3>
-    <label> These are the genres currently in the database: <%=myGenreArray%></label>
+    <h3 class="label-recomendation">By Genre</h3>
+    <label class="label-Genera"> These are the genres currently in the database: <%=myGenreArray%></label>
     <form id="genre" method="POST" action="/getSongByGenre">
-      <label for="genre">Genre</label>
+      <label class="label-Genera" for="genre">Genre</label>
       <input type="genre" name="genre" id="genre" placeholder="genre" required>
-      <button>Request</button>
-      <label> Recommended song: <%= songRecommendationBySongGenre %></label>
+      <button class="btn-genera">Request</button>
+      <label class="label-Genera"> Recommended song: <%= songRecommendationBySongGenre %></label>
     </form>
+    <h3>By your favorite genre</h3>
+    <form id="fave" method="POST" action="/getSongByFave">
+      <button class="btn2">Request</button>
+      <label> Recommended song: <%= songRecommendationByFav %></label>
   </div>
 </body>
 
 
 <script>
-
-
 </script>
 
 </html>

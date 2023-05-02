@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account | Audio Advisor</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div>
@@ -13,22 +14,27 @@
       <div>
         <h1 class="header1">Audio Advisor</h1>
         <h2 class="header2">Create Account</h2>
+        <h1 class="header1">Audio Advisor</h1>
+        <h2 class="header2">Create Account</h2>
       </div>
       <div>
         <form method="POST" action="/api/users">
           <label for="email"></label>
-          <input type="email" name="email" id="email" placeholder="Email" required>
-          <label for="password"></label>
-          <input type="password" name="password" id="password" placeholder="Password" required>
-          <button>Create Account</button>
+          <input class="input" type="email" name="email" id="email" placeholder="Email" required>
+          <div>
+            <label for="password"></label>
+            <input class="input" type="password" name="password" id="password" placeholder="Password" required>
+            <button class="btn">Create Account</button>
+          </div>
+
         </form>
       </div>
       <div>
         <form action="/login">
           <h3>
             <div>
-              <button>
-                Login
+              <button class="btn">
+                Already have an Account? Login
               </button>
             </div>
           </h3>
@@ -36,7 +42,8 @@
       </div>
       <span>
         <form action="/index">
-          <button>
+          <button class="btn">
+          <button class="btn">
             Back to HomePage
           </button>
         </form>

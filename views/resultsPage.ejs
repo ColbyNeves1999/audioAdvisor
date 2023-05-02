@@ -6,21 +6,32 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question Page | AudioAdvisor</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
-    <div>
-        <form action="/index" method="GET">
-          <button>Home Page</button>
-        </form>
-    </div>
-    <div>
-        <form action="/api/refreshToken" method="GET">
-          <button>User HomePage</button>
-        </form>
-    </div>
-    <label>You got <%=questionsRight%>/10 questions correct.</label>
+  <div>
+    <form action="/index" method="GET">
+      <button class="btn">Home Page</button>
+    </form>
+  </div>
+  <div>
+    <form action="/api/refreshToken" method="GET">
+      <button class="btn">User HomePage</button>
+    </form>
+  </div>
+  <div>
+    <label>You got <%=questionsRight%>/10 questions correct. You <%= gameStatus%>!</label>
+  </div>
+  <div>
     <label>Here are all the songs from this game: <%= questionsArray %></label>
+  </div>
+  <div>
+    <form action="/api/getDatabaseSongs" method="GET">
+      <button class="btn">Play again?</button>
+    </form>
+  </div>
 </body>
+
 
 </html>

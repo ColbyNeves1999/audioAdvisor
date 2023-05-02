@@ -40,11 +40,16 @@
             <% let option = getAnswerOption() %>
 
             <% if (option === 0) {%> <!-- displays the correct answer as the first option -->
-              <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+              <div>
+                <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>
+              </div><div>
               <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
+              </div><div>
               <button class="songTitleBtn" data-song-title="<%=urlArray[k][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[k][1].songTitle%></button>
+              </div><div>
               <button class="songTitleBtn" data-song-title="<%=urlArray[l][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[l][1].songTitle%></button>
-            <% } %>
+              </div>
+              <% } %>
             <% if (option === 1) { %> <!-- displays the correct answer as the second option -->
               <button class="songTitleBtn" data-song-title="<%=urlArray[j][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[j][1].songTitle%></button>
               <button class="songTitleBtn" data-song-title="<%=urlArray[i][1].songTitle%>" data-gan="<%=urlArray[i][1].songTitle%>"><%=urlArray[i][1].songTitle%></button>

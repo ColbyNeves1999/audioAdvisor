@@ -10,19 +10,25 @@
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 
+
 <body>
     Song Data Base
+    <div>
+        <form action="/api/refreshToken" method="GET">
+          <button class="btn">User HomePage</button>
+        </form>
+      </div>
     <ol>
         <% for (let i=0; i < song.length; i++) { %>
             <% if (!song[i].preview) { %>
                 <span>
-                    <%= song[i].songTitle %>
-                        <button class="playButton">No Preview Available</button>
+                        <button class="btn2">No Preview Available</button>
+                        <%= song[i].songTitle %>
                         <% } else { %>
                             <span>
-                                <%= song[i].songTitle %>
                                     <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
-                                    <button class="playButton" onclick="toggleSong(<%= i %>)">Play/Pause</button>
+                                    <button class="btn2" onclick="toggleSong(<%= i %>)">Play/Pause</button>
+                                    <%= song[i].songTitle %>
                             </span>
                             <% } %>
 
@@ -32,6 +38,7 @@
                                     function toggleSong(index) {
                                         console.log(index);
                                         let audio = document.getElementById('audio' + index);
+                                        audio.volume = 0.1;
                                         let button = document.getElementById('button' + index);
                                         if (audio.paused) {
                                             document.querySelectorAll('audio').forEach(allSongs => allSongs.pause());

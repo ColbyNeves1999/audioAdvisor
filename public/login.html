@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Audio Advisor</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div>
@@ -13,19 +14,24 @@
       <div>
         <h1 class="header1">Audio Advisor</h1>
         <h2 class="header2">Log In</h2>
+        <h1 class="header1">Audio Advisor</h1>
+        <h2 class="header2">Log In</h2>
       </div>
       <div>
         <form method="POST" action="/api/login">
           <label for="email"></label>
-          <input type="email" name="email" id="email" placeholder="Email" required>
-          <label for="password"></label>
-          <input type="password" name="password" id="password" placeholder="Password" required>
-          <button class="btn">Login</button>
+          <input class="input" type="email" name="email" id="email" placeholder="Email" required>
+          <div>
+            <label class="input" for="password"></label>
+            <input class="input" type="password" name="password" id="password" placeholder="Password" required>
+            <button class="btn">Login</button>
+          </div>
         </form>
       </div>
       <div>
         <form action="/register">
         <h3>
+          <button class="btn">
           <button class="btn">
             Register Account
           </button>
@@ -34,6 +40,7 @@
       </div>
       <span>
         <form action="/index">
+          <button class="btn">
           <button class="btn">
             Back to HomePage
           </button>

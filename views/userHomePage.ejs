@@ -10,41 +10,40 @@
     <%= user.email.split('@')[0] %> | Home Page
   </title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
   <span>
-    <h1>
+    <h1 class="header1">
       Welcome to your home page <%= user.email.split('@')[0] %>!
     </h1>
   </span>
+
+  <div>
+    <form action="/songAdditionPage" method="GET">
+      <button class="btn">Add Songs</button>
+    </form>
+  </div>
+
   <form action="/api/test" method="GET">
-    <button>Get All Songs on AudioAdvisor</button>
+    <button class="btn">Get All Songs on AudioAdvisor</button>
   </form>
     <div>
-      <form action="/api/updateEmail" method="POST">
-        Update your email here
-        <label for="email"></label>
-        <input type="email" name="email" id="email" placeholder="Email" required>
-        <button>Update Email</button>
-      </form>
-    </div>
-
-    <div>
       <form action="/api/getDatabaseSongs" method="GET">
-        <button>Open AudioAdvisor Game</button>
+        <button class="btn">Open AudioAdvisor Game</button>
       </form>
     </div>
 
     <div>
       <form action="/recommendationPage" method="Post">
-        <button>Recommendation Page</button>
+        <button class="btn">Get Song Recommendations</button>
       </form>
     </div>
 
     <div>
       <form action="/index" method="GET">
-        <button>Home Page</button>
+        <button class="btn">Back To The Home Page</button>
       </form>
     </div>
 </body>
