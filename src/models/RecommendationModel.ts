@@ -147,4 +147,41 @@ async function getSongRecommendationByGenre(genre: string): Promise<Song | null>
 
 }
 
-export { getSongRecommendationByDecade, getSongRecommendationByGenre, getGenreArray, arrayToString };
+async function getSongRecommendationByFavorite(genre: string): Promise<Song | null> {
+
+    let rowValues = 0;
+    let temp;
+    const repoSize = await songRepository.count();
+    let genreArray = [];
+    let resultingSong;
+
+    for( let i = 1; i < repoSize; i++){
+
+        rowValues = i;
+
+        const results = await songRepository
+            .createQueryBuilder('song')
+            .where('rowid = :rowValues', { rowValues })
+            .getOne();
+
+        if (results && results.genre) {
+
+            temp = results.genre;
+            //console.log(temp);
+            if(temp.includes(genre) && genreArray){
+                genreArray.push(results);
+            }
+
+        }
+
+    } 
+
+    const randValue = getRandomInt(genreArray.length);
+console.log(genreArray);
+    resultingSong = genreArray[randValue];
+    
+    return resultingSong;
+
+}
+
+export { getSongRecommendationByDecade, getSongRecommendationByGenre, getSongRecommendationByFavorite, getGenreArray, arrayToString };
