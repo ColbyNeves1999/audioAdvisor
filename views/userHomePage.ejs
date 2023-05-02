@@ -9,6 +9,7 @@
   <title>
     <%= user.email.split('@')[0] %> | Home Page
   </title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -20,15 +21,30 @@
   <form action="/api/test" method="GET">
     <button>Get All Songs on AudioAdvisor</button>
   </form>
-  <div>
-
     <div>
       <form action="/api/updateEmail" method="POST">
         Update your email here
         <label for="email"></label>
         <input type="email" name="email" id="email" placeholder="Email" required>
-        <!-- <form action="" method="get"></form> -->
         <button>Update Email</button>
+      </form>
+    </div>
+
+    <div>
+      <form action="/api/getDatabaseSongs" method="GET">
+        <button>Open AudioAdvisor Game</button>
+      </form>
+    </div>
+
+    <div>
+      <form action="/recommendationPage" method="Post">
+        <button>Recommendation Page</button>
+      </form>
+    </div>
+
+    <div>
+      <form action="/index" method="GET">
+        <button>Home Page</button>
       </form>
     </div>
 </body>

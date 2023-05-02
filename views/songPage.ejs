@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="refresh" content="3600">
     <title> Song Data Base | AudioAdvisor</title>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -45,6 +46,21 @@
                                 </script>
                                 <% } %>
 
+                          <div id="audioContainer"></div>
+                          <script>
+                              function toggleSong(index) {
+                                  let audio = document.getElementById('audio' + index);
+                                  let button = document.getElementById('button' + index);
+                                  if (audio.paused) {
+                                      audio.play();
+                                      button.innerText = 'Pause Song';
+                                  } else {
+                                      audio.pause();
+                                      button.innerText = 'Play Song';
+                                  }
+                              }
+                          </script>
+                        <% } %>
 
     </ol>
 
