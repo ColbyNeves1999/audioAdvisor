@@ -6,20 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Song Addition Page</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
   <div>
     <h1>Time to add a song!</h1>
     <form action="/index" method="GET">
-      <button>Home Page</button>
+      <button class="btn">Home Page</button>
     </form>
   </div>
   <label>Option 1</label>
   <div>
     <form action="/api/usersPlaylists" method="GET">
       <label>Grab your Spotify Playlists</label>
-      <button>Grab your Spotify Playlists!</button>
+      <button class="btn">Grab your Spotify Playlists!</button>
     </form>
   </div>
   <label>Option 2</label>
@@ -27,7 +28,7 @@
     <form method="POST" action="/api/Playlists">
       <label for="id">Playlist ID</label>
       <input type="text" name="id" id="id" placeholder="id">
-      <button>Request</button>
+      <button class="btn">Request</button>
     </form>
   </div>
   <label>Option 3</label>
@@ -37,7 +38,7 @@
       <input type="text" name="songTitle" id="songTitle" placeholder="songTitle">
       <label for="artist"> Artist's Name</label>
       <input type="text" name="artist" id="artist" placeholder="artist">
-      <button>Request</button>
+      <button class="btn">Request</button>
     </form>
   </div>
 </body>

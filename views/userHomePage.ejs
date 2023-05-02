@@ -19,11 +19,11 @@
     </h1>
   </span>
   <form action="/logout" method="POST">
-    <button>Logout</button>
+    <button class="btn">Logout</button>
   </form>
   <h1>You've won <%= gamesWon %> games.</h1>
   <form action="/api/test" method="GET">
-    <button>Get All Songs on AudioAdvisor</button>
+    <button class="btn">Get All Songs on AudioAdvisor</button>
   </form>
   <div>
 
@@ -32,33 +32,33 @@
         Update your email here
         <label for="email"></label>
         <input type="email" name="email" id="email" placeholder="Email" required>
-        <button>Update Email</button>
+        <button class="btn">Update Email</button>
       </form>
     </div>
-    <h1>You're favorite genre is <%= user.favoriteGenre %> right? If not, can you correct me?</h1>
+    <h1>You're favorite genre is <%= user.favoriteGenre %> right?</h1>
     <div>
       <form action="/setFavoriteGenre" method="POST">
         You can change your favorite genre here
         <label for="favoriteGenre"></label>
         <input type="favoriteGenre" name="favoriteGenre" id="favoriteGenre" placeholder="favoriteGenre" required>
-        <button>Update genre</button>
+        <button class="btn">Update genre</button>
       </form>
     </div>
     <div>
       <form action="/api/getDatabaseSongs" method="GET">
-        <button>Open AudioAdvisor Game</button>
+        <button class="btn">Open AudioAdvisor Game</button>
       </form>
     </div>
 
     <div>
       <form action="/recommendationPage" method="Post">
-        <button>Recommendation Page</button>
+        <button class="btn">Recommendation Page</button>
       </form>
     </div>
 
     <div>
       <form action="/index" method="GET">
-        <button>Home Page</button>
+        <button class="btn">Home Page</button>
       </form>
     </div>
 </body>
