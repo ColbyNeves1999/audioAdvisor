@@ -10,6 +10,7 @@ import {
 } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 import { getGamesWon } from '../models/GameModel';
+import { addGameWinner } from '../models/GameModel';
 
 const { PORT } = process.env;
 
@@ -66,6 +67,11 @@ async function logIn(req: Request, res: Response): Promise<void> {
   req.session.isLoggedIn = true;
   req.session.urlArray = null;
   req.session.questionNumber = 0;
+
+  const temp = await !getGamesWon(req.session.authenticatedUser.userId);
+  if(temp === false){
+    await addGameWinner(req.session.authenticatedUser.userId);
+  }
 
   //Redirects the user to make sure they get a current authorization token
   if (req.session.authenticatedUser.authToken === null) {

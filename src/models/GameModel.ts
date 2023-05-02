@@ -13,7 +13,7 @@ async function getGamesPlayed(gamesPlayed: number): Promise<GameWinner | null> {
 
 async function getGamesWon(playerId: string): Promise<GameWinner | null> {
   const wins = await gameRepository
-    .createQueryBuilder('song')
+    .createQueryBuilder('game')
     .where('userID = :playerId', { playerId })
     .getOne();
   return wins;

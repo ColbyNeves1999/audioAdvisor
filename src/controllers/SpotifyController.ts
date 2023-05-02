@@ -150,7 +150,10 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();
-  const gamesWon = (await getGamesWon(user.userId)).gamesWon;
+
+  const userGames = await getGamesWon(user.userId);
+  const gamesWon = userGames.gamesWon;
+
   //Sends User to their ID homepage upon completion
   res.render('userHomePage', { user, gamesWon });
 
