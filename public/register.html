@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,17 +9,17 @@
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
   <div>
     <section>
       <div>
         <h1 class="header1">Audio Advisor</h1>
         <h2 class="header2">Create Account</h2>
-        <h1 class="header1">Audio Advisor</h1>
-        <h2 class="header2">Create Account</h2>
       </div>
       <div>
         <form method="POST" action="/api/users">
+          <!-- calls the post method to register a user on the server -->
           <label for="email"></label>
           <input class="input" type="email" name="email" id="email" placeholder="Email" required>
           <div>
@@ -31,6 +32,7 @@
       </div>
       <div>
         <form action="/login">
+          <!-- redirects to the login page -->
           <h3>
             <div>
               <button class="btn">
@@ -42,7 +44,7 @@
       </div>
       <span>
         <form action="/index">
-          <button class="btn">
+          <!-- redirects to the homepage -->
           <button class="btn">
             Back to HomePage
           </button>
@@ -52,4 +54,5 @@
   </div>
 
 </body>
+
 </html>

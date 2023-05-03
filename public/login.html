@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Audio Advisor</title>
   <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
   <div>
     <section>
       <div>
         <h1 class="header1">Audio Advisor</h1>
         <h2 class="header2">Log In</h2>
-        <h1 class="header1">Audio Advisor</h1>
-        <h2 class="header2">Log In</h2>
       </div>
       <div>
         <form method="POST" action="/api/login">
+          <!-- calls the post method to login the user to the server -->
           <label for="email"></label>
           <input class="input" type="email" name="email" id="email" placeholder="Email" required>
           <div>
@@ -30,17 +30,17 @@
       </div>
       <div>
         <form action="/register">
-        <h3>
-          <button class="btn">
-          <button class="btn">
-            Register Account
-          </button>
-        </h3>
-      </form>
+          <!-- redirect to the register page -->
+          <h3>
+            <button class="btn">
+              Register Account
+            </button>
+          </h3>
+        </form>
       </div>
       <span>
         <form action="/index">
-          <button class="btn">
+          <!-- redirects to the homepage -->
           <button class="btn">
             Back to HomePage
           </button>
@@ -50,4 +50,5 @@
   </div>
 
 </body>
+
 </html>
