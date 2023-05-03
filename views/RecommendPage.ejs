@@ -13,18 +13,20 @@
   <div>
     <h1 class="songPage-header">Let's find you some songs!</h1>
     <form action="/index" method="GET">
-      <button class="btn">Return To Homepage</button>
+      <!-- redirects to the home page -->
+      <button class="btn-recommend">Return To Home Page</button>
     </form>
   </div>
 </body>
 
 <body>
-  <h2 class="header2">Play recommended song</label>
+  <h2 class="song-header">Play recommended song</label>
 </body>
 
 <body>
   <div>
-    <button id="button" onclick="toggleSong()" class="btn2">Play Song</button>
+    <button id="button" onclick="toggleSong()" class="btn-recommend2">Play Song</button>
+    <!-- calls the function to play the song on the click -->
   </div>
 </body>
 
@@ -33,31 +35,50 @@
   <audio id="audio" src="<%= playableSong.preview %>" preload="audio"></audio>
 
   <div>
-    <h1 class="songPage-header">How would you like to get a song?</h1>
-    <h3 class="label-Genera">By Decade</h3>
-    <label class="label-Genera"> Recommended song: <%= songRecommendationByYear %></label>
+    <h1 class="song-header">How would you like to get a song?</h1>
+    <p class="label-Genera">Search by Decade: <%= songRecommendationByYear %>
+    </p>
     <form id="year" method="POST" action="/getSongByDecade">
+      <!-- calls the function to get a random song by a specific decade -->
       <input type="text" name="year" id="year" placeholder="Enter Year Here" required>
-      <button>Request</button>
+      <button class="btn-recommend2">Request</button>
     </form>
 
-    <h3 class="label-Genera">By Genre</h3>
-    <label class="label-Genera"> Recommended song: <%= songRecommendationBySongGenre %></label>
+    <p class="label-Genera">Search by Genre: <%= songRecommendationBySongGenre %>
+    </p>
     <form id="genre" method="POST" action="/getSongByGenre">
+      <!-- calls the function to get the specific song by genre -->
       <input type="genre" name="genre" id="genre" placeholder="Enter Genre Here" required>
-      <button class="btn-genera">Request</button>
+      <button class="btn-recommend2">Request</button>
     </form>
 
-    <h3 class="label-Genera">By your favorite genre</h3>
-    <label> Recommended song: <%= songRecommendationByFav %></label>
-    <form id="fave" method="POST" action="/getSongByFave">
-      <button class="btn2">Request</button>
-    </form>
+
+    <p class="label-Genera">Suggested Song from your Favorite Genre: <%= songRecommendationByFav %>
+        <form id="fave" method="POST" action="/getSongByFave">
+          <!-- calls the function to get a song based off of your favorite genre -->
+          <button class="btn-recommend2">Request</button>
+        </form>
+    </p>
   </div>
 </body>
 
 
 <script>
+  function toggleSong() {
+    let audio = document.getElementById('audio');
+    audio.volume = 0.1;
+    let button = document.getElementById('button');
+    if (audio.paused) {
+      //document.querySelectorAll('audio').forEach(allSongs => { allSongs.pause(); });
+      audio.currentTime = 0;
+      setTimeout(() => { audio.play(); }, 500);
+      button.innerText = 'Pause Song';
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      button.innerText = 'Play Song';
+    }
+  }
 </script>
 
 </html>

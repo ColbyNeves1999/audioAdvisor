@@ -148,6 +148,7 @@ async function refreshToken(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(req.session.authenticatedUser.email);
   req.session.authenticatedUser.authToken = decrypt(user.spotifyAuth);
 
+  //Used to prevent users from carrying data across pages
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();

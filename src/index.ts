@@ -9,7 +9,7 @@ import { getSongFromSpotify, getSongFromSpotifyById, getAllSongs } from './contr
 import { getSongsFromPlaylists, getUsersSpotifyPlaylists } from './controllers/PlaylistController';
 import { getSongUrlsForGame } from './controllers/GameController';
 import { validateLoginBody, validateNewUserBody, validateyearBody } from './validators/authValidators';
-import { songAddPage } from './controllers/PageController';
+import { songAddPage, userHomePageRedirect } from './controllers/PageController';
 import { scheduleJob } from 'node-schedule';
 import { refreshTokenHourly } from './models/HourlyRefreshModel';
 import { checkAnswer } from './controllers/GameController';
@@ -56,7 +56,7 @@ app.get('/api/songBySpotId', getSongFromSpotifyById);
 app.post('/api/Playlists', getSongsFromPlaylists);
 app.get('/api/usersPlaylists', getUsersSpotifyPlaylists);
 app.get('/api/getDatabaseSongs', getSongUrlsForGame);
-app.get('/api/test', getAllSongs);
+app.get('/api/allSongs', getAllSongs);
 app.get('/songAdditionPage', songAddPage);
 app.post('/questions/questionNumber', checkAnswer);
 app.post('/recommendationPage', recommendationPage);
@@ -64,8 +64,9 @@ app.post('/getSongByDecade', validateyearBody, recommendSongByDecade);
 app.post('/getSongByGenre', recommendSongByGenre);
 app.post('/setFavoriteGenre', updateUserGenre);
 app.post('/getSongByFave', recommendSongByFav);
+app.get('/userWebPage', userHomePageRedirect),
 
 
-app.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Listening at http://localhost:${PORT}`);
+  });

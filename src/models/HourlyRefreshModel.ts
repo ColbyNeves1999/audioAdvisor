@@ -10,11 +10,13 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 const userRepository = AppDataSource.getRepository(User);
 
+//Makes sure that all user's spotify auth token is viable at all times
 async function refreshTokenHourly(): Promise<void> {
 
     const allUsers = await userRepository.find();
     const dbSize = await userRepository.count();
 
+    //refreshes the auth token of all users in database
     for (let i = 0; i < dbSize; i++) {
 
         if (allUsers[i].accountAuthorized) {

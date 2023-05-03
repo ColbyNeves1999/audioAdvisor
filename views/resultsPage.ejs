@@ -11,6 +11,19 @@
 
 <body>
   <div>
+    <label class="results-page">You got <%=questionsRight%>/10 questions correct. You <%= gameStatus%>!</label>
+    <!-- shows how many songs were correct out of 10 -->
+  </div>
+  <div>
+    <label class="results">Here are all the songs from this game: <%= questionsArray %></label>
+    <!-- displays all the correct songs that were in the game -->
+  </div>
+  <div>
+    <form action="/api/getDatabaseSongs" method="GET">
+      <button class="btn">Play again?</button>
+    </form>
+  </div>
+  <div>
     <form action="/index" method="GET">
       <button class="btn">Home Page</button>
     </form>
@@ -18,17 +31,6 @@
   <div>
     <form action="/api/refreshToken" method="GET">
       <button class="btn">User HomePage</button>
-    </form>
-  </div>
-  <div>
-    <label>You got <%=questionsRight%>/10 questions correct. You <%= gameStatus%>!</label>
-  </div>
-  <div>
-    <label>Here are all the songs from this game: <%= questionsArray %></label>
-  </div>
-  <div>
-    <form action="/api/getDatabaseSongs" method="GET">
-      <button class="btn">Play again?</button>
     </form>
   </div>
 </body>

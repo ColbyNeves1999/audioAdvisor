@@ -3,27 +3,28 @@ import { addSongsFromPlaylist, fetchFromPlaylists } from '../models/PlaylistMode
 import { getUserByEmail } from '../models/UserModel';
 import { decrypt } from '../utils/encrypt';
 
+//Grabs the songs from a given playlist
 async function getSongsFromPlaylists(req: Request, res: Response): Promise<void> {
 
     //makes sure the user is authorized to pull from spotify
-    if (!req.session.isLoggedIn) {
+    if (!req.session.isLoggedIn || !req.session.authenticatedUser.authToken) {
         res.redirect(`/login`);
         return;
     }
 
     const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
+    //User's authorization token is encrypted so it needs to be decrypted
     if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
 
         req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
 
     }
 
-
     const { id } = req.body as plalistSongData;
     const playlistId = id;
 
-    //Allows for a specific playlist to be added
+    //Fetches specific playlist from spotify
     let result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
         method: 'GET',
 
@@ -39,11 +40,12 @@ async function getSongsFromPlaylists(req: Request, res: Response): Promise<void>
     let data = await result.json();
 
     let { tracks } = data as playlistTracksGroup;
-    //next is the page consisting of the next ~100 songs  after the first 100 of a playlist
+    //next is the page consisting of the next ~100 songs after the first 100 of a playlist
     let { items, next } = tracks as playlistItems;
 
     await addSongsFromPlaylist(items, req.session.authenticatedUser.authToken, next);
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
@@ -99,6 +101,7 @@ async function getUsersSpotifyPlaylists(req: Request, res: Response): Promise<vo
 
     }
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();

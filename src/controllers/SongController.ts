@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addSong, getSongByAlbum, getSongsByYear, getSongbyID, getSongbyTitle, getSongbyArtist, getSongbyGenre, getSongs } from '../models/SongModel';
+import { addSong, getSongsByYear, getSongs } from '../models/SongModel';
 import { getArtistGenre } from '../models/GenreModel';
 import { getUserByEmail } from '../models/UserModel';
 import { decrypt } from '../utils/encrypt';
@@ -14,6 +14,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
 
   const tempUser = await getUserByEmail(req.session.authenticatedUser.email);
 
+  //User's authorization token is encrypted so it needs to be decrypted
   if (decrypt(tempUser.spotifyAuth) !== req.session.authenticatedUser.authToken) {
 
     req.session.authenticatedUser.authToken = decrypt(tempUser.spotifyAuth);
@@ -46,6 +47,7 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
   ({ name } = album as spotSongRelease);
   const { release_date } = album as spotSongRelease;
 
+  //Has to use artist genre for song genre
   const artId = artists[0].id;
   const genre = await getArtistGenre(artId, req.session.authenticatedUser.authToken);
 
@@ -55,11 +57,9 @@ async function getSongFromSpotify(req: Request, res: Response): Promise<void> {
     artistName = artistName + ", " + artists[i].name;
   }
 
-  //This is temporary till a better solution is decided. 
-  //Spotify doesn't store songs with genres
-
   await addSong(songName, id, artistName, genre, release_date, name, preview_url);
 
+  //Used to prevent users from carrying data across pages
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();
@@ -107,6 +107,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
   ({ name } = album as spotSongReleaseByID);
   const { release_date } = album as spotSongReleaseByID;
 
+  //Has to use artist genre for song genre
   const artId = artists[0].id;
   const genre = await getArtistGenre(artId, req.session.authenticatedUser.authToken);
 
@@ -122,18 +123,7 @@ async function getSongFromSpotifyById(req: Request, res: Response): Promise<void
 
 }
 
-//Get Song by Information
-async function getAlbum(req: Request, res: Response): Promise<void> {
-  const { album } = req.body as NewAlbumRequestBody;
-
-  const albumName = await getSongByAlbum(album);
-  if (!albumName) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-  res.sendStatus(200); // 200 OK
-}
-
+//Gets a song based on the year the user asks for
 async function getSongsFromYear(req: Request, res: Response): Promise<void> {
   const { releaseYear } = req.body as NewYearRequestBody;
 
@@ -147,63 +137,12 @@ async function getSongsFromYear(req: Request, res: Response): Promise<void> {
   res.sendStatus(200); // 200 Ok
 }
 
-async function getSong(req: Request, res: Response): Promise<void> {
-  const { songID } = req.body as NewSongRequestBody;
-
-  const songId = await getSongbyID(songID);
-
-  if (!songId) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
-
-async function getSongTitle(req: Request, res: Response): Promise<void> {
-  const { songTitle } = req.body as NewSongTitleRequestBody;
-
-  const title = await getSongbyTitle(songTitle);
-
-  if (!title) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
-
-async function getArtistSongs(req: Request, res: Response): Promise<void> {
-  const { artist } = req.body as NewArtistRequestBody;
-
-  const artistSongs = await getSongbyArtist(artist);
-
-  if (!artistSongs) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
-
-async function getSongsGenre(req: Request, res: Response): Promise<void> {
-  const { genera } = req.body as NewGeneraRequestBody;
-
-  const generaSongs = await getSongbyGenre(genera);
-
-  if (!generaSongs) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
-
+//Gets all the songs from the database
 async function getAllSongs(req: Request, res: Response): Promise<void> {
-  // Don't send back the raw data. Instead render it with EJS
 
   const song = await getSongs();
 
+  //Used to prevent users from carrying data across pages
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
   req.session.urlArray = new Array();
@@ -212,4 +151,4 @@ async function getAllSongs(req: Request, res: Response): Promise<void> {
 
 }
 
-export { getSongFromSpotify, getAlbum, getSongsFromYear, getSong, getSongTitle, getArtistSongs, getSongsGenre, getSongFromSpotifyById, getAllSongs };
+export { getSongFromSpotify, getSongsFromYear, getSongFromSpotifyById, getAllSongs };

@@ -3,6 +3,7 @@ import { User } from '../entities/User';
 
 const userRepository = AppDataSource.getRepository(User);
 
+//Adds a user to the database
 async function addUser(email: string, passwordHash: string): Promise<User> {
 
   // Create the new user object and saves data
@@ -30,8 +31,6 @@ async function setUserSpotId(userId: string, spotId: string): Promise<void> {
 }
 
 async function setUserGenre(userId: string, genre: string): Promise<void> {
-
-  //let user = await getUserById(userId);
 
   await userRepository
     .createQueryBuilder()
@@ -92,7 +91,7 @@ async function resetAllProfileViews(): Promise<void> {
 }
 
 async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
-  
+
   const user = await getUserById(userId);
   user.email = newEmail;
 

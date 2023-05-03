@@ -16,23 +16,37 @@
       <button class="btn">Home Page</button>
     </form>
   </div>
+
+  <div>
+    <form action="/api/refreshToken" method="GET">
+      <button class="btn">User HomePage</button>
+      <!-- refreshes the token when sending the user back to the homePage -->
+    </form>
+  </div>
+
   <label class="label">Option 1</label>
+
   <div>
     <form action="/api/usersPlaylists" method="GET">
       <label class="label">Grab your Spotify Playlists</label>
       <button class="add-song-btn">Grab your Spotify Playlists!</button>
+      <!-- pulls all the songs from the users playlist -->
     </form>
-    <link rel="stylesheet" href="/css/style.css" />
   </div>
+
   <label class="label">Option 2</label>
+
   <div>
     <form method="POST" action="/api/Playlists">
       <label class="label" for="id">Playlist ID</label>
       <input type="text" name="id" id="id" placeholder="id">
       <button class="add-song-btn">Request</button>
+      <!-- pulls all the songs from a specific playlist by the playlist ID -->
     </form>
   </div>
+
   <label class="label">Option 3</label>
+
   <div>
     <form method="POST" action="/api/getSong">
       <label class="label" for="songTitle">Song Title</label>
@@ -41,9 +55,11 @@
         <label class="label" for="artist"> Artist's Name</label>
         <input type="text" name="artist" id="artist" placeholder="artist">
         <button class="add-song-btn">Request</button>
+        <!-- pulls a specific song by the song title and artist name -->
       </div>
     </form>
   </div>
+
 </body>
 
 </html>

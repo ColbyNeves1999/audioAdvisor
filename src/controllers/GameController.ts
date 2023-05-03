@@ -1,29 +1,10 @@
 import { Request, Response } from 'express';
 import {
-  getGamesPlayed,
   updateGamesWon,
-  updateGamesPlayed,
   getUserById,
-  updateQuestionsCorrect,
   chooseSongUrlsForGame,
   addGameWinner,
 } from '../models/GameModel';
-import { getRandomInt } from '../models/SongModel';
-
-
-// Retrieves the user's number of games played
-async function getNumGamesPlayed(req: Request, res: Response): Promise<void> {
-  const { gamesPlayed } = req.body as NewGamesPlayedRequestBody;
-
-  const numGames = await getGamesPlayed(gamesPlayed);
-
-  if (!numGames) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  res.sendStatus(200); // 200 Ok
-}
 
 // Retrieves a list of URLs for the game
 async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
@@ -33,66 +14,20 @@ async function getSongUrlsForGame(req: Request, res: Response): Promise<void> {
     return;
   }
 
+  //gets a randomized array of URLs for the game
   const urlArray = await chooseSongUrlsForGame();
 
+  //Sets user game data that can be accessed anywhere in the type/javascript side of code
   req.session.urlArray = urlArray;
-
   req.session.authenticatedUser.questionsCorrect = 0;
   req.session.questionNumber = 0;
 
   res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
 }
 
-async function setNumGamesPlayed(req: Request, res: Response): Promise<void> {
-  const { userId } = req.body as NewUserId;
-
-  let userGames = await getUserById(userId);
-
-  if (!userGames) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  // Now Update Num Games Played
-  userGames = await updateGamesPlayed(userGames);
-
-  res.json(userGames);
-}
-
-async function setNumGamesWon(req: Request, res: Response): Promise<void> {
-  const { userId } = req.body as NewUserId;
-
-  let userGames = await getUserById(userId);
-
-  if (!userGames) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  // Now Update Num Games Won
-  userGames = await updateGamesWon(userGames);
-
-  res.json(userGames);
-}
-
-async function setNumQuestionsCorrect(req: Request, res: Response): Promise<void> {
-  const { userId } = req.body as NewUserId;
-
-  let userQuestions = await getUserById(userId);
-
-  if (!userQuestions) {
-    res.sendStatus(404); // 404 Not Found
-    return;
-  }
-
-  // Now Update the Questions Correct
-  userQuestions = await updateQuestionsCorrect(userQuestions);
-
-  res.json(userQuestions);
-}
-
 async function checkAnswer(req: Request, res: Response): Promise<void> {
 
+  //String sent to result page indicating win/loss status of the game
   let gameStatus = "Lost";
 
   const { updateQuestion } = req.body as QuestionNumberParam;
@@ -109,22 +44,27 @@ async function checkAnswer(req: Request, res: Response): Promise<void> {
   req.session.questionNumber = req.session.questionNumber + 1;
 
   if (req.session.questionNumber < 10) {
-
+    //Just repeats the game if they haven't gotten past 10 questions
     res.render('gamePage', { urlArray, questionNumber: req.session.questionNumber });
   } else {
+
     const temp = await getUserById(req.session.authenticatedUser.userId);
+    //Updating user win count if they win
     if (temp && questionsCorrect >= 7) {
-      updateGamesWon(temp);
+      await updateGamesWon(temp);
       gameStatus = "Won";
     } else if (questionsCorrect >= 7) {
       await addGameWinner(req.session.authenticatedUser.userId);
-      updateGamesWon(temp);
+      await updateGamesWon(temp);
       gameStatus = "Won";
     }
+
+    //results that will be sent to the results page to be shown 
     const questionsRight = req.session.authenticatedUser.questionsCorrect;
     const tempArray = req.session.urlArray;
     let questionsArray = "";
 
+    //Creates a string of the songs being sent to the results page
     for (let i = 0; i < tempArray.length; i++) {
 
       questionsArray = questionsArray + tempArray[i].songTitle;
@@ -134,19 +74,18 @@ async function checkAnswer(req: Request, res: Response): Promise<void> {
 
     }
 
+    //Makes sure the user can't carry previous game data out of the ending one
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
+
     res.render('resultsPage', { questionsRight, questionsArray, gameStatus });
   }
 }
 
 export {
-  getNumGamesPlayed,
-  setNumGamesPlayed,
-  setNumGamesWon,
+
   getSongUrlsForGame,
-  setNumQuestionsCorrect,
   checkAnswer,
-  getRandomInt,
+
 };

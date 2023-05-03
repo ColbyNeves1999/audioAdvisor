@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In | Audio Advisor</title>
   <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
@@ -19,6 +18,7 @@
       </div>
       <div>
         <form method="POST" action="/api/login">
+          <!-- calls the post method to login the user to the server -->
           <label for="email"></label>
           <input class="input" type="email" name="email" id="email" placeholder="Email" required>
           <div>
@@ -30,6 +30,7 @@
       </div>
       <div>
         <form action="/register">
+          <!-- redirect to the register page -->
           <h3>
             <button class="btn">
               Register Account
@@ -39,6 +40,7 @@
       </div>
       <span>
         <form action="/index">
+          <!-- redirects to the homepage -->
           <button class="btn">
             Back to HomePage
           </button>

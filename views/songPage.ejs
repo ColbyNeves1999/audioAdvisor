@@ -12,64 +12,56 @@
 
 
 <body>
-    Song Data Base
+    <!-- changes the background to a solid color because the image would just so up multiple times and didn't look smooth -->
+    <p class="songs">Song Data Base</p>
     <div>
         <form action="/api/refreshToken" method="GET">
-            <button class="btn">User HomePage</button>
+            <button class="btn">Back to User Home Page</button>
+            <!-- refreshes the token on the way back to the homepage -->
         </form>
     </div>
     <ol>
         <% for (let i=0; i < song.length; i++) { %>
+            <!-- prints every song in the data base -->
             <% if (!song[i].preview) { %>
                 <span>
-                    <button class="btn2">No Preview Available</button>
-                    <%= song[i].songTitle %>
-                        <% } else { %>
-                            <span>
-                                <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
-                                <button class="btn2" onclick="toggleSong(<%= i %>)">Play/Pause</button>
+                    <button class="btn-song">No Preview Available</button>
+                    <p class="song-title">
+                        <%= song[i].songTitle %>
+                    </p>
+                    <!-- prints the name of the song but no preview since not available  -->
+                    <% } else { %>
+                        <span>
+                            <audio id="audio<%= i %>" src="<%=song[i].preview %>" preload="audio"></audio>
+                            <button class="btn-song" onclick="toggleSong(<%= i %>)">Play Song</button>
+                            <p class="song-title">
                                 <%= song[i].songTitle %>
-                            </span>
+                            </p>
+                            <!-- prints the name of the song and the preview link as the button Play Song -->
+                        </span>
+                        <% } %>
+                            <div id="audioContainer"></div>
                             <% } %>
-                                <div id="audioContainer"></div>
-                                <script>
-                                    function toggleSong(index) {
-                                        console.log(index);
-                                        let audio = document.getElementById('audio' + index);
-                                        audio.volume = 0.1;
-                                        let button = document.getElementById('button' + index);
-                                        if (audio.paused) {
-                                            document.querySelectorAll('audio').forEach(allSongs => allSongs.pause());
-                                            setTimeout(() => { audio.play(); }, 500);
-                                            button.innerText = 'Pause Song';
-                                        } else {
-                                            audio.pause();
-                                            audio.currentTime = 0;
-                                            button.innerText = 'Play Song';
-                                        }
-                                    }
-                                </script>
-                                <% } %>
-
-                                    <div id="audioContainer"></div>
-                                    <script>
-                                        function toggleSong(index) {
-                                            let audio = document.getElementById('audio' + index);
-                                            let button = document.getElementById('button' + index);
-                                            if (audio.paused) {
-                                                audio.play();
-                                                button.innerText = 'Pause Song';
-                                            } else {
-                                                audio.pause();
-                                                button.innerText = 'Play Song';
-                                            }
-                                        }
-                                    </script>
-                                    <% } %>
-
     </ol>
-
     </div>
+
+    <script>
+        function toggleSong(index) {
+            let audio = document.getElementById('audio' + index);
+            audio.volume = 0.1;
+            let button = document.getElementById('button' + index);
+            if (audio.paused) {
+                document.querySelectorAll('audio').forEach(allSongs => { allSongs.pause(); });
+                audio.currentTime = 0;
+                setTimeout(() => { audio.play(); }, 500);
+                button.innerText = 'Pause Song';
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                button.innerText = 'Play Song';
+            }
+        }
+    </script>
 </body>
 
 </html>

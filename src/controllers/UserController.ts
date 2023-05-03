@@ -14,12 +14,14 @@ import { addGameWinner } from '../models/GameModel';
 
 const { PORT } = process.env;
 
+//Registers the user for the website
 async function registerUser(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body as AuthRequest;
   const user = await getUserByEmail(email);
 
   if (user) {
-    res.sendStatus(409);
+    res.redirect(`/register`);
+    return;
   }
 
   // IMPORTANT: Hash the password
@@ -29,7 +31,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     // IMPORTANT: Store the `passwordHash` and NOT the plaintext password
 
     await addUser(email, passwordHash);
-    res.redirect(`http://localhost:${PORT}/login`);
+    res.redirect(`/login`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
@@ -37,6 +39,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   }
 }
 
+//Logs the user into the website
 async function logIn(req: Request, res: Response): Promise<void> {
 
   const { email, password } = req.body as AuthRequest;
@@ -68,8 +71,9 @@ async function logIn(req: Request, res: Response): Promise<void> {
   req.session.urlArray = null;
   req.session.questionNumber = 0;
 
-  const temp = await !getGamesWon(req.session.authenticatedUser.userId);
-  if (temp === false) {
+  //Creates a game winner to be matched with the user
+  const temp = await getGamesWon(req.session.authenticatedUser.userId);
+  if (!temp) {
     await addGameWinner(req.session.authenticatedUser.userId);
   }
 
@@ -80,7 +84,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     res.redirect(`http://localhost:${PORT}/api/refreshToken`);
   }
 }
-
+//Logs the user out of the website
 async function logOut(req: Request, res: Response): Promise<void> {
 
   await req.session.clearSession();
@@ -89,6 +93,7 @@ async function logOut(req: Request, res: Response): Promise<void> {
 
 }
 
+//Gets the spotify ID from spotify for a user
 async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
   if (!req.session.authenticatedUser.authToken) {
@@ -123,6 +128,7 @@ async function getSpotifyId(req: Request, res: Response): Promise<void> {
 
 }
 
+//Updates the user's email
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { targetUserId } = req.params as UserIdParam;
 
@@ -165,6 +171,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 
 }
 
+//Updates the favorite genre of the user
 async function updateUserGenre(req: Request, res: Response): Promise<void> {
 
   const { favoriteGenre } = req.body as userGenre;

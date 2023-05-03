@@ -11,13 +11,8 @@
 </head>
 
 <body>
-  <div>
-    <form action="/api/refreshToken" method="GET">
-      <button>User HomePage</button>
-    </form>
-  </div>
   <ul>
-    <p class="header1">Guess the Correct Answer for song #<%= questionNumber + 1 %>
+    <p class="Gamepage-header">Guess the Correct Answer for Song #<%= questionNumber + 1 %>
     </p>
     <audio id="audio<%= questionNumber %>" src="<%=urlArray[questionNumber].preview %>" preload="audio"></audio>
     <button class="btn" id="button<%= questionNumber %>" onclick="toggleSong(<%= questionNumber %>)">Play Song</button>
@@ -25,20 +20,21 @@
       <% function getRandomInt() { return Math.floor(Math.random() * 10) } %>
         <% function getAnswerOption() { return Math.floor(Math.random() * 4) } %>
           <% let numArray=[]%>
+            <!-- creates an array to store the options of song titles my array index -->
             <% numArray[0]=questionNumber; %>
 
               <% let j=getRandomInt(); %>
                 <% while (numArray.includes(j)) { j=getRandomInt(); } %>
                   <% numArray[1]=j; %>
-
+                    <!-- makes sure no song will be repeated -->
                     <% let k=getRandomInt(); %>
                       <% while (numArray.includes(k)) { k=getRandomInt(); } %>
                         <% numArray[2]=k;%> %>
-
+                          <!-- makes sure no song will be repeated -->
                           <% let l=getRandomInt(); %>
                             <% while (numArray.includes(l)) { l=getRandomInt(); } %>
                               <% numArray[3]=l; %>
-
+                                <!-- makes sure no song will be repeated -->
                                 <% let option=getAnswerOption() %>
 
                                   <% if (option===0) {%> <!-- displays the correct answer as the first option -->
@@ -165,6 +161,13 @@
                                                       </div>
   </ul>
 
+  <div>
+    <form action="/api/refreshToken" method="GET">
+      <!-- redirects to the User HomePage and refreshes the token on the way -->
+      <button class="return-btn">User HomePage</button>
+    </form>
+  </div>
+
   <form id="answerForm" action="/questions/questionNumber" method="POST">
     <input type="hidden" name="answer" id="answerInput">
     <input type="hidden" name="questionNumber" id="questionNumber" value="<%= questionNumber %>">
@@ -174,30 +177,32 @@
 
   <script type="text/javascript">
     function toggleSong(index) {
+      // will play or pause the song one each click
       let audio = document.getElementById('audio' + index);
       let button = document.getElementById('button' + index);
       if (audio.paused) {
-        document.querySelectorAll('audio').forEach(allSongs => { allSongs.pause(); button.innerText = 'Play Song'; });
+        document.querySelectorAll('audio').forEach(allSongs => { allSongs.pause(); button.innerText = 'Play Song'; }); // changes the button to say Play Song
         audio.currentTime = 0;
         audio.volume = 0.1;
         setTimeout(() => { audio.play(); }, 500);
-        button.innerText = 'Pause Song';
+        button.innerText = 'Pause Song'; // changes button to say Pause Song
       } else {
         audio.pause();
         audio.currentTime = 0;
-        button.innerText = 'Play Song';
+        button.innerText = 'Play Song'; // changes button to say Play Song
       }
     }
     function getRandomInt() {
       return Math.floor(Math.random() * 10)
     }
     function handleSongTitleClick(event) {
+      // when an song option is chosen the function checks to see if it is correct or incorrect
       const target = event.target;
       const title = target.dataset.songTitle;
       const actual = target.dataset.gan;
       if (title === actual) {
         alert(`CORRECT`);
-        updateQuestion.value = 1;
+        updateQuestion.value = 1; // updates the number of songs the user has correct
         const answerInput = document.getElementById('answerInput');
         answerInput.value = 'correct';
         document.getElementById('answerForm').submit();
@@ -210,5 +215,5 @@
     }
     document.querySelectorAll('.songTitleBtn').forEach((button) => {
       button.addEventListener('click', handleSongTitleClick);
-    });
+    }); // calls the function for each .songTitleBtn on each click
   </script>

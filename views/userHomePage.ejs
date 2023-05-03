@@ -17,12 +17,15 @@
   <span>
     <h1 class="header1">
       Welcome to your home page <%= user.email.split('@')[0] %>!
+        <!-- welcomes the user by truncating the last part of the email -->
     </h1>
     <h2 class="header2">
       Your favorite genre is currently: <%= user.favoriteGenre %>
+        <!-- displays their favorite genre that they entered if not entered yet shows up as blank -->
     </h2>
     <h2 class="header2">
       Current number of games won: <%= gamesWon %>
+        <!-- displays the number of games won -->
     </h2>
 
   </span>
@@ -36,32 +39,38 @@
   <div>
     <form action="/songAdditionPage" method="GET">
       <button class="btn">Add Songs</button>
+      <!-- redirects to the page to add songs -->
     </form>
   </div>
 
-  <form action="/api/test" method="GET">
+  <form action="/api/allSongs" method="GET">
     <button class="btn">Get All Songs on AudioAdvisor</button>
+    <!-- redirects to the page with every song in the data base -->
   </form>
   <div>
     <form action="/api/getDatabaseSongs" method="GET">
       <button class="btn">Open AudioAdvisor Game</button>
+      <!-- redirects to open the game -->
     </form>
   </div>
 
   <div>
     <form action="/recommendationPage" method="Post">
       <button class="btn">Get Song Recommendations</button>
+      <!-- redirects to recommended songs -->
     </form>
   </div>
 
   <div>
     <form action="/index" method="GET">
       <button class="btn">Back To The Home Page</button>
+      <!-- redirects to the homepage -->
     </form>
   </div>
   <div>
     <form action="/logout" method="POST">
       <button class="btn">Logout</button>
+      <!-- redirects to the homepage and logs the user out of the server -->
     </form>
   </div>
 </body>

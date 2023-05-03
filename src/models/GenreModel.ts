@@ -1,15 +1,17 @@
-async function getArtistGenre(id: string, authToken: string): Promise<string>{
-    
-    const result = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
-    method: 'GET',
+//Used to request an artist's genre from spotify
+//It's not in a controller because it's called by several functions
+async function getArtistGenre(id: string, authToken: string): Promise<string> {
 
-    headers: {
-        'Authorization': 'Bearer ' + authToken,
-      }
+    const result = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+        method: 'GET',
+
+        headers: {
+            'Authorization': 'Bearer ' + authToken,
+        }
     });
 
     if (!result.ok) {
-        return "no";
+        return "null";
     }
 
     const data = await result.json();
@@ -17,9 +19,9 @@ async function getArtistGenre(id: string, authToken: string): Promise<string>{
     const { genres } = data as spotArtGenre;
 
     let songGenre;
-    if(!genres){
+    if (!genres) {
         songGenre = "unknown";
-    }else{
+    } else {
         songGenre = genres[0];
     }
 
@@ -27,4 +29,4 @@ async function getArtistGenre(id: string, authToken: string): Promise<string>{
 
 }
 
-export {getArtistGenre};
+export { getArtistGenre };

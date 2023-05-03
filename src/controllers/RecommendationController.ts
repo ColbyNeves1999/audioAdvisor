@@ -3,6 +3,7 @@ import { getSongRecommendationByDecade, getSongRecommendationByGenre, getSongRec
 import { getUserById } from '../models/UserModel';
 import { Song } from '../entities/Song';
 
+//Redirects the user to the recommendationPage
 async function recommendationPage(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn) {
@@ -10,6 +11,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
         return;
     }
 
+    //initiallizing data to be sent to the RecommendPage
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
     let songRecommendationByFav = "";
@@ -18,6 +20,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
     const myGenreArray = req.session.genreArray;
     let playableSong = new Song();
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
@@ -26,6 +29,7 @@ async function recommendationPage(req: Request, res: Response): Promise<void> {
 
 }
 
+//Recommends songs from the decade of the year the user asks for
 async function recommendSongByDecade(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn) {
@@ -37,6 +41,7 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
     const thisYear = parseInt(year);
 
+    //initiallizing data to be sent to the RecommendPage
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
     let songRecommendationByFav = "";
@@ -58,8 +63,10 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
     let playableSong = temp;
 
+    //Used to limit the posibility that the user ends up with a recommendation twice
     req.session.previousRecommendation = temp;
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
@@ -68,6 +75,7 @@ async function recommendSongByDecade(req: Request, res: Response): Promise<void>
 
 }
 
+//Recommends songs of a genre to the user
 async function recommendSongByGenre(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn) {
@@ -77,6 +85,7 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
 
     const { genre } = req.body as recommendationYear;
 
+    //initiallizing data to be sent to the RecommendPage
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
     let songRecommendationByFav = "";
@@ -98,8 +107,10 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
 
     let playableSong = temp;
 
+    //Used to limit the posibility that the user ends up with a recommendation twice
     req.session.previousRecommendation = temp;
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();
@@ -108,6 +119,7 @@ async function recommendSongByGenre(req: Request, res: Response): Promise<void> 
 
 }
 
+//Recommends songs based on the prefered genre of the user
 async function recommendSongByFav(req: Request, res: Response): Promise<void> {
 
     if (!req.session.isLoggedIn) {
@@ -115,6 +127,7 @@ async function recommendSongByFav(req: Request, res: Response): Promise<void> {
         return;
     }
 
+    //initiallizing data to be sent to the RecommendPage
     let songRecommendationByYear = "";
     let songRecommendationBySongGenre = "";
     let songRecommendationByFav = "";
@@ -138,8 +151,10 @@ async function recommendSongByFav(req: Request, res: Response): Promise<void> {
 
     let playableSong = temp;
 
+    //Used to limit the posibility that the user ends up with a recommendation twice
     req.session.previousRecommendation = temp;
 
+    //Used to prevent users from carrying data across pages
     req.session.authenticatedUser.questionsCorrect = 0;
     req.session.questionNumber = 0;
     req.session.urlArray = new Array();

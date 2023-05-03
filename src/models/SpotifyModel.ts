@@ -4,6 +4,7 @@ import { encrypt } from '../utils/encrypt';
 
 const userRepository = AppDataSource.getRepository(User);
 
+//Random string generated 
 function generateRandomString(length: number) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,7 +15,7 @@ function generateRandomString(length: number) {
   return text;
 }
 
-//Helps with the refreshing of the spotify authorization code
+//Helps with the refreshing of the encrypted spotify authorization code
 async function refreshAuth(authCode: string, email: string): Promise<string> {
   let thisUser = await userRepository.findOne({ where: { email } }) as User;
   thisUser.spotifyAuth = encrypt(authCode);
@@ -23,7 +24,7 @@ async function refreshAuth(authCode: string, email: string): Promise<string> {
   return thisUser.spotifyAuth;
 }
 
-//Helps with storing of the Spotify authorization code
+//Helps with storing of the encryoted Spotify authorization code
 async function storeAuth(authCode: string, refreshCode: string, email: string): Promise<void> {
   let thisUser = await userRepository.findOne({ where: { email } }) as User;
   thisUser.spotifyAuth = encrypt(authCode);

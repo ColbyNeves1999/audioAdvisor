@@ -6,11 +6,7 @@ import { getSongDatabaseSize, getRandomInt } from './SongModel';
 const gameRepository = AppDataSource.getRepository(GameWinner);
 const songRepository = AppDataSource.getRepository(Song);
 
-async function getGamesPlayed(gamesPlayed: number): Promise<GameWinner | null> {
-  const numGames = await gameRepository.findOne({ where: { gamesPlayed } });
-  return numGames;
-}
-
+//Gets how many games the current player has won
 async function getGamesWon(playerId: string): Promise<GameWinner | null> {
   const wins = await gameRepository
     .createQueryBuilder('game')
@@ -19,20 +15,7 @@ async function getGamesWon(playerId: string): Promise<GameWinner | null> {
   return wins;
 }
 
-async function updateGamesPlayed(gameData: GameWinner): Promise<GameWinner> {
-  const updatedUser = gameData;
-  updatedUser.gamesPlayed += 1;
-
-  await gameRepository
-    .createQueryBuilder()
-    .update(GameWinner)
-    .set({ gamesPlayed: updatedUser.gamesPlayed })
-    .where({ userID: updatedUser.userID })
-    .execute();
-
-  return updatedUser;
-}
-
+//Updates the number of games the user has won
 async function updateGamesWon(gameData: GameWinner): Promise<GameWinner> {
   const updatedUser = gameData;
   updatedUser.gamesWon += 1;
@@ -47,11 +30,13 @@ async function updateGamesWon(gameData: GameWinner): Promise<GameWinner> {
   return updatedUser;
 }
 
+//Gets the user by ID
 async function getUserById(userID: string): Promise<GameWinner | null> {
   const user = await gameRepository.findOne({ where: { userID } });
   return user;
 }
 
+//Updates the user's correct questions for the game
 async function updateQuestionsCorrect(gameData: GameWinner): Promise<GameWinner> {
   const updatedUser = gameData;
   updatedUser.questionsCorrect += 1;
@@ -66,11 +51,13 @@ async function updateQuestionsCorrect(gameData: GameWinner): Promise<GameWinner>
   return updatedUser;
 }
 
+//gets the number of games correct
 async function getNumQuestionsCorrect(questionsCorrect: number): Promise<GameWinner | null> {
   const wins = await gameRepository.findOne({ where: { questionsCorrect } });
   return wins;
 }
 
+//creates an array of 10 randomly chosen songs from the database
 async function chooseSongUrlsForGame(): Promise<Song[]> {
 
   const databaseSize = getSongDatabaseSize();
@@ -92,6 +79,7 @@ async function chooseSongUrlsForGame(): Promise<Song[]> {
       .where('rowid = :rowValues', { rowValues })
       .getOne();
 
+    //Makes sure no songs without previews and duplicates are added
     if (!urlArray.includes(results) && results.preview !== null) {
       urlArray[i] = results;
     } else {
@@ -106,6 +94,7 @@ async function chooseSongUrlsForGame(): Promise<Song[]> {
   return urlArray;
 }
 
+//Adds a game winner to the database
 async function addGameWinner(userID: string): Promise<GameWinner> {
   let newGameWinner = new GameWinner();
   newGameWinner.userID = userID;
@@ -114,9 +103,8 @@ async function addGameWinner(userID: string): Promise<GameWinner> {
 }
 
 export {
-  getGamesPlayed,
+
   getGamesWon,
-  updateGamesPlayed,
   updateGamesWon,
   getUserById,
   updateQuestionsCorrect,
